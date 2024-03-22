@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>LA_01</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    let row_num_seed = Math.floor(Math.random()*4 + 1);
+    let column_num_seed = Math.floor(Math.random()*4 + 1);
+    while(row_num_seed*column_num_seed > 10 || row_num_seed*column_num_seed < 3){
+        row_num_seed = Math.floor(Math.random()*4 + 1);
+        column_num_seed = Math.floor(Math.random()*4 + 1);
+    }
+    console.log([row_num_seed, column_num_seed]);
+
+    let A = [];
+    for(let i=0; i<column_num_seed; i++){
+        A.push([]);
+    }
+    for(let i=0; i<column_num_seed; i++){
+        for(let j=0; j<row_num_seed; j++){
+            A[i].push(Math.floor(Math.random()*19) - 9);
+        }
+    }
+    let B = [];
+    for(let i=0; i<column_num_seed; i++){
+        B.push([]);
+    }
+    for(let i=0; i<column_num_seed; i++){
+        for(let j=0; j<row_num_seed; j++){
+            B[i].push(Math.floor(Math.random()*19) - 9);
+        }
+    }
+
+    let scalar_seed = Math.floor(Math.random()*11) - 5;
+    if(scalar_seed**2 == scalar_seed){scalar_seed = Math.floor(Math.random()*4) + 2};
+    let scalar_text = "$";
+    if(scalar_seed == -1){
+        scalar_text += "-A$"
+    }else{
+        scalar_text += scalar_seed + "A$";
+    };
+
+    function matrix_sum(X, Y){ //任意のサイズで定義
+        let result = [];
+        let row_num = X.length;
+        for (let i=0; i<row_num; i++){
+            result.push([]);
+        }
+        let column_num = X[0].length;
+        for(let i=0; i<row_num; i++){
+            for(let j=0; j<column_num; j++){
+                result[i].push(X[i][j] + Y[i][j]);
+            }
+        }
+        return result;
+    }
+
+    function matrix_scalar_multiple(k, X){ //任意のサイズで定義
+        let result = [];
+        let row_num = X.length;
+        for (let i=0; i<row_num; i++){
+            result.push([]);
+        }
+        let column_num = X[0].length;
+        for(let i=0; i<row_num; i++){
+            for(let j=0; j<column_num; j++){
+                result[i].push(k*X[i][j]);
+            }
+        }
+        return result;
+    }
+
+    //行列を tex 形式の文字列として表示させる（任意のサイズで）
+    function matrix_rep(X){
+        let row_num = X.length;
+        let column_num = X[0].length;
+        let result = "$\\begin{bmatrix}";
+        for(let i=0; i<row_num; i++){
+            for(let j=0; j<column_num; j++){
+                result += X[i][j] + "&"
+            }
+            result.slice(0, -1);
+            result += "\\\\";
+        }
+        result.slice(0, -2);
+        result += "\\end{bmatrix}$";
+        return result;
+    }
+
+
+    function generate_quizzes(){
+        document.getElementById("q1_id").textContent = matrix_rep(A);
+        document.getElementById("q2_id").textContent = matrix_rep(B);
+        document.getElementById("q3_id").textContent = scalar_text;
+        document.getElementById("a1_id").textContent = matrix_rep(matrix_sum(A,B));
+        document.getElementById("a2_id").textContent = matrix_rep(matrix_scalar_multiple(scalar_seed,A));
+        document.getElementById("a3_id").textContent = matrix_rep(matrix_sum(A, matrix_scalar_multiple(-1, B)));
+    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        console.log(identifier);
+        document.getElementById("a"+identifier).style.color = "black";;
+    }
+</script>
+</head>
+
+<body onload="generate_quizzes()">
+ <center>
+    <h1>行列の和・スカラー倍</h1>
+    <br>
+ </center>
+ $A = $ <span id="q1_id"></span>, $B=$ <span id="q2_id"></span> とする。<br>
+ <ol class="list_parentheses">
+    <li>$A+B$は <span id="a1_id" style="color:white">　　</span> である。　　<button id="1_id" onclick="show_answer(this)">答え</button></li>
+    <li>$A-B$は <span id="a3_id" style="color:white">　　</span> である。　　<button id="3_id" onclick="show_answer(this)">答え</button></li>
+    <li> <span id="q3_id"></span> は <span id="a2_id" style="color:white">　　</span> である。　　<button id="2_id" onclick="show_answer(this)">答え</button></li>
+ </ol>
+</body>
+</html>

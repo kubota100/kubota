@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>IM_01</title>
+ <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+ <script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   //displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+ </script>
+
+
+<!--
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']]},
+      jax: ["input/TeX","output/CommonHTML"]
+    };
+</script>    
+-->
+<script>
+    let l_not = (p) => 1-p;
+    let l_and = (p,q) => p*q;
+    let l_or = (p,q) => p+q-p*q;
+    let l_imp = (p,q) => 1-p+p*q;
+
+    let op = ["\\lor", "\\land", "\\to"];
+    let neg = ["", "\\neg"];
+    let pq = ["p", "q"];
+    let TF = ["F", "T"];
+    let seed1 = Math.floor(Math.random()*3);
+    let seed_p = Math.floor(Math.random()*2);
+    let seed_q = Math.floor(Math.random()*2);
+    if(seed_p == 0 && seed_q == 0){
+        seed_p = 1;
+    }
+    let seed2 = Math.floor(Math.random()*3);
+    let seed_pq = Math.floor(Math.random()*2);
+    let seed3 = Math.floor(Math.random()*2);
+    let seed4 = Math.floor(Math.random()*2);
+
+    let ans1_TT_array = [l_or((1+seed_p)%2,(1+seed_q)%2), l_and((1+seed_p)%2,(1+seed_q)%2), l_imp((1+seed_p)%2,(1+seed_q)%2)];
+    let ans1_TT = ans1_TT_array[seed1]; 
+    let ans1_TF_array = [l_or((1+seed_p)%2,(0+seed_q)%2), l_and((1+seed_p)%2,(0+seed_q)%2), l_imp((1+seed_p)%2,(0+seed_q)%2)];
+    let ans1_TF = ans1_TF_array[seed1]; 
+    let ans1_FT_array = [l_or((0+seed_p)%2,(1+seed_q)%2), l_and((0+seed_p)%2,(1+seed_q)%2), l_imp((0+seed_p)%2,(1+seed_q)%2)];
+    let ans1_FT = ans1_FT_array[seed1]; 
+    let ans1_FF_array = [l_or((0+seed_p)%2,(0+seed_q)%2), l_and((0+seed_p)%2,(0+seed_q)%2), l_imp((0+seed_p)%2,(0+seed_q)%2)];
+    let ans1_FF = ans1_FF_array[seed1]; 
+
+    let ans2_TT_array = [];
+    let ans2_TF_array = [];
+    let ans2_FT_array = [];
+    let ans2_FF_array = [];
+    let ans2_TT = 0;
+    let ans2_TF = 0;
+    let ans2_FT = 0;
+    let ans2_FF = 0;
+
+    if(seed_pq == 0){ // 括弧が左側にくるケース
+        if(seed4 == 0){ //3つ目の命題が p であるケース
+            ans2_TT_array = [l_or(ans1_TT, (1+seed3)%2), l_and(ans1_TT, (1+seed3)%2), l_imp(ans1_TT, (1+seed3)%2)];
+            ans2_TT = ans2_TT_array[seed2]; 
+            ans2_TF_array = [l_or(ans1_TF, (1+seed3)%2), l_and(ans1_TF, (1+seed3)%2), l_imp(ans1_TF, (1+seed3)%2)];
+            ans2_TF = ans2_TF_array[seed2];
+            ans2_FT_array = [l_or(ans1_FT, (0+seed3)%2), l_and(ans1_FT, (0+seed3)%2), l_imp(ans1_FT, (0+seed3)%2)];
+            ans2_FT = ans2_FT_array[seed2]; 
+            ans2_FF_array = [l_or(ans1_FF, (0+seed3)%2), l_and(ans1_FF, (0+seed3)%2), l_imp(ans1_FF, (0+seed3)%2)];
+            ans2_FF = ans2_FF_array[seed2]; 
+        } else { //3つ目の命題が q であるケース
+            ans2_TT_array = [l_or(ans1_TT, (1+seed3)%2), l_and(ans1_TT, (1+seed3)%2), l_imp(ans1_TT, (1+seed3)%2)];
+            ans2_TT = ans2_TT_array[seed2]; 
+            ans2_TF_array = [l_or(ans1_TF, (0+seed3)%2), l_and(ans1_TF, (0+seed3)%2), l_imp(ans1_TF, (0+seed3)%2)];
+            ans2_TF = ans2_TF_array[seed2];
+            ans2_FT_array = [l_or(ans1_FT, (1+seed3)%2), l_and(ans1_FT, (1+seed3)%2), l_imp(ans1_FT, (1+seed3)%2)];
+            ans2_FT = ans2_FT_array[seed2]; 
+            ans2_FF_array = [l_or(ans1_FF, (0+seed3)%2), l_and(ans1_FF, (0+seed3)%2), l_imp(ans1_FF, (0+seed3)%2)];
+            ans2_FF = ans2_FF_array[seed2]; 
+        }
+    } else { // 括弧が右側にくるケース
+        if(seed4 == 0){ //3つ目の命題が p であるケース
+            ans2_TT_array = [l_or(ans1_TT, (1+seed3)%2), l_and(ans1_TT, (1+seed3)%2), l_imp((1+seed3)%2, ans1_TT)];
+            ans2_TT = ans2_TT_array[seed2]; 
+            ans2_TF_array = [l_or(ans1_TF, (1+seed3)%2), l_and(ans1_TF, (1+seed3)%2), l_imp((1+seed3)%2, ans1_TF)];
+            ans2_TF = ans2_TF_array[seed2];
+            ans2_FT_array = [l_or(ans1_FT, (0+seed3)%2), l_and(ans1_FT, (0+seed3)%2), l_imp((0+seed3)%2, ans1_FT)];
+            ans2_FT = ans2_FT_array[seed2]; 
+            ans2_FF_array = [l_or(ans1_FF, (0+seed3)%2), l_and(ans1_FF, (0+seed3)%2), l_imp((0+seed3)%2, ans1_FF)];
+            ans2_FF = ans2_FF_array[seed2]; 
+        } else { //3つ目の命題が q であるケース
+            ans2_TT_array = [l_or(ans1_TT, (1+seed3)%2), l_and(ans1_TT, (1+seed3)%2), l_imp((1+seed3)%2, ans1_TT)];
+            ans2_TT = ans2_TT_array[seed2]; 
+            ans2_TF_array = [l_or(ans1_TF, (0+seed3)%2), l_and(ans1_TF, (0+seed3)%2), l_imp((0+seed3)%2, ans1_TF)];
+            ans2_TF = ans2_TF_array[seed2];
+            ans2_FT_array = [l_or(ans1_FT, (1+seed3)%2), l_and(ans1_FT, (1+seed3)%2), l_imp((1+seed3)%2, ans1_FT)];
+            ans2_FT = ans2_FT_array[seed2]; 
+            ans2_FF_array = [l_or(ans1_FF, (0+seed3)%2), l_and(ans1_FF, (0+seed3)%2), l_imp((0+seed3)%2, ans1_FF)];
+            ans2_FF = ans2_FF_array[seed2];
+        }
+    }
+    console.log(ans1_TT_array);
+    console.log(ans2_TT_array);
+
+    function generate_props(){
+        let prop1 = "$" + neg[seed_p] + " p " + op[seed1] + neg[seed_q] + " q$";
+        let prop2 = "";
+        if(seed_pq == 0){
+            prop2 = "$\\, ($" + prop1 + "$) \\, $" + "$" + op[seed2] + " \\, " + neg[seed3] + " " + pq[seed4] + "$";
+        } else {
+            prop2 = "$ " + neg[seed3] + " " + pq[seed4] + " \\, " + op[seed2] + "$" + "$\\, ($" + prop1 + "$) \\,$";
+        }
+        document.getElementById("prop1_id").textContent = prop1;
+        document.getElementById("prop2_id").textContent = prop2;
+    }
+
+    function show_answer1(){
+        document.getElementById("ans1_TT_id").textContent = TF[ans1_TT];
+        document.getElementById("ans1_TF_id").textContent = TF[ans1_TF];
+        document.getElementById("ans1_FT_id").textContent = TF[ans1_FT];
+        document.getElementById("ans1_FF_id").textContent = TF[ans1_FF];
+    }
+
+    function show_answer2(){
+        document.getElementById("ans2_TT_id").textContent = TF[ans2_TT];
+        document.getElementById("ans2_TF_id").textContent = TF[ans2_TF];
+        document.getElementById("ans2_FT_id").textContent = TF[ans2_FT];
+        document.getElementById("ans2_FF_id").textContent = TF[ans2_FF];
+    }
+</script>
+</head>
+
+<body onload="generate_props()">
+ <center>
+    <h1>論理演算</h1>
+    次の真理値表を埋めよ。
+    <table border="1">
+        <tr>
+          <th>　$p$　</th>
+          <th>　$q$　</th>
+          <th><span id="prop1_id">　　　</span></th>
+          <th><span id="prop2_id">　　　</span></th>
+        </tr>
+        <tr align="center">
+          <td>T</td>
+          <td>T</td>
+          <td><span id="ans1_TT_id">　</span></td>
+          <td><span id="ans2_TT_id">　</span></td>
+        </tr>
+        <tr align = "center">
+            <td>T</td>
+            <td>F</td>
+            <td><span id="ans1_TF_id">　</span></td>
+            <td><span id="ans2_TF_id">　</span></td>
+        </tr>
+        <tr align = "center">
+            <td>F</td>
+            <td>T</td>
+            <td><span id="ans1_FT_id">　</span></td>
+            <td><span id="ans2_FT_id">　</span></td>
+        </tr>
+        <tr align = "center">
+            <td>F</td>
+            <td>F</td>
+            <td><span id="ans1_FF_id">　</span></td>
+            <td><span id="ans2_FF_id">　</span></td>
+        </tr>
+        <tr align = "center">
+            <td>　</td>
+            <td>　</td>
+            <td><button onclick="show_answer1()">答え</button></td>
+            <td><button onclick="show_answer2()">答え</button></td>
+      </table>
+ </center>
+</body>
+
+</html>

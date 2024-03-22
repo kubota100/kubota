@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>IM_09</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<!--
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']]},
+      jax: ["input/TeX","output/CommonHTML"]
+    };
+</script>    
+-->
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    function show_answer711(){document.getElementById("711_id").style.color = "black";}
+    function show_answer712(){document.getElementById("712_id").style.color = "black"; document.getElementById("712a_id").style.color = "red";}
+
+    let a = Math.floor(Math.random()*7) - 5; // b = a+3 にしてしまおう。
+    let seed_IsSurjective = Math.floor(Math.random()*2); // これが 0 のとき全射にして、 1 のときは全射でない。
+    let b = a + 3;
+    let c = Math.floor(Math.random()*9) - 4;
+    if(c == 0){c = -3;}
+    let codomain_min = c;
+    if(a <= -4 || a >= 1){codomain_min = Math.min(a**2, b**2) + c;}
+    let codomain_max = (Math.max(Math.abs(a), Math.abs(b)) + seed_IsSurjective)**2 + c;
+    let IsInjective = 0;
+    if(a*b < 0){IsInjective = 1;}
+    let ans = 2*seed_IsSurjective + IsInjective;
+    let ans_array = ["1.　$f$は全単射である。", "2. 　$f$は全射であるが単射ではない。", "3.　$f$は単射であるが全射ではない。", "4.　$f$は全射でも単射でもない。"];
+
+    let n = Math.floor(Math.random()*3) + 4;
+    let k = Math.floor(Math.random()*3) + 2;
+    let gcd = (x, y) => {return (x % y) ? gcd(y, x % y) : y;}
+    let ans3 = 3;
+    if(gcd(n,k) == 1){ans3 = 0;}
+
+    function generate_quizzes7(){
+        let q721 = "$f: [";
+        q721 += a + ", " + b + "] \\to [" + codomain_min + ", " + codomain_max + "]$";
+        document.getElementById("q721_id").textContent = q721;
+        let q722 = "$f(x) = x^2";
+        if(c > 0){q722 += "+" + c;}else{q722 += + c;}
+        q722 += "$";
+        document.getElementById("q722_id").textContent = q722;
+        document.getElementById("a72_id").textContent = ans_array[ans];
+        
+        let q731 = "$\\mathbb{Z}_" + n + "$の要素$x$に対して「$" + k + "x$を" + n + "で割った余り」";
+        let q732 = "$f: \\mathbb{Z}_" + n + "\\to \\mathbb{Z}_" + n + "$";
+        document.getElementById("q731_id").textContent = q731;
+        document.getElementById("q732_id").textContent = q732;
+        document.getElementById("a73_id").textContent = ans_array[ans3];
+    }
+
+    function show_answer72(){document.getElementById("a72_id").style.color = "black";}
+    function show_answer73(){document.getElementById("a73_id").style.color = "black";}
+
+</script>
+
+<script>
+    let seed911 = Math.floor(Math.random()*2) + 1;
+    let seed912 = Math.floor(Math.random()*2) + 1;
+//    let seed913 = Math.floor(Math.random()*3) + 1;
+    let seed913 = Math.floor(Math.random()*5) - 6;
+
+    let q911 = "\\[ f(n) = \\begin{cases}" + seed911 + " \\quad & \\text{if $n=1$,} \\\\ (f(n-1))^2 + ";
+    let ans91 =[0, seed911];
+    for(let i = 2; i<6; i++){ans91.push(ans91[i-1]**2 + seed912*i + seed913);}
+    if(seed912 != 1){q911 += seed912;}
+    q911 += "n" + seed913 + "\\quad &\\text{if $n>1$.} \\end{cases} \\]";
+
+//    let seed921 = Math.floor(Math.random()*2) + 1;
+    let seed922 = Math.floor(Math.random()*3) + 1;
+    let seed923 = Math.floor(Math.random()*3) + 1;
+    let seed924 = Math.floor(Math.random()*3) + 1;
+    let ans92 = [0,[0],[0],[0]];
+    for(let j = 1; j<6; j++){ ans92[1].push(j + seed922);}
+    for(let j = 1; j<6; j++){ans92[2].push((j-1)*(seed922 + seed924) + 1 + seed922 + seed923);}
+    ans92[3].push(1+seed922 + 2*seed923);
+    ans92[3].push((ans92[3][1] - 1)*(seed922 + seed924) + 1 + seed922 + seed923 + seed924);
+    console.log([seed922, seed923, seed924]);
+    console.log(ans92);
+
+    let q92 = "\\[ g(m,n) = \\begin{cases} n + " + seed922 + "\\quad &\\text{if $m=1$,} \\\\ g(m-1, 1) +" + seed923 
+                + " \\quad &\\text{if $m > 1 \\, \\land \\, n = 1$,} \\\\ g(m-1, g(m, n-1)) +" + seed924
+                + "\\quad &\\text{if $m > 1 \\, \\land \\, n > 1$.} \\end{cases} \\]";
+
+    function generate_quizzes9(){
+        document.getElementById("q911_id").textContent = q911;
+        document.getElementById("q92_id").textContent = q92;
+    }
+    function show_answer91(){document.getElementById("a911_id").textContent = ans91[2]; document.getElementById("a912_id").textContent = ans91[4];}
+
+    function show_answer921(){document.getElementById("a9211_id").textContent = ans92[1][1]; document.getElementById("a9212_id").textContent = ans92[1][5];}
+    function show_answer922(){document.getElementById("a9221_id").textContent = ans92[2][1]; document.getElementById("a9222_id").textContent = ans92[2][3];}
+    function show_answer923(){document.getElementById("a9231_id").textContent = ans92[3][1]; document.getElementById("a9232_id").textContent = ans92[3][2];}
+
+</script>
+
+</head>
+
+<body onload="generate_quizzes9()">
+ <center>
+    <h1>関数の再帰的定義</h1>
+ </center>
+ [1] 写像$f:\mathbb{N} \to \mathbb{Z}$を次で定める。
+ <span id="q911_id"></span>
+　このとき、$f(2) =$ <span id="a911_id">　</span>,　$f(4) =$ <span id="a912_id">　　</span> である。
+  　　<button onclick="show_answer91()">答え</button>
+  　<br> <br>
+ [2] 写像$g:\mathbb{N} \times \mathbb{N} \to \mathbb{N}$を次で定める。
+ <span id="q92_id"></span>
+  このとき
+  <ol class="list_parentheses">
+    <li> $g(1,1) =$ <span id="a9211_id">　</span>, 　$g(1,5) =$ <span id="a9212_id">　</span> である。　　<button onclick="show_answer921()">答え</button></li>
+    <li> $g(2,1) =$ <span id="a9221_id">　</span>, 　$g(2,3) =$ <span id="a9222_id">　</span> である。　　<button onclick="show_answer922()">答え</button></li>
+    <li> $g(3,1) =$ <span id="a9231_id">　</span>, 　$g(3,2) =$ <span id="a9232_id">　</span> である。　　<button onclick="show_answer923()">答え</button></li>
+  </ol>
+</body>
+</html>

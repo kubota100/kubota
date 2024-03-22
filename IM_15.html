@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>IM_15</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   //displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<!--
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']]},
+      jax: ["input/TeX","output/CommonHTML"]
+    };
+</script>    
+-->
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    function show_answer11(){document.getElementById("11_id").style.color = "black"; document.getElementById("12_id").style.color = "black";}
+    function show_answer12(){document.getElementById("13_id").style.color = "black"; document.getElementById("14_id").style.color = "black";}
+    function show_answer13(){document.getElementById("15_id").style.color = "black"; document.getElementById("16_id").style.color = "black";}
+
+    function show_answer1011(){document.getElementById("1011a_id").style.color = "black"; document.getElementById("1011b_id").style.color = "black";
+        document.getElementById("1011c_id").style.color = "black"; document.getElementById("1011d_id").style.color = "black";}
+    function show_answer1012(){document.getElementById("1012a_id").style.color = "black"; document.getElementById("1012b_id").style.color = "black";
+        document.getElementById("1012c_id").style.color = "black"; document.getElementById("1012d_id").style.color = "black";}
+    function show_answer1013(){document.getElementById("1013_id").style.color = "black";}
+
+    function show_answer61(){document.getElementById("61_id").style.color = "black";}
+    function show_answer62(){document.getElementById("62_id").style.color = "black";}
+    function show_answer63(){document.getElementById("63_id").style.color = "black";}
+    function show_answer64(){document.getElementById("64_id").style.color = "black";}
+    function show_answer65(){document.getElementById("65_id").style.color = "black";}
+    function show_answer66(){document.getElementById("66_id").style.color = "black";}
+    function show_answer67(){document.getElementById("67_id").style.color = "black";}
+    function show_answer68(){document.getElementById("68_id").style.color = "black";}
+    function show_answer69(){document.getElementById("69_id").style.color = "black";}
+    function show_answer610(){document.getElementById("610_id").style.color = "black";}
+    function show_answer611(){document.getElementById("611_id").style.color = "black";}
+    function show_answer612(){document.getElementById("612_id").style.color = "black";}
+    function show_answer613(){document.getElementById("613_id").style.color = "black";}
+    function show_answer614(){document.getElementById("614_id").style.color = "black";}
+</script>
+</head>
+
+<body>
+ <center>
+    <h1>中間試験を踏まえた確認問題</h1>
+    このページは再読み込みをしても新たな問題を生成しない。
+    <br> <br>
+ </center>
+ [1]次の文章の空欄を埋めよ。ただし、解答の選択肢を$\forall, \exists, \subset, \in, \land, \lor, \cap, \cup, \neg$とする。
+ <br>
+ <ol class="list_parentheses">
+    <li> 全称限定子（任意の…）を表す記号は　<span id="11_id" style = "color:white">$\forall$</span>　であり、
+        存在限定子（…が存在する）を表す記号は　<span id="12_id" style = "color:white">$\exists$</span>　である。　　<button onclick="show_answer11()">答え</button>
+    <li> あるものが集合に「属する」ときに用いられる記号は　<span id="13_id" style = "color:white">$\in$</span>　であり、
+        ふたつの集合間に「部分集合である」という関係があるときに用いられる記号は　<span id="14_id" style = "color:white">$\subset$</span>　である。　　<button onclick="show_answer12()">答え</button>
+    <li> 論理積を表す記号は　<span id="15_id" style = "color:white">$\land$</span>　であり、
+        ふたつの集合の共通部分を表す記号は　<span id="16_id" style = "color:white">$\cap$</span>　である。　　<button onclick="show_answer13()">答え</button>
+ </ol>
+ <br>
+ [2]$A = \{ 0,1 \}$とする。以下の命題の真偽を答えよ。
+ <ol class="list_parentheses">
+    <li> 命題「$\{0,1\} \in A \times A$」は　<span id="61_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer61()">答え</button></li>
+    <li> 命題「$\{0,1\} \subset A \times A$」は　<span id="62_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer62()">答え</button></li>
+    <li> 命題「$(0,1) \in A \times A$」は　<span id="63_id" style = "color:white">真</span>　である。　　<button onclick="show_answer63()">答え</button></li>
+    <li> 命題「$(0,1) \subset A \times A$」は　<span id="64_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer64()">答え</button></li>
+    <li> 命題「$\{0,1\} \in 2^A$」は　<span id="65_id" style = "color:white">真</span>　である。　　<button onclick="show_answer65()">答え</button></li>
+    <li> 命題「$\{0,1\} \subset 2^A$」は　<span id="66_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer66()">答え</button></li>
+    <li> 命題「$(0,1) \in 2^A$」は　<span id="67_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer67()">答え</button></li>
+    <li> 命題「$(0,1) \subset 2^A$」は　<span id="68_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer68()">答え</button></li>
+    <li> 命題「$\{ \{0,1\} \} \in 2^A$」は　<span id="69_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer69()">答え</button></li>
+    <li> 命題「$\{ \{0,1\} \} \subset 2^A$」は　<span id="610_id" style = "color:white">真</span>　である。　　<button onclick="show_answer610()">答え</button></li>    
+    <li> 命題「$\{ (0,1) \} \in A \times A$」は　<span id="611_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer611()">答え</button></li>
+    <li> 命題「$\{ (0,1) \} \subset A \times A$」は　<span id="612_id" style = "color:white">真</span>　である。　　<button onclick="show_answer612()">答え</button></li>
+ </ol>
+ <br>
+ [3]次の命題およびその否定命題を論理式で書き、それぞれの命題の真偽を答えよ。
+ <ol class="list_parentheses">
+    <li> 任意の自然数$n$に対してある自然数$m$が存在して$m - n = 1$を満たす。　　<button onclick="show_answer1011()">答え</button><br>
+        もとの命題の論理式：　<span id="1011a_id" style = "color:white">$\forall n \in \mathbb{N}, \exists m \in \mathbb{N}, m-n=1$</span> <br>
+        否定命題の論理式：　<span id="1011b_id" style = "color:white">$\exists n \in \mathbb{N}, \forall m \in \mathbb{N}, m-n \neq 1$</span>　<br>
+        もとの命題の真偽：　<span id="1011c_id" style = "color:white">真　（任意の自然数$n$に対して$m=n+1$と取ればよい）</span>　<br>
+        否定命題の真偽：　<span id="1011d_id" style = "color:white">偽</span>　</li>
+    <li> ある実数$e$が存在して任意の実数$a$に対して$ea = a$を満たす。　　<button onclick="show_answer1012()">答え</button><br>
+        もとの命題の論理式：　<span id="1012a_id" style = "color:white">$\exists e \in \mathbb{R}, \forall a \in \mathbb{R}, ea=a$</span> <br>
+        否定命題の論理式：　<span id="1012b_id" style = "color:white">$\forall e \in \mathbb{R}, \exists a \in \mathbb{R}, ea \neq a$</span>　<br>
+        もとの命題の真偽：　<span id="1012c_id" style = "color:white">真　（そのような実数$e$とは$e=1$のことである）</span>　<br>
+        否定命題の真偽：　<span id="1012d_id" style = "color:white">偽</span>　</li>
+        
+ </ol>
+ <br>
+
+ <!--
+    \overset{\text{def}}{\Longleftrightarrow}
+ -->
+
+ <!--
+ [1] 以下の写像$f$についての記述のうち適切なものを選べ。
+ <ol>
+    <li>　$f$は全単射である。</li>
+    <li>　$f$は全射であるが単射ではない。</li>
+    <li>　$f$は単射であるが全射ではない。</li>
+    <li>　$f$は全射でも単射でもない。</li>
+ </ol>
+ <br>
+ <ol class="list_parentheses">
+    <li> $f: \mathbb{R} \to \mathbb{R}$を $f(x) = 2x + 3$と定める。　　<br><button onclick="show_answer61()">答え</button>　<span id="61_id" style = "color:white">1.　$f$は全単射である。</span><br>　</li>
+    <li> $f: \mathbb{R} \to \mathbb{R}$を $f(x) = \sin x$と定める。　　<br><button onclick="show_answer63()">答え</button>　<span id="63_id" style = "color:white">4.　$f$は全射でも単射でもない。</span><br>　</li>
+    <li> $f: [0, \pi] \to [-1, 1]$を $f(x) = \cos x$と定める。　　<br><button onclick="show_answer612()">答え</button>　<span id="612_id" style = "color:white">1.　$f$は全単射である。</span><br>　</li>
+    <li> $f: \mathbb{Z} \times \mathbb{Z} \to \mathbb{Z}$を $f(x,y) = xy$と定める。　　<br><button onclick="show_answer64()">答え</button>　<span id="64_id" style = "color:white">2.　$f$は全射であるが単射ではない。</span><br>　</li>     
+    <li> $f: [-1, 1] \to [-1, 1]$を、定義域の要素$x \in [-1, 1]$に対し$x^2 + y^3 = 1$を満たす実数$y$を対応させる写像とする。　　<br><button onclick="show_answer67()">答え</button>　<span id="67_id" style = "color:white">4.　$f$は全射でも単射でもない。</span><br>　</li>
+    <li> $f: \mathbb{R} \to \mathbb{R}$を $f(x) = e^x$と定める。　　<br><button onclick="show_answer62()">答え</button>　<span id="62_id" style = "color:white">3.　$f$は単射であるが全射ではない。</span><br>　</li>
+    <li> $f: \{1,2,3,4\} \to 2^{\{1,2,3,4\}}$を$f(x) = \{x\}$と定める。　　<br><button onclick="show_answer613()">答え</button>　<span id="613_id" style = "color:white">3.　$f$は単射であるが全射ではない。</span><br>　</li>
+    <li> $f: \mathbb{R} \to \mathbb{R}$を$f(x) = |x|$と定める。　　<br><button onclick="show_answer69()">答え</button>　<span id="69_id" style = "color:white">4.　$f$は全射でも単射でもない。</span><br>　</li>
+    <li> $f: [-5, 1] \to [0,5]$を$f(x) = |x|$と定める。　　<br><button onclick="show_answer65()">答え</button>　<span id="65_id" style = "color:white">2.　$f$は全射であるが単射ではない。</span><br>　</li>
+    <li> $f: [-5, 0] \to \mathbb{R}$を$f(x) = |x|$と定める。　　<br><button onclick="show_answer66()">答え</button>　<span id="66_id" style = "color:white">3.　$f$は単射であるが全射ではない。</span><br>　 </li>
+    <li> $f: \mathbb{R}_{>0} \to \mathbb{R}_{>0}$を$f(x) = |x|$と定める。　　<br><button onclick="show_answer68()">答え</button>　<span id="68_id" style = "color:white">1.　$f$は全単射である。</span><br>　</li>
+    <li> $f: \mathbb{R} - \{0\} \to \mathbb{R}$を$f(x) = \frac{1}{x}$と定める。　　<br><button onclick="show_answer610()">答え</button>　<span id="610_id" style = "color:white">3.　$f$は単射であるが全射ではない。</span><br>　</li>
+    <li> $f: \mathbb{R}^2 \to \mathbb{R}^2 $を$f(x,y) = (x+y, x-y)$と定める。　　<br><button onclick="show_answer611()">答え</button>　<span id="611_id" style = "color:white">1.　$f$は全単射である。</span><br>　</li>
+    <li> $f: \mathbb{R}^2 \to \mathbb{R}^2 $を$f(x,y) = (x, 1)$と定める。　　<br><button onclick="show_answer614()">答え</button>　<span id="614_id" style = "color:white">4.　$f$は全射でも単射でもない。</span><br>　</li>
+ </ol>
+ -->
+</body>
+</html>

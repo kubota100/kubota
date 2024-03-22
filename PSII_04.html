@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_04</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    let num_of_data = Math.floor(Math.random()*3 + 4);
+    let data = [];
+    for(let i=0; i<num_of_data; i++){
+        let tmp = 0;
+        tmp = (Math.random()*21+10) + (Math.random()*21+10) + (Math.random()*21+10);
+        tmp = Math.floor(tmp/3);
+        data.push(tmp);
+    }
+    console.log(data);
+
+    let data_in_text = "";
+    for(let i=0; i<num_of_data; i++){
+        data_in_text += data[i] + ",　";
+    }
+    data_in_text = data_in_text.slice(0, -2);
+
+    let ave = average(data);
+    ave = Math.round(ave*100)/100;
+    console.log(ave);
+
+    let variance = 0;
+    let data_square = [];
+    for(let i=0; i<num_of_data; i++){
+        data_square.push(data[i]**2);
+    }
+    variance = average(data_square) - average(data)**2;
+    console.log(variance);
+
+    let st = Math.sqrt(variance);
+    console.log(st);
+
+    standardized_data = [];
+    for(let i=0; i<num_of_data; i++){
+        let tmp = (data[i] - ave)/st;
+        tmp = Math.round(tmp*100)/100;
+        standardized_data.push(tmp);        
+    }
+    console.log(standardized_data);
+
+    let standardized_data_in_text = "";
+    for(let i=0; i<num_of_data; i++){
+        standardized_data_in_text += standardized_data[i] + ",　";
+    }
+    standardized_data_in_text = standardized_data_in_text.slice(0, -2);
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function generate_quizzes(){
+        document.getElementById("q1_id").textContent = data_in_text;
+
+        document.getElementById("a1_id").textContent = standardized_data_in_text;
+    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "black";
+    }
+</script>
+</head>
+
+<body onload="generate_quizzes()">
+ <center>
+    <h1>標準化</h1>
+    必要であれば一般電卓を使用してよい。<br>　<br>
+ </center>
+ 次はある試験の結果（30点満点）のローデータである。<br>　<br>
+ 　　<span id="q1_id"></span> <br>　<br>
+ このデータを標準化すると <br>　<br>
+ 　　<span id="a1_id" style="color:white"></span> <br>　<br>
+ となる。ただし、数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。
+ 　　<button id="1_id" onclick="show_answer(this)">答え</button>
+ 
+ <!--
+ $A = $ <span id="q1_id"></span> とする。<br>
+ <ol class="list_parentheses">
+    <li> 行列$A$は正則か。正則であれば「正則である」と答え、正則でなければ「正則でない」と答えよ。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+        　　　<span id="a1_id" style="color:white">　　</span> </li>
+    <li> 行列$A$が正則であるならば$A$の逆行列$A^{-1}$を求めよ。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+        　　　<span id="a2_id" style="color:white">　　</span> </li>
+ </ol>
+ -->
+</body>
+</html>

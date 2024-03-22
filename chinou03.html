@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <title>chinou03</title>
+ <script>
+    let x = 500;
+    let y = 900;
+    let size = 200; //基本の長さ
+    let angle = -Math.PI/2; //x軸の正の方向を0として、今どの角度を見ているかを表す変数
+    let stack_x = [];
+    let stack_y = [];
+    let stack_angle = [];
+    let step_counter = 0;
+
+    let turtle = {
+        forward: function(size){
+        let canvas = document.getElementById("canvas_id");
+        let ctx = canvas.getContext("2d");
+        //線の基本的な情報
+        ctx.lineWidth =1;
+
+        ctx.moveTo(x, y);
+        x += size*Math.cos(angle);
+        y += size*Math.sin(angle);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        },
+
+        forward_only: function(size){
+            let canvas = document.getElementById("canvas_id");
+            let ctx = canvas.getContext("2d");
+            ctx.moveTo(x, y);
+            x += size*Math.cos(angle);
+            y += size*Math.sin(angle);
+            ctx.moveTo(x, y);
+        },
+
+        turn: function(theta){angle -= theta * Math.PI/180;},
+    }
+
+    function prepare(e){
+        let level = Number(e.id[0])
+        //文字列を生成する
+        let generated_string = S;
+        if(level == 0){
+            document.getElementById("generated_string_id").textContent = generated_string;
+        } else {
+            for(let i=0; i<level; i++){
+                generated_string = rewrite(generated_string);
+            }
+            document.getElementById("generated_string_id").textContent = generated_string;
+        }
+        //生成した文字列に対してタートルを動かす
+        for(let i=0; i<generated_string.length; i++){
+            switch(generated_string[i]){
+                case "F":
+                    turtle.forward(size*(0.5**level));
+//                    turtle.forward(size);
+                    break;
+                case "G":
+                    turtle.forward_only(size*(0.5**level));
+                    break;
+                case "H":
+                    turtle.forward(size);
+                    break;
+                case "+":
+                    turtle.turn(25);
+                    break;
+                case "-":
+                    turtle.turn(-25);
+                    break;
+                case "[":
+                    stack_x.push(x);
+                    stack_y.push(y);
+                    stack_angle.push(angle);
+                    break;
+                case "]":
+                    x = stack_x.pop();
+                    y = stack_y.pop();
+                    angle = stack_angle.pop();
+                    break;
+                case "|":
+                    turtle.forward(size*(0.5**step_counter));
+                    break;
+                case "s":
+                    step_counter++;
+                    break;
+                case "t":
+                    step_counter--;
+                    break;
+            }
+        }
+    }
+    //書き換えを1ステップだけ行う関数
+    function rewrite(string){
+        tmp = "";
+        for(let i=0; i<string.length; i++){
+            let flag = 0;
+            for(let j=0; j < P.length; j++){
+                if(string[i] == P[j][0]){
+                    flag = 1;
+                    tmp += P[j][1];
+                }    
+            }
+            if(flag == 0){
+                tmp += string[i];
+            }            
+        }
+        return tmp;
+    }
+
+    //非終端記号の集合（配列）の定義。実際はこれは不要。
+    let N = ["F", "G", "+", "-", "[", "]", "|"];
+    //開始記号の定義
+    let S = "F";
+    //書き換え規則の集合の定義
+    let P = [["F", "FGF"], ["G", "GGG"]];
+
+ </script>
+
+</head>
+
+<body>
+ <center><h1>知能情報システム論（久保田担当分）その3</h1></center>
+ <center>
+ <canvas id="canvas_id" width="1000" height="1000"></canvas> <br>
+ 時刻（書き換え回数）
+ <button id="0_id" onclick="prepare(this)"> 0 </button>
+ 　<button id="1_id" onclick="prepare(this)"> 1 </button>
+ 　<button id="2_id" onclick="prepare(this)"> 2 </button>
+ 　<button id="3_id" onclick="prepare(this)"> 3 </button>
+ 　<button id="4_id" onclick="prepare(this)"> 4 </button>
+ 　<button id="5_id" onclick="prepare(this)"> 5 </button>
+</center>
+<br>
+<center>
+    生成された文字列 <br> <span id="generated_string_id"></span>
+</center>
+</body>
+
+</html>

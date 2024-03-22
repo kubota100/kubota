@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>LA_03</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    let A_row_num = 2;
+    let A_column_num = 2;
+
+    let A = [];
+    for(let i=0; i<A_row_num; i++){
+        A.push([]);
+    }
+    for(let i=0; i<A_row_num; i++){
+        for(let j=0; j<A_column_num; j++){
+            A[i].push(Math.floor(Math.random()*11) - 5);
+        }
+    }
+
+    let det = A[0][0]*A[1][1] - A[0][1]*A[1][0];
+    let A_inv = [[A[1][1], (-1)*A[0][1]], [(-1)*A[1][0], A[0][0]]]; //スカラー倍の違いがある。
+
+    function matrix_sum(X, Y){ //任意のサイズで定義
+        let result = [];
+        let row_num = X.length;
+        for (let i=0; i<row_num; i++){
+            result.push([]);
+        }
+        let column_num = X[0].length;
+        for(let i=0; i<row_num; i++){
+            for(let j=0; j<column_num; j++){
+                result[i].push(X[i][j] + Y[i][j]);
+            }
+        }
+        return result;
+    }
+
+    function matrix_scalar_multiple(k, X){ //任意のサイズで定義
+        let result = [];
+        let row_num = X.length;
+        for (let i=0; i<row_num; i++){
+            result.push([]);
+        }
+        let column_num = X[0].length;
+        for(let i=0; i<row_num; i++){
+            for(let j=0; j<column_num; j++){
+                result[i].push(k*X[i][j]);
+            }
+        }
+        return result;
+    }
+
+    function matrix_times(X, Y){ //任意のサイズで定義、ただし、積が定義できることを前提とする
+        let result = [];
+        let row_num = X.length;
+        for (let i=0; i<row_num; i++){
+            result.push([]);
+        }
+        let column_num = Y[0].length;
+        let X_column = X[0].length;
+        for(let i=0; i<row_num; i++){
+            for(let j=0; j<column_num; j++){
+                let tmp = 0;
+                for(let k=0; k<X_column; k++){
+                    tmp += X[i][k]*Y[k][j];
+                }
+                result[i].push(tmp);
+            }
+        }
+        return result;
+    }
+
+    //行列を tex 形式の文字列として表示させる（任意のサイズで）
+    function matrix_rep(X){
+        let row_num = X.length;
+        let column_num = X[0].length;
+        let result = "$\\begin{bmatrix}";
+        for(let i=0; i<row_num; i++){
+            for(let j=0; j<column_num; j++){
+                result += X[i][j] + "&"
+            }
+            result.slice(0, -1);
+            result += "\\\\";
+        }
+        result.slice(0, -2);
+        result += "\\end{bmatrix}$";
+        return result;
+    }
+
+
+    function generate_quizzes(){
+        document.getElementById("q1_id").textContent = matrix_rep(A);
+        //document.getElementById("q2_id").textContent = matrix_rep(B);
+        //(1)の答え
+        if(det == 0){
+            document.getElementById("a1_id").textContent = "正則でない";
+        }else{
+            document.getElementById("a1_id").textContent = "正則である";
+        }
+        //(2)の答え
+        if(det == 1){
+            document.getElementById("a2_id").textContent = matrix_rep(A_inv);
+        } else if(det == -1){
+            document.getElementById("a2_id").textContent = matrix_rep(matrix_scalar_multiple(-1, A_inv));
+        } else if(det > 0){
+            document.getElementById("a2_id").textContent = "$\\dfrac{1}{" + det + "}$" + matrix_rep(A_inv);
+        } else if(det < 0){
+            document.getElementById("a2_id").textContent = "$\\dfrac{1}{" + (-1)*det + "}$" + matrix_rep(matrix_scalar_multiple(-1, A_inv));
+        } else if(det == 0){
+            document.getElementById("a2_id").textContent = "（正則でないので逆行列は存在しない。）";
+        }
+
+
+        /*
+        if(A.length*B[0].length == 1){
+            document.getElementById("a1_id").textContent = "$" + matrix_times(A,B)[0][0] + "$";
+        }else{
+            document.getElementById("a1_id").textContent = matrix_rep(matrix_times(A,B));
+        }
+        if(B[0].length == A.length){
+            if(B.length*A[0].length == 1){
+                document.getElementById("a2_id").textContent = "$" + matrix_times(B,A)[0][0] + "$";
+            }else{
+                document.getElementById("a2_id").textContent = matrix_rep(matrix_times(B,A));
+            }
+        }else{
+            document.getElementById("a2_id").textContent = "定義されない。"
+        }
+        */
+    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        console.log(identifier);
+        document.getElementById("a"+identifier).style.color = "black";;
+    }
+</script>
+</head>
+
+<body onload="generate_quizzes()">
+ <center>
+    <h1>正則行列と逆行列（2次）</h1>
+    <br>
+ </center>
+ $A = $ <span id="q1_id"></span> とする。<br>
+ <ol class="list_parentheses">
+    <li> 行列$A$は正則か。正則であれば「正則である」と答え、正則でなければ「正則でない」と答えよ。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+        　　　<span id="a1_id" style="color:white">　　</span> </li>
+    <li> 行列$A$が正則であるならば$A$の逆行列$A^{-1}$を求めよ。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+        　　　<span id="a2_id" style="color:white">　　</span> </li>
+ </ol>
+</body>
+</html>

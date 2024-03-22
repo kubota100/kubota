@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <title>chinou02</title>
+ <script>
+    let x = 50;
+    let y = 150;
+    let size = 300; //基本の長さ
+    let angle = 0; //x軸の正の方向を0として、今どの角度を見ているかを表す変数
+
+    let turtle = {
+        forward: function(size){
+        let canvas = document.getElementById("canvas_id");
+        let ctx = canvas.getContext("2d");
+        //線の基本的な情報
+        ctx.lineWidth =2;
+
+        ctx.moveTo(x, y);
+        x += size*Math.cos(angle);
+        y += size*Math.sin(angle);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        console.log([x,y]);
+        },
+
+        turn: function(a){angle -= a*Math.PI/180;},
+    }
+
+    //ベース
+    function start(e){
+        let level = Number(e.id[0]) 
+        go(size, level);
+    }
+
+    //モチーフ
+    function go(size, level){
+        if(level == 0){
+            turtle.forward(size);
+        } else {
+            go(size/3, level - 1)
+            turtle.turn(60)
+            go(size/3, level - 1)
+            turtle.turn(-120);
+            go(size/3, level - 1)
+            turtle.turn(60);
+            go(size/3, level - 1)
+        }
+    }
+ </script>
+
+</head>
+
+<body>
+ <center><h1>知能情報システム論（久保田担当分）その2</h1></center>
+ <center>
+ <canvas id="canvas_id" width="500" height="500"></canvas> <br>
+ <button id="0_id" onclick="start(this)">level 0</button>
+ 　<button id="1_id" onclick="start(this)">level 1</button>
+ 　<button id="2_id" onclick="start(this)">level 2</button>
+ 　<button id="3_id" onclick="start(this)">level 3</button>
+ 　<button id="4_id" onclick="start(this)">level 4</button>
+ 　<button id="5_id" onclick="start(this)">level 5</button>
+</center>
+</body>
+</html>

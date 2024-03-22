@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>IM_05</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   //displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<!--
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']]},
+      jax: ["input/TeX","output/CommonHTML"]
+    };
+</script>    
+-->
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    let U = 200;
+    let A = Math.floor(Math.random()*30) + 50;
+    let B = Math.floor(Math.random()*30) + 50;
+    let AandB = Math.floor(Math.random()*30) + 1;
+    let AorB = A + B - AandB;
+    let onlyA = A - AandB;
+    let onlyB = B - AandB;
+    let dislike = U - AorB;
+    let data = [AorB, onlyA, onlyB, AandB, A, B, dislike];
+    let data2 = ["AorB", "onlyA", "onlyB", "AandB", "A", "B", "dislike"];
+    let tmp = [0,1,2,3,4,5,6];
+
+    let seed_H1 = Math.floor(Math.random()*6 + 1);
+    let seed_H2 = Math.floor(Math.random()*6 + 1);
+    let seed_H3 = Math.floor(Math.random()*6 + 1);
+    if([seed_H1].includes(seed_H2)){
+        while([seed_H1].includes(seed_H2)){
+            seed_H2 = Math.floor(Math.random()*6 + 1);
+        }
+    }
+    if([seed_H1, seed_H2].includes(seed_H3)){
+        while([seed_H1, seed_H2].includes(seed_H3)){
+            seed_H3 = Math.floor(Math.random()*6 + 1);
+        }
+    }
+    if([1,3,4].includes(seed_H1) && [1,3,4].includes(seed_H2) && [1,3,4].includes(seed_H3)){
+        seed_H3 = 6;
+    }
+    if([2,3,5].includes(seed_H1) && [2,3,5].includes(seed_H2) && [2,3,5].includes(seed_H3)){
+        seed_H3 = 6;
+    }
+    if([1,5,6].includes(seed_H1) && [1,5,6].includes(seed_H2) && [1,5,6].includes(seed_H3)){
+        seed_H3 = 4;
+    }
+    if([2,4,6].includes(seed_H1) && [2,4,6].includes(seed_H2) && [2,4,6].includes(seed_H3)){
+        seed_H3 = 5;
+    }
+
+    let X = [];
+    for(let i = 0; i<7; i++){
+        if(!([seed_H1, seed_H2, seed_H3].includes(i))){X.push(i);}
+    }
+
+    console.log(X);
+
+    Hint_array = [
+        "これが登場したらエラー",
+        "犬だけが好きな学生は " + onlyA + " 人である。",
+        "猫だけが好きな学生は " + onlyB + " 人である。",
+        "犬と猫が両方好きな学生は " + AandB + " 人である。",
+        "犬が好きな学生は " + A + " 人である。",
+        "猫が好きな学生は " + B + " 人である。",
+        "犬と猫両方とも好きではない学生は " + dislike + " 人である。"
+    ]
+
+    Question_array = [
+        "犬と猫のうち少なくとも一方が好きな学生は ",
+        "犬だけが好きな学生は ",
+        "猫だけが好きな学生は ",
+        "犬と猫が両方好きな学生は ",
+        "犬が好きな学生は ",
+        "猫が好きな学生は ",
+        "犬と猫両方とも好きではない学生は "
+    ]
+
+    function generate_quizzes5(){
+        document.getElementById("Hint1_id").textContent = Hint_array[seed_H1];
+        document.getElementById("Hint2_id").textContent = Hint_array[seed_H2];
+        document.getElementById("Hint3_id").textContent = Hint_array[seed_H3];
+        document.getElementById("Q1_id").textContent = Question_array[X[1]];
+        document.getElementById("Q2_id").textContent = Question_array[X[2]];
+        document.getElementById("Q3_id").textContent = Question_array[X[3]];
+        document.getElementById("Q0_id").textContent = Question_array[X[0]];
+    }
+
+    function show_answer51(){document.getElementById("ans1_id").textContent = data[X[1]];}
+    function show_answer52(){document.getElementById("ans2_id").textContent = data[X[2]];}
+    function show_answer53(){document.getElementById("ans3_id").textContent = data[X[3]];}
+    function show_answer50(){document.getElementById("ans0_id").textContent = data[X[0]];}
+</script>
+</head>
+
+<body onload="generate_quizzes5()">
+ <center>
+    <h1>包除原理</h1>
+ </center>
+ ある大学のある学生集団200人に「犬は好きか？猫は好きか？（両方好きも可）」というアンケートをとった。
+ アンケートの結果、次のことが分かった。
+ <ul>
+    <li><span id="Hint1_id"></span></li>
+    <li><span id="Hint2_id"></span></li>
+    <li><span id="Hint3_id"></span></li>
+ </ul>
+ このとき、
+ <ul>
+    <li><span id="Q1_id"> </span><span id="ans1_id">　</span> 人である。　 <button onclick="show_answer51()">答え</button></li>
+    <li><span id="Q2_id"> </span><span id="ans2_id">　</span> 人である。　<button onclick="show_answer52()">答え</button></li>
+    <li><span id="Q3_id"> </span><span id="ans3_id">　</span> 人である。　<button onclick="show_answer53()">答え</button></li>
+    <li><span id="Q0_id"> </span><span id="ans0_id">　</span> 人である。　<button onclick="show_answer50()">答え</button></li>
+ </ul>
+</body>
+</html>

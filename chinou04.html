@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <title>chinou04</title>
+ <script>
+    let x = 500;
+    let y = 250;
+    let size = 200; //基本の長さ
+    let angle = -Math.PI/2; //x軸の正の方向を0として、今どの角度を見ているかを表す変数
+
+    let turtle = {
+        forward: function(size){
+        let canvas = document.getElementById("canvas_id");
+        let ctx = canvas.getContext("2d");
+        //線の基本的な情報
+        ctx.lineWidth =1;
+
+        ctx.moveTo(x, y);
+        x += size*Math.cos(angle);
+        y += size*Math.sin(angle);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        },
+
+        forward_only: function(size){
+            let canvas = document.getElementById("canvas_id");
+            let ctx = canvas.getContext("2d");
+            ctx.moveTo(x, y);
+            x += size*Math.cos(angle);
+            y += size*Math.sin(angle);
+            ctx.moveTo(x, y);
+        },
+
+        turn: function(theta){angle -= theta * Math.PI/180;},
+
+        draw_rectangle: function(P1, P2, P3, P4){
+            let canvas = document.getElementById("canvas_id");
+            let ctx = canvas.getContext("2d");
+            ctx.save();
+            ctx.translate(x,y);
+            ctx.scale(1, -1);
+            ctx.lineWidth =1;
+            //以下、長方形の描画
+            ctx.moveTo(P1[0], P1[1]);
+            ctx.lineTo(P2[0], P2[1]);
+            ctx.stroke();
+            ctx.lineTo(P3[0], P3[1]);
+            ctx.stroke();
+            ctx.lineTo(P4[0], P4[1]);
+            ctx.stroke();
+            ctx.lineTo(P1[0], P1[1]);
+            ctx.stroke();
+            ctx.restore();
+        }
+    }
+
+    //アフィン変換を行う関数
+    function affine(Phi, Point){ //Phi はアフィン変換を表す長さ6の配列。Point は座標、つまり長さ2の配列。
+        let newX = Phi[0]*Point[0] + Phi[1]*Point[1] + Phi[4];
+        let newY = Phi[2]*Point[0] + Phi[3]*Point[1] + Phi[5];
+        return [newX, newY];
+    }
+
+    //アフィン変換を行う行列とベクトルの配列（長さ6の配列で表現）
+    let Phi = [[0.5, 0, 0, 0.5, 0, 0], [0.5, 0, 0, 0.5, 0.5*size, 0], 
+               [0.5, 0, 0, 0.5, 0.25*size, 0.5*size]];  //シェルピンスキーのギャスケット
+    
+    //level = 0 の場合の4点の座標
+    let P1 = [0,0];
+    let P2 = [0,size];
+    let P3 = [size, size];
+    let P4 = [size,0];
+
+    function start(e){
+        let level = Number(e.id[0]);
+        go(P1, P2, P3, P4, level);
+    } 
+
+    function go(P1, P2, P3, P4, level){
+        if(level == 0){
+            turtle.draw_rectangle(P1, P2, P3, P4); 
+        } else {
+            for(let i=0; i<Phi.length; i++){
+            go(affine(Phi[i], P1), affine(Phi[i], P2), affine(Phi[i], P3), affine(Phi[i], P4), level-1);
+            }
+        }
+    }
+</script>
+
+</head>
+
+<body>
+<center><h1>知能情報システム論（久保田担当分）その4</h1></center>
+<center>
+    <canvas id="canvas_id" width="1000" height="500"></canvas> <br>
+    <button id="0_id" onclick="start(this)">level 0</button>
+    　<button id="1_id" onclick="start(this)">level 1</button>
+    　<button id="2_id" onclick="start(this)">level 2</button>
+    　<button id="3_id" onclick="start(this)">level 3</button>
+    　<button id="4_id" onclick="start(this)">level 4</button>
+    　<button id="5_id" onclick="start(this)">level 5</button>
+    　<button id="6_id" onclick="start(this)">level 6</button>
+</center>   
+</body>
+
+</html>

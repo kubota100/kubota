@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>IM_02</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   //displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+
+<!--
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']]},
+      jax: ["input/TeX","output/CommonHTML"]
+    };
+</script>    
+-->
+<script>
+    let TF = ["偽", "真"];
+
+    let P_sol1 = Math.floor(Math.random()*13) - 6;
+    let P_sol2 = Math.floor(Math.random()*13) - 6;
+    let P_cof1 = (-1)*(P_sol1 + P_sol2);
+    let P_cof0 = P_sol1 * P_sol2;
+    let Q_const = Math.floor(Math.random()*21) - 10;
+
+    let ans1 = [0,0,0,0,0,0,0];
+    ans1[1] = Number(Boolean(P_cof0 > 0));
+    ans1[2] = Number(Boolean((3-P_sol1)*(3-P_sol2) > 0));
+    let T_counter = 0;
+    for(i=-3; i<4; i++){
+        if((i-P_sol1)*(i-P_sol2) > 0){
+            T_counter++;
+        }
+    }
+    if(T_counter == 7){
+        ans1[3] = 1;
+    }
+    if(T_counter != 0){
+        ans1[4] = 1;
+    }
+    let T_counter2 = 0;
+    for(i=-3; i<4; i++){
+        if((i-P_sol1)*(i-P_sol2) <= 0){
+            T_counter2++;
+        }
+    }
+    if(T_counter2 != 0){
+        ans1[5] = 1;
+    }
+    if(T_counter2 == 7){
+        ans1[6] = 1;
+    }
+
+    let ans2 = [0,0,0,0,0,0,0];
+
+    let Q_TF = (x,y) => Number(Boolean(2*x + y > Q_const));
+    ans2[1] = Q_TF(0,1);
+    ans2[2] = Q_TF(2,3);
+    T_counter23 = new Array(7);
+    for(let x = -3; x<4; x++){
+        let tmp = 0
+        for(let y=-3; y<4; y++){
+            if(Q_TF(x,y) == 1){tmp++};
+        }
+        T_counter23[x+3] = tmp;
+    }
+    ans2[3] = 1 - Number(Boolean(T_counter23.includes(0)));
+    ans2[4] = Number(Boolean(T_counter23.includes(7)));
+    ans2[5] = 1 - ans2[3];
+    ans2[6] = 1 - ans2[4];
+
+    console.log(T_counter23);
+    console.log(ans2);
+
+    function generate_quizzes(){
+        let P = "$ x^2";
+        if(P_cof1 < -1){
+            P += P_cof1 + "x";
+        } else if(P_cof1 == -1) {
+            P += "-x";        
+        } else if(P_cof1 == 1){
+            P += "+x";            
+        } else if(P_cof1 > 1){
+            P += "+" + P_cof1 + "x";
+        }
+        if(P_cof0 < 0){
+            P += P_cof0;
+        } else if(P_cof0 > 0){
+            P += "+" + P_cof0;
+        }
+        P += " > 0 $"
+        document.getElementById("P_id").textContent = P;
+
+        let Q = "$ 2x + y >" + Q_const + "$";
+        document.getElementById("Q_id").textContent = Q;
+    }
+
+    function show_answer1(e){
+        let ans_text = document.getElementById(e.id);
+        ans_text.textContent = TF[ans1[Number(e.id[1])]];
+    }
+
+    function show_answer2(e){
+        let ans_text = document.getElementById(e.id);
+        ans_text.textContent = TF[ans2[Number(e.id[1])]];
+    }
+
+
+</script>
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+</head>
+
+<body onload="generate_quizzes()">
+ <center>
+    <h1>全称命題と存在命題</h1>
+    <font color="red">10月4日追記： <br>
+        10月3日の授業で問題[2]のプログラムに誤りがあると発言しましたが、<br>
+        後で確認してみたところ誤りがない（正しく作動している）気がしています。 <br>
+        もし答えがおかしいのでは？という命題に遭遇した学生さんは遠慮なくお問い合わせ下さい。<br>
+        おかしい部分をスクショか写真に収めておいて頂けると助かります。 </font> <br> <br>
+ </center>
+
+    論述領域（ドメイン）を$-3$以上$3$以下の整数とする。以下の命題の真偽を答えよ。 <br> <br>
+    [1]命題$P(x)$を「<span id="P_id">　　　　　　　　　　</span>」とする。
+    <ol class="list_parentheses">
+        <li>$P(0)$は <span id="11_id">　</span> である。　 <button id="11_id" onclick="show_answer1(this)">答え</button></li>
+        <li>$P(3)$は <span id="12_id">　</span> である。　<button id="12_id" onclick="show_answer1(this)">答え</button></li>
+        <li>$\forall x, P(x)$は <span id="13_id">　</span> である。　<button id="13_id" onclick="show_answer1(this)">答え</button></li>
+        <li>$\exists x, P(x)$は <span id="14_id">　</span> である。　<button id="14_id" onclick="show_answer1(this)">答え</button></li>
+        <li>$\neg (\forall x, P(x))$は <span id="15_id">　</span> である。　<button id="15_id" onclick="show_answer1(this)">答え</button></li>
+        <li>$\neg (\exists x, P(x))$は <span id="16_id">　</span> である。　<button id="16_id" onclick="show_answer1(this)">答え</button></li>
+    </ol>
+    <br>
+    [2]命題$Q(x,y)$を「<span id="Q_id">　　　　　　　　　　</span>」とする。
+    <ol class="list_parentheses">
+        <li>$Q(0,1)$は <span id="21_id">　</span> である。　<button id="21_id" onclick="show_answer2(this)">答え</button></li>
+        <li>$Q(2,3)$は <span id="22_id">　</span> である。　<button id="22_id" onclick="show_answer2(this)">答え</button></li>
+        <li>$\forall x, \exists y,  Q(x,y)$は <span id="23_id">　</span> である。　<button id="23_id" onclick="show_answer2(this)">答え</button></li>
+        <li>$\exists x, \forall y, Q(x,y)$は <span id="24_id">　</span> である。　<button id="24_id" onclick="show_answer2(this)">答え</button></li>
+        <li>$\neg (\forall x, \exists y,  Q(x,y))$は <span id="25_id">　</span> である。　<button id="25_id" onclick="show_answer2(this)">答え</button></li>
+        <li>$\neg (\exists x, \forall y, Q(x,y))$は <span id="26_id">　</span> である。　<button id="26_id" onclick="show_answer2(this)">答え</button></li>
+    </ol>
+
+</body>
+
+</html>

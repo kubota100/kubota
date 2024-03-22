@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>IM_11</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   //displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<!--
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']]},
+      jax: ["input/TeX","output/CommonHTML"]
+    };
+</script>    
+-->
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    function show_answer1011(){document.getElementById("1011_id").style.color = "black";}
+    function show_answer1012(){document.getElementById("1012_id").style.color = "black";}
+    function show_answer1013(){document.getElementById("1013_id").style.color = "black";}
+    function show_answer1014(){document.getElementById("1014_id").style.color = "black";}
+    function show_answer1015(){document.getElementById("1015_id").style.color = "black";}
+
+    function show_answer61(){document.getElementById("61_id").style.color = "black";}
+    function show_answer62(){document.getElementById("62_id").style.color = "black";}
+    function show_answer63(){document.getElementById("63_id").style.color = "black";}
+    function show_answer64(){document.getElementById("64_id").style.color = "black";}
+    function show_answer65(){document.getElementById("65_id").style.color = "black";}
+    function show_answer66(){document.getElementById("66_id").style.color = "black";}
+    function show_answer67(){document.getElementById("67_id").style.color = "black";}
+    function show_answer68(){document.getElementById("68_id").style.color = "black";}
+    function show_answer69(){document.getElementById("69_id").style.color = "black";}
+    function show_answer610(){document.getElementById("610_id").style.color = "black";}
+    function show_answer611(){document.getElementById("611_id").style.color = "black";}
+    function show_answer612(){document.getElementById("612_id").style.color = "black";}
+    function show_answer613(){document.getElementById("613_id").style.color = "black";}
+    function show_answer614(){document.getElementById("614_id").style.color = "black";}
+</script>
+</head>
+
+<body>
+ <center>
+    <h1>商集合</h1>
+    このページは再読み込みをしても新たな問題を生成しない。
+    <br> <br>
+ </center>
+ [1] 集合$A$上の同値関係$R$について、$a \in A$の同値類$[a]$とは$a$と関係のある($A$の)要素全体の集合のことを言う。<br>
+ 　　集合の言葉で書くと$[a] =$ <span id="1011_id" style="color:white">$\{ x \in A \mid xRa \}$</span> である。
+ 　<button onclick="show_answer1011()">答え</button>　<br> <br> <br>
+
+ [2] $\mathbb{R}$上の二項関係$R$を $aRb \iff a^2 = b^2$ と定めると、$R$は同値関係となる。このとき
+ <ol class="list_parentheses">
+    <li> $3 \in \mathbb{R}$の同値類$[3]$を外延的記法で表すと$[3] =$ <span id="1012_id" style="color:white">$\{ 3, -3 \}$</span> である。
+        　<button onclick="show_answer1012()">答え</button>　</li>
+    <li> $0 \in \mathbb{R}$の同値類$[0]$を外延的記法で表すと$[0] =$　<span id="1013_id" style="color:white">$\{ 0 \}$</span>　である。
+        　<button onclick="show_answer1013()">答え</button>　</li>
+    <li> $-\sqrt{2} \in \mathbb{R}$の同値類$[-\sqrt{2}]$を外延的記法で表すと$[-\sqrt{2}] =$ <span id="1014_id" style="color:white">$\{ \sqrt{2}, -\sqrt{2} \}$</span> である。
+        　<button onclick="show_answer1014()">答え</button>　</li>
+    <li> $\mathbb{R}$の同値関係$R$による商集合は $\mathbb{R} / R =$ <span id="1015_id" style="color:white">$\{ [x] \mid x \geqq 0 \}$</span> である。
+        　<button onclick="show_answer1015()">答え</button>　</li>    
+ </ol>
+ <br> <br>
+
+ [3] $\mathbb{Z}$上の二項関係 $\equiv$ を $a \equiv b \iff \exists k \in \mathbb{Z}, a - b = 5k$ と定めると、$R$は同値関係となる。<br>
+ 　　このことを高校では $a \equiv b \pmod{5}$と表記していた。
+ <ol class="list_parentheses">
+    <li> $1 \in \mathbb{Z}$の同値類$[1]$を外延的記法で表すと$[1] =$ <span id="61_id" style="color:white">$\{ \ldots, -9, -4, 1, 6, 11, \dots, \}$</span> である。
+        　<button onclick="show_answer61()">答え</button>　</li>
+    <li> $3 \in \mathbb{Z}$の同値類$[3]$を内包的記法で表すと$[3] =$ <span id="62_id" style="color:white">$\{ 5k+3 \mid k \in \mathbb{Z} \}$</span> である。
+        　<button onclick="show_answer62()">答え</button>　</li>
+    <li> $\mathbb{Z}$の同値関係$\equiv$による商集合は $\mathbb{Z} / \! \! \equiv \, \,  =$ <span id="63_id" style="color:white">$\{ [0], [1], [2], [3], [4] \}$</span> である。
+        　<button onclick="show_answer63()">答え</button>　</li>    
+ </ol>
+ 
+</body>
+</html>

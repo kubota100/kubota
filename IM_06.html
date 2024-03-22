@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>IM_06</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   //displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<!--
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']]},
+      jax: ["input/TeX","output/CommonHTML"]
+    };
+</script>    
+-->
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    function show_answer41(){
+        document.getElementById("411_answer_id").style.color = "black";
+        document.getElementById("412_answer_id").style.color = "black";
+    }
+
+    function show_answer42(){
+        document.getElementById("421_answer_id").style.color = "black";
+        document.getElementById("422_answer_id").style.color = "black";
+        document.getElementById("423_answer_id").style.color = "black";
+    }
+
+    function show_answer431(){
+        document.getElementById("431_answer_id").style.color = "black";
+    }
+    function show_answer432(){
+        document.getElementById("432_answer_id").style.color = "black";
+    }
+    function show_answer433(){
+        document.getElementById("433_answer_id").style.color = "black";
+    }
+    function show_answer434(){
+        document.getElementById("434_answer_id").style.color = "black";
+    }
+    function show_answer435(){
+        document.getElementById("435_answer_id").style.color = "black";
+    }
+
+    function show_answer441(){document.getElementById("441_answer_id").style.color = "black";}
+    function show_answer442(){document.getElementById("442_answer_id").style.color = "black";}
+    function show_answer443(){document.getElementById("443_answer_id").style.color = "black";}
+    function show_answer444(){document.getElementById("444_answer_id").style.color = "black";}
+    function show_answer445(){document.getElementById("445_answer_id").style.color = "black";}
+    function show_answer446(){document.getElementById("446_answer_id").style.color = "black";}
+    function show_answer447(){document.getElementById("447_answer_id").style.color = "black";}
+    function show_answer448(){document.getElementById("448_answer_id").style.color = "black";}
+    function show_answer449(){document.getElementById("449_answer_id").style.color = "black";}
+
+    function show_answer61(){document.getElementById("61_id").style.color = "black";}
+    function show_answer62(){document.getElementById("62_id").style.color = "black";}
+    function show_answer63(){document.getElementById("63_id").style.color = "black";}
+    function show_answer64(){document.getElementById("64_id").style.color = "black";}
+    function show_answer65(){document.getElementById("65_id").style.color = "black";}
+    function show_answer66(){document.getElementById("66_id").style.color = "black";}
+    function show_answer67(){document.getElementById("67_id").style.color = "black";}
+    function show_answer68(){document.getElementById("68_id").style.color = "black";}
+    function show_answer69(){document.getElementById("69_id").style.color = "black";}
+    function show_answer610(){document.getElementById("610_id").style.color = "black";}
+    function show_answer611(){document.getElementById("611_id").style.color = "black";}
+    function show_answer612(){document.getElementById("612_id").style.color = "black";}
+    function show_answer613(){document.getElementById("613_id").style.color = "black";}
+    function show_answer614(){document.getElementById("614_id").style.color = "black";}
+</script>
+</head>
+
+<body>
+ <center>
+    <h1>写像</h1>
+    このページは再読み込みをしても新たな問題を生成しない。 <br>
+    実数$a,b$に対し$[a,b] = \{ x \in \mathbb{R} \mid a \leqq x \leqq b \}$とする。
+    <br> <br>
+ </center>
+ [1] 以下の対応のうち写像であるものは「◯」と答え、写像でないものは「×」と答えよ。
+ <ol class="list_parentheses">
+    <li> $f: \mathbb{R} \to \mathbb{R}$を $f(x) = 2x + 3$と定める。　　<br><button onclick="show_answer61()">答え</button>　<span id="61_id" style = "color:white">◯</span><br>　</li>
+    <li> $f: \mathbb{R} \to \mathbb{R}$を $f(x) = \log x$と定める。　　<br><button onclick="show_answer62()">答え</button>　<span id="62_id" style = "color:white">×　（理由：$x \leqq 0$において$f(x)$が定義されないため）</span><br>　</li>
+    <li> $f: \mathbb{R} \to \mathbb{R}$を $f(x) = \sin x$と定める。　　<br><button onclick="show_answer63()">答え</button>　<span id="63_id" style = "color:white">◯</span><br>　</li>
+    <li> $f: \mathbb{Z} \times \mathbb{Z} \to \mathbb{Z}$を $f(x,y) = xy$と定める。　　<br><button onclick="show_answer64()">答え</button>　<span id="64_id" style = "color:white">◯</span><br>　</li>     
+    <li> $f: [-1, 1] \to [-1,1]$を $f(x) = x + 1$と定める。　　<br><button onclick="show_answer65()">答え</button>　<span id="65_id" style = "color:white">×　（理由：$0 < x \leqq 1$なる$x$について$f(x)$が終域の集合から外れるため）</span><br>　</li> 
+    <li> $f: [-1, 1] \to [-1, 1]$を、定義域の要素$x \in [-1, 1]$に対し$x^2 + y^2 = 1$を満たす$y$を対応させる規則とする。　　<br><button onclick="show_answer66()">答え</button>　<span id="66_id" style = "color:white">×　（理由：$-1 < x < 1$なる$x$に対し$x^2 + y^2 = 1$を満たす$y$は常に2個存在するため）</span><br>　 </li>
+    <li> $f: [-1, 1] \to [-1, 1]$を、定義域の要素$x \in [-1, 1]$に対し$x^2 + y^3 = 1$を満たす実数$y$を対応させる規則とする。　　<br><button onclick="show_answer67()">答え</button>　<span id="67_id" style = "color:white">◯　（$-1 \leqq x \leqq 1$なる$x$に対して$x^2 + y^3 = 1$を満たす実数$y$はただひとつ存在する。$y = f(x) = (1-x^2)^{\frac{1}{3}}$.）</span><br>　</li>
+    <li> $f: \mathbb{R} \to \mathbb{R}$を$f(x) = 0$と定める。　　<br><button onclick="show_answer68()">答え</button>　<span id="68_id" style = "color:white">◯</span><br>　</li>
+    <li> $f: \{1,2,3,4\} \to \{1,2,3,4\}$を$f(x) = x$と定める。　　<br><button onclick="show_answer69()">答え</button>　<span id="69_id" style = "color:white">◯</span><br>　</li>
+    <li> $f: \{1,2,3,4\} \to \{1,2,3,4\}$を$f(1) = 2, f(2) = 3, f(3) = 4, f(4) = 5$と定める。　　<br><button onclick="show_answer610()">答え</button>　<span id="610_id" style = "color:white">×　（理由：$f(4) = 5$が終域の集合$\{1,2,3,4\}$から外れるため）</span><br>　</li>
+    <li> $f: \{1,2,3,4\} \to \{1,2,3,4\}$を$f(1) = 2, f(2) = 3, f(3) = 4$と定める。　　<br><button onclick="show_answer611()">答え</button>　<span id="611_id" style = "color:white">×　（理由：$f(4)$が未定義であるため）</span><br>　</li>
+    <li> $f: \{1,2,3,4\} \to 2^{\{1,2,3,4\}}$を$f(x) = x$と定める。　　<br><button onclick="show_answer612()">答え</button>　<span id="612_id" style = "color:white">×　（理由：$f(x)$が終域の集合に属していないため）</span><br>　</li>
+    <li> $f: \{1,2,3,4\} \to 2^{\{1,2,3,4\}}$を$f(x) = \{x\}$と定める。　　<br><button onclick="show_answer613()">答え</button>　<span id="613_id" style = "color:white">◯</span><br>　</li>
+    <li> $f: \{1,2,3,4\} \to 2^{\{1,2,3,4\}}$を$f(x) = \emptyset$と定める。　　<br><button onclick="show_answer614()">答え</button>　<span id="614_id" style = "color:white">◯</span><br>　</li>
+ </ol>    
+ 　　 
+ 
+ <!--
+ [1] $A, B$を集合とする。以下の問に答えよ。
+ <ol class="list_parentheses">
+    <li>$A$と$B$の直積集合$A \times B$の定義をかけ。 <br>
+        　　　　　$A \times B =$　<span id = "411_answer_id" style="color:white">$\{ (a,b) \mid a \in A \, \land \, b \in B \}$</span>　</li>
+    <li>$A$のべき集合$2^A$の定義をかけ。<br>
+        　　　　　$2^A =$　<span id = "412_answer_id" style="color:white">$\{ S \mid S \subset A \}$</span>　</li>
+     </ol>
+ 　　 <button onclick="show_answer41()">答え</button>
+ <br><br>
+
+ [2] 集合$A, B$を$A = \{ 1,2,3 \}$, $B = \{ \text{a,b} \}$と定める。以下の問に答えよ。
+ <ol class="list_parentheses">
+    <li>$A \times B =$　<span id = "421_answer_id" style="color:white">$\{ (1, \text{a}), (1, \text{b}), (2, \text{a}), (2, \text{b}), (3, \text{a}), (3, \text{b}) \}$</span>　である。</li>
+    <li>$B \times A =$　<span id = "422_answer_id" style="color:white">$\{ (\text{a}, 1), (\text{a}, 2), (\text{a}, 3), (\text{b}, 1), (\text {b}, 2), (\text{b}, 3) \}$</span>　である。</li>
+    <li>$2^A =$　<span id = "423_answer_id" style="color:white">$\{ \emptyset, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1,3\}, \{2,3\}, A\}$</span>　である。</li>
+ </ol>
+ 　　 <button onclick="show_answer42()">答え</button>
+ <br><br>
+
+ [3] 以下の問に答えよ。
+ <ol class="list_parentheses">
+    <li>$\mathbb{N}$は　<span id = "431_answer_id" style="color:white">自然数全体の集合</span>　である。　<button onclick="show_answer431()">答え</button></li>
+    <li>$\mathbb{Z}$は　<span id = "432_answer_id" style="color:white">整数全体の集合　</span>　である。　<button onclick="show_answer432()">答え</button></li>
+    <li>$\mathbb{Q}$は　<span id = "433_answer_id" style="color:white">有理数全体の集合</span>　である。　<button onclick="show_answer433()">答え</button></li>
+    <li>$\mathbb{R}$は　<span id = "434_answer_id" style="color:white">実数全体の集合　</span>　である。　<button onclick="show_answer434()">答え</button></li>
+    <li>$\mathbb{C}$は　<span id = "435_answer_id" style="color:white">複素数全体の集合</span>　である。　<button onclick="show_answer435()">答え</button></li>
+ </ol>
+ <br><br>
+
+ [4] 以下の命題の真偽を答えよ。
+ <ol class="list_parentheses">
+    <li>命題「$\emptyset \subset \emptyset$」は　<span id = "441_answer_id" style="color:white">真</span>　である。　<button onclick="show_answer441()">答え</button></li>
+    <li>命題「$\emptyset \in \emptyset$」は　<span id = "442_answer_id" style="color:white">偽</span>　である。　<button onclick="show_answer442()">答え</button></li>
+    <li>命題「$\emptyset \subset \{ \emptyset \}$」は　<span id = "443_answer_id" style="color:white">真</span>　である。　<button onclick="show_answer443()">答え</button></li>
+    <li>命題「$\emptyset \in \{ \emptyset \}$」は　<span id = "444_answer_id" style="color:white">真</span>　である。　<button onclick="show_answer444()">答え</button></li>
+    <li>命題「$\{ \emptyset, \{ \emptyset \} \}$の要素数は2である」は　<span id = "445_answer_id" style="color:white">真</span>　である。　<button onclick="show_answer445()">答え</button></li>
+    <li>命題「$\{ \emptyset \} \subset \{ \{ \emptyset \} \} $」は　<span id = "446_answer_id" style="color:white">偽</span>　である。　<button onclick="show_answer446()">答え</button></li>
+    <li>命題「$\{ \emptyset \} \in \{ \{ \emptyset \} \} $」は　<span id = "447_answer_id" style="color:white">真</span>　である。　<button onclick="show_answer447()">答え</button></li>
+    <li>命題「$ \emptyset \subset \{ \{ \emptyset \} \} $」は　<span id = "448_answer_id" style="color:white">真</span>　である。　<button onclick="show_answer448()">答え</button></li>
+    <li>命題「$\emptyset \in \{ \{ \emptyset \} \} $」は　<span id = "449_answer_id" style="color:white">偽</span>　である。　<button onclick="show_answer449()">答え</button></li>
+ </ol>
+ <br><br>
+ -->
+</body>
+</html>

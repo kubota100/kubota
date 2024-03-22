@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>IM_14</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<!--
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']]},
+      jax: ["input/TeX","output/CommonHTML"]
+    };
+</script>    
+-->
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    let seed11 = Math.floor(Math.random()*3) + 2;
+    let seed12 = Math.floor(Math.random()*5) + 2;
+//    while(seed11 == seed12){seed12 = Math.floor(Math.random()*8) + 2;}
+    let q1 = "\\[ \\begin{cases} x \\equiv " + seed11 + "\\pmod{5} \\\\ x \\equiv " + seed12 + "\\pmod{7} \\end{cases} \\]";
+    let ans1 = 0;
+    for(let i=1; i<35; i++){
+        if((i%5 == seed11) && (i%7 == seed12)){ans1 = i;}
+    }
+    let a1 = "$x \\equiv " + ans1 + " \\pmod{35}$ である。";
+    //
+    let seed21 = Math.floor(Math.random()*3) + 2;
+    let seed22 = Math.floor(Math.random()*3) + 2;
+    while(seed21 == seed22){seed22 = Math.floor(Math.random()*3) + 2;}
+    let seed23 = Math.floor(Math.random()*5) + 2;
+    let seed24 = Math.floor(Math.random()*5) + 2;
+    while(seed23 == seed24){seed24 = Math.floor(Math.random()*5) + 2;}
+    let q2 = "\\[ \\begin{cases}" + seed21 + " x \\equiv " + seed22 + "\\pmod{5} \\\\ " + seed23 + " x \\equiv" + seed24 + "\\pmod{7} \\end{cases} \\]";
+    let ans2 = 0;
+    for(let i=1; i<35; i++){
+        if(( (seed21*i)%5 == seed22) && (seed23*i)%7 == seed24){ans2 = i;}
+    }
+    let a2 = "$x \\equiv " + ans2 + " \\pmod{35}$ である。";
+    //
+    let seed31 = Math.floor(Math.random()*3) + 2;
+    let seed32 = Math.floor(Math.random()*3) + 2;
+    while(seed31 == seed32){seed32 = Math.floor(Math.random()*3) + 2;}
+    let seed33 = Math.floor(Math.random()*9) + 2;
+    let seed34 = Math.floor(Math.random()*9) + 2;
+    while(seed33 == seed34){seed34 = Math.floor(Math.random()*9) + 2;}
+    let q3 = "\\[ \\begin{cases}" + seed31 + " x \\equiv " + seed32 + "\\pmod{5} \\\\ " + seed33 + " x \\equiv" + seed34 + "\\pmod{11} \\end{cases} \\]";
+    let ans3 = 0;
+    for(let i=1; i<55; i++){
+        if(( (seed31*i)%5 == seed32) && (seed33*i)%11 == seed34){ans3 = i;}
+    }
+    let a3 = "$x \\equiv " + ans3 + " \\pmod{55}$ である。";
+    //
+    let seed41 = Math.floor(Math.random()*5) + 2;
+    let seed42 = Math.floor(Math.random()*5) + 2;
+    while(seed41 == seed42){seed42 = Math.floor(Math.random()*5) + 2;}
+    let seed43 = Math.floor(Math.random()*9) + 2;
+    let seed44 = Math.floor(Math.random()*9) + 2;
+    while(seed43 == seed44){seed44 = Math.floor(Math.random()*9) + 2;}
+    let q4 = "\\[ \\begin{cases}" + seed41 + " x \\equiv " + seed42 + "\\pmod{7} \\\\ " + seed43 + " x \\equiv" + seed44 + "\\pmod{11} \\end{cases} \\]";
+    let ans4 = 0;
+    for(let i=1; i<77; i++){
+        if(( (seed41*i)%7 == seed42) && (seed43*i)%11 == seed44){ans4 = i;}
+    }
+    let a4 = "$x \\equiv " + ans4 + " \\pmod{77}$ である。";
+    //
+    coprime_to_8 = [3,5,7];
+    coprime_to_9 = [2,4,5,7,8];
+    let seed51 = coprime_to_8[Math.floor(Math.random()*3)];
+    let seed52 = Math.floor(Math.random()*6) + 2;
+    while(seed51 == seed52){seed52 = Math.floor(Math.random()*6) + 2;}
+    let seed53 = coprime_to_9[Math.floor(Math.random()*5)];
+    let seed54 = Math.floor(Math.random()*7) + 2;
+    while(seed53 == seed54){seed54 = Math.floor(Math.random()*7) + 2;}
+    let q5 = "\\[ \\begin{cases}" + seed51 + " x \\equiv " + seed52 + "\\pmod{8} \\\\ " + seed53 + " x \\equiv" + seed54 + "\\pmod{9} \\end{cases} \\]";
+    let ans5 = 0;
+    for(let i=1; i<72; i++){
+        if(( (seed51*i)%8 == seed52) && (seed53*i)%9 == seed54){ans5 = i;}
+    }
+    let a5 = "$x \\equiv " + ans5 + " \\pmod{72}$ である。";
+
+    function generate_quizzes(){
+        document.getElementById("q1_id").textContent = q1; document.getElementById("a1_id").textContent = a1;
+        document.getElementById("q2_id").textContent = q2; document.getElementById("a2_id").textContent = a2;
+        document.getElementById("q3_id").textContent = q3; document.getElementById("a3_id").textContent = a3;
+        document.getElementById("q4_id").textContent = q4; document.getElementById("a4_id").textContent = a4;
+        document.getElementById("q5_id").textContent = q5; document.getElementById("a5_id").textContent = a5;
+        document.getElementById("q6_id").textContent = q6; document.getElementById("a6_id").textContent = a6;
+    }
+
+    function show_answer1(){document.getElementById("a1_id").style.color = "black";}
+    function show_answer2(){document.getElementById("a2_id").style.color = "black";}
+    function show_answer3(){document.getElementById("a3_id").style.color = "black";}
+    function show_answer4(){document.getElementById("a4_id").style.color = "black";}
+    function show_answer5(){document.getElementById("a5_id").style.color = "black";}
+    function show_answer6(){document.getElementById("a6_id").style.color = "black";}
+</script>
+
+</head>
+
+<body onload="generate_quizzes()">
+ <center>
+    <h1>連立合同方程式</h1>
+    $a_1, a_2$ を整数とし、$k_1, k_2$を互いの素な自然数とする。<br>
+    このとき、連立合同方程式 <br>
+    $\begin{cases} x \equiv a_1 \pmod{k_1}, \\ x \equiv a_2 \pmod{k_2}  \end{cases}$ <br>
+    は $m = k_1 k_2$ を法としてただひとつの解を持つ。
+ </center> <br> <br>
+ [1] 連立合同方程式 <span id="q1_id"></span> 　の解は <span id="a1_id" style="color:white">　</span>
+ <br>　　<button onclick="show_answer1()">答え</button>
+ 　<br> <br>
+ [2] 連立合同方程式 <span id="q2_id"></span> 　の解は <span id="a2_id" style="color:white">　</span>
+ <br>　　<button onclick="show_answer2()">答え</button>
+ 　<br> <br>
+ [3] 連立合同方程式 <span id="q3_id"></span> 　の解は <span id="a3_id" style="color:white">　</span>
+ <br>　　<button onclick="show_answer3()">答え</button>
+ 　<br> <br>
+ [4] 連立合同方程式 <span id="q4_id"></span> 　の解は <span id="a4_id" style="color:white">　</span>
+ <br>　　<button onclick="show_answer4()">答え</button>
+ 　<br> <br>
+ [5] 連立合同方程式 <span id="q5_id"></span> 　の解は <span id="a5_id" style="color:white">　</span>
+ <br>　　<button onclick="show_answer5()">答え</button>
+ 　<br> <br>
+</body>
+</html>

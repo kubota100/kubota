@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>IM_07</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   //displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<!--
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']]},
+      jax: ["input/TeX","output/CommonHTML"]
+    };
+</script>    
+-->
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    function show_answer711(){document.getElementById("711_id").style.color = "black";}
+    function show_answer712(){document.getElementById("712_id").style.color = "black"; document.getElementById("712a_id").style.color = "red";}
+
+    let a = Math.floor(Math.random()*7) - 5; // b = a+3 にしてしまおう。
+    let seed_IsSurjective = Math.floor(Math.random()*2); // これが 0 のとき全射にして、 1 のときは全射でない。
+    let b = a + 3;
+    let c = Math.floor(Math.random()*9) - 4;
+    if(c == 0){c = -3;}
+    let codomain_min = c;
+    if(a <= -4 || a >= 1){codomain_min = Math.min(a**2, b**2) + c;}
+    let codomain_max = (Math.max(Math.abs(a), Math.abs(b)) + seed_IsSurjective)**2 + c;
+    let IsInjective = 0;
+    if(a*b < 0){IsInjective = 1;}
+    let ans = 2*seed_IsSurjective + IsInjective;
+    let ans_array = ["1.　$f$は全単射である。", "2. 　$f$は全射であるが単射ではない。", "3.　$f$は単射であるが全射ではない。", "4.　$f$は全射でも単射でもない。"];
+
+    let n = Math.floor(Math.random()*3) + 4;
+    let k = Math.floor(Math.random()*3) + 2;
+    let gcd = (x, y) => {return (x % y) ? gcd(y, x % y) : y;}
+    let ans3 = 3;
+    if(gcd(n,k) == 1){ans3 = 0;}
+
+    function generate_quizzes7(){
+        let q721 = "$f: [";
+        q721 += a + ", " + b + "] \\to [" + codomain_min + ", " + codomain_max + "]$";
+        document.getElementById("q721_id").textContent = q721;
+        let q722 = "$f(x) = x^2";
+        if(c > 0){q722 += "+" + c;}else{q722 += + c;}
+        q722 += "$";
+        document.getElementById("q722_id").textContent = q722;
+        document.getElementById("a72_id").textContent = ans_array[ans];
+        
+        let q731 = "$\\mathbb{Z}_" + n + "$の要素$x$に対して「$" + k + "x$を" + n + "で割った余り」";
+        let q732 = "$f: \\mathbb{Z}_" + n + "\\to \\mathbb{Z}_" + n + "$";
+        document.getElementById("q731_id").textContent = q731;
+        document.getElementById("q732_id").textContent = q732;
+        document.getElementById("a73_id").textContent = ans_array[ans3];
+    }
+
+    function show_answer72(){document.getElementById("a72_id").style.color = "black";}
+    function show_answer73(){document.getElementById("a73_id").style.color = "black";}
+
+</script>
+</head>
+
+<body onload="generate_quizzes7()">
+ <center>
+    <h1>全射・単射（１）</h1>
+    実数$a,b$に対し$[a,b] = \{ x \in \mathbb{R} \mid a \leqq x \leqq b \}$とする。<br><br>
+ </center>
+ [1]$A, B$を集合とする。次の空欄を埋めよ。
+ <ol class="list_parentheses">
+    <li>写像$f: A \to B$が全射であることの定義を論理式を使って記述すると　<span id="711_id" style="color:white">$\forall b \in B, \exists a \in A, \, (b = f(a))$</span>　である。
+        　<button onclick="show_answer711()">答え</button>　</li>
+    <li>写像$f: A \to B$が単射であることの定義を論理式を使って記述すると　<span id="712_id" style="color:white">$\forall x,y \in A, \, (x \neq y \Longrightarrow f(x) \neq f(y))$</span>　である。
+        　<button onclick="show_answer712()">答え</button>　<br>
+        　　　　　　　　　　　　<span id="712a_id" style="color:white">補足：「$x \neq y \Longrightarrow f(x) \neq f(y)$」の部分は対偶である「$f(x) = f(y) \Longrightarrow x=y$」を書いても正解。　</li>
+ </ol>
+ <br><br>
+ [2] 写像<span id="q721_id">　　　　　　　　　　</span>を<span id="q722_id">　　　　　　</span>で定める。
+ 次の記述のうち適切なものを選べ。
+ <ol>
+    <li>　$f$は全単射である。</li>
+    <li>　$f$は全射であるが単射ではない。</li>
+    <li>　$f$は単射であるが全射ではない。</li>
+    <li>　$f$は全射でも単射でもない。</li>
+ </ol>
+ <button onclick="show_answer72()">答え</button>　　<span id="a72_id" style="color:white">　　　　　　　　　　</span>
+
+ <br><br>
+ [3] 自然数$n$に対し集合$\mathbb{Z}_n$を$\mathbb{Z}_n = \{ 0,1, \dots, n-1 \}$と定める。
+ 例えば$\mathbb{Z}_4 = \{0,1,2,3\}$である。<br>
+ 　　<span id="q731_id">　　　　　　　　　　　　　　　　　　　　</span>を対応させる写像<span id="q732_id">　　　　　　　　　　</span>について、
+ 次の記述のうち適切なものを選べ。
+ <ol>
+    <li>　$f$は全単射である。</li>
+    <li>　$f$は全射であるが単射ではない。</li>
+    <li>　$f$は単射であるが全射ではない。</li>
+    <li>　$f$は全射でも単射でもない。</li>
+ </ol>
+ <button onclick="show_answer73()">答え</button>　　<span id="a73_id" style="color:white">　　　　　　　　　　</span>
+</body>
+</html>

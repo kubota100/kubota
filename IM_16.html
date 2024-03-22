@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>IM_16</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<!--
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']]},
+      jax: ["input/TeX","output/CommonHTML"]
+    };
+</script>    
+-->
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    function show_answer(e){
+        let identifier = e.id;
+        console.log(identifier);
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body>
+ <center>
+    <h1>RSA暗号（例題）</h1>
+    このページは再読み込みをしても新たな問題を生成しない。
+    <br> <br>
+ </center>
+ Aを送信者、Bを受信者とするときのRSA暗号方式を以下に示す。 <br> <br>
+ <b> Step 1. Bは自身の公開鍵と秘密鍵を作る。</b>
+ <ul>
+    <li> 素数$p,q$を用意し、$n=pq$とする。</li>
+    <li> $e \in \mathbb{N}$を$(p-1)(q-1)$と互いに素な数とする。</li>
+    <li> $d \in \mathbb{N}$を$ed \equiv 1 \pmod{(p-1)(q-1)}$を満たすようにとる。</li>
+ </ul>
+ <b> Step 2. Bは公開鍵($n$と$e$)をAに送る。 </b> <br>
+ <b> Step 3. Aは受け取った公開鍵を使って文章（平文）を暗号化。 </b>
+ <ul>
+    <li> 送りたいメッセージを$x \in \mathbb{N}$とする（ただし$x < n$）。</li>
+    <li> $x^e$を$n$で割った余りを$y$とする、つまり$y \equiv x^e \pmod{n}$とする。</li>
+ </ul>
+ <b> Step 4. Aは暗号文$y$をBに送る。 </b> <br>
+ <b> Step 5. Bは自身の秘密鍵を使って復号化、ものの文章（平文）を得る。 </b>
+ <ul>
+    <li> $y^d$を$n$で割った余りを求める。これが平文$x$となる。</li>
+ </ul>
+
+ 以下の問に答えよ。<br> <br>
+ [1] あなたは送信者である。
+ 平文$x=12$を受信者から受け取った公開鍵を使って暗号化したい。
+ いま、受信者から公開鍵として$n=15, e=3$を受け取った。
+ 暗号文$y$を作れ。　 <button id="1_id" onclick="show_answer(this)">答え</button> <br>
+ <span id="a1_id" style = "color:white">
+    送信者が暗号文を作るのは Step 3 である。<br>
+    Step 3 では$x^e$を$n$で割った余りを計算することで暗号文$y$を生成している。<br>
+    したがって、合同式の法を$15$として
+    \[ x^e = 12^3 \equiv (-3)^3 = -27 \equiv 3. \]
+    よって暗号文は$y=3$。<br>
+    （$x^e$の計算は底をできるだけ小さくするのがコツである。）
+ </span> <br> <br>
+
+ [2]あなたは受信者である。
+ あなたはふたつの素数として$p=3, q=5$を選び$(p-1)(q-1)=8$と互いに素な数として$e=3$を選んだ。次の問に答えよ。　<button id="2_id" onclick="show_answer(this)">答え</button>
+ <ol class="list_parentheses">
+    <li> あなたの秘密鍵$d$を求めよ。ただし$d$は秘密鍵として使える数のうち最小の自然数とする。</li>
+    <li>送信者から暗号文$y=3$が送られてきた。
+        送信者の暗号文$y$を復号し、送信者の平文$x$を求めよ。</li>
+ </ol>
+ <span id="a2_id" style = "color:white">
+    (1) 受信者が$p,q,e$から秘密鍵$d$を作るのは Step 1 である。<br>
+    $d$は「$ed \equiv 1 \pmod{(p-1)(q-1)}$」を満たすように取るので合同方程式$3d \equiv 1 \pmod{8}$を解けばよい。<br>
+    これを満たす最小の自然数$d$は$d = 3$である。 <br>
+    (2) 受信者が暗号文を復号化するのは Step 5 である。<br>
+    暗号文の復号は「$y^d$を$n$でわった余りを求める」ことで実現される。<br>
+    $3^3 = 27$を$n = 15$でわった余りは$12$であるから、送信者の平文は$x = 12$である。
+ </span> <br> <br>
+
+ [3] あなたは盗聴者である。
+ あなたは受信者が送った公開鍵$n = 8633, e = 5$と送信者が送った暗号文$y = 6442$を盗んだ。
+ さらに受信者のPCをハッキングし秘密鍵$d = 5069$を手に入れることに成功した。
+ 次を満たす整数$a,b,c$を答えよ。<br>
+　　　 「送信者が送った平文$x$は$a^b$を$c$で割った余りである。」　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+<span id="a3_id" style = "color:white">
+    暗号文$y$と公開鍵$n$のほかに、受信者の秘密鍵$d$を持っているので Step 5 によって復号化できる。 <br>
+    送信者が送った平文$x$は$6442^{5069}$を$8633$で割った余りである。<br>
+    つまり、$(a,b,c) = (6442, 5069, 8633)$である。
+ </span> <br> <br>
+
+ [4] あなたは盗聴者である。
+ あなたは受信者が送る公開鍵$n = 35, e = 5$と送信者が送った暗号文$y = 4$を盗んだ。
+ あなたは公開鍵に使われている整数$n$が十分小さい数であることに気付き、$35$は$5 \times 7$と素因数分解できることに気付いた。
+ 次の問に答えよ。　<button id="4_id" onclick="show_answer(this)">答え</button>
+ <ol class="list_parentheses">
+    <li> 受信者の秘密鍵$d$を求めよ。ただし$d$は秘密鍵として使える数のうち最小の自然数とする。</li>
+    <li> 送信者の暗号文$y$を復号し、送信者の平文$x$を求めよ。
+ </ol>
+ <span id="a4_id" style = "color:white">
+    素因数分解に成功し素数$p,q$が得られ、かつ盗聴した情報から$e$が得られているので盗聴者であるあなたは受信者と同じ情報を持っている（問題[2]と同じ状況である）。<br>
+    <!--
+    受信者が$p,q,e$から秘密鍵$d$を作るのは Step 1 である。<br>
+    $d$は「$ed \equiv 1 \pmod{(p-1)(q-1)}$」を満たすようにとるので合同方程式を解けばよい。<br>
+    -->
+    (1) $35 = 5 \times 7$と素因数分解できるので$p = 5, q = 7$である。<br>
+    そこで$ed \equiv 1 \pmod{(p-1)(q-1)}$、つまり$5d \equiv 1 \pmod{24}$となる$d$を求める。<br>
+    これを満たす最小の自然数$d$は$d = 5$。<br>
+    <!--
+    秘密鍵$d=5$が分かったので暗号文を解読するためにはStep 5。
+    $y^d$を$n$でわった余りを求めればよい。
+    -->
+    (2) $4^5$を$n = 35$でわった余りは$9$である。<br>
+    よって送信者の平文は$x = 9$である。<br>
+    （余りの計算は$4^5$が$1024$であることを計算してから$n=35$で割っても良いし、<br>
+    $4^5 = 4^3 \cdot 4^2 = 64 \cdot 16 \equiv (-6) \cdot 16 = -96 \equiv 9$ のように計算してもよい。）
+ </span> <br> <br>
+
+ <!--
+ [2]$A = \{ 0,1 \}$とする。以下の命題の真偽を答えよ。
+ <ol class="list_parentheses">
+    <li> 命題「$\{0,1\} \in A \times A$」は　<span id="61_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer61()">答え</button></li>
+    <li> 命題「$\{0,1\} \subset A \times A$」は　<span id="62_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer62()">答え</button></li>
+    <li> 命題「$(0,1) \in A \times A$」は　<span id="63_id" style = "color:white">真</span>　である。　　<button onclick="show_answer63()">答え</button></li>
+    <li> 命題「$(0,1) \subset A \times A$」は　<span id="64_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer64()">答え</button></li>
+    <li> 命題「$\{0,1\} \in 2^A$」は　<span id="65_id" style = "color:white">真</span>　である。　　<button onclick="show_answer65()">答え</button></li>
+    <li> 命題「$\{0,1\} \subset 2^A$」は　<span id="66_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer66()">答え</button></li>
+    <li> 命題「$(0,1) \in 2^A$」は　<span id="67_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer67()">答え</button></li>
+    <li> 命題「$(0,1) \subset 2^A$」は　<span id="68_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer68()">答え</button></li>
+    <li> 命題「$\{ \{0,1\} \} \in 2^A$」は　<span id="69_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer69()">答え</button></li>
+    <li> 命題「$\{ \{0,1\} \} \subset 2^A$」は　<span id="610_id" style = "color:white">真</span>　である。　　<button onclick="show_answer610()">答え</button></li>    
+    <li> 命題「$\{ (0,1) \} \in A \times A$」は　<span id="611_id" style = "color:white">偽</span>　である。　　<button onclick="show_answer611()">答え</button></li>
+    <li> 命題「$\{ (0,1) \} \subset A \times A$」は　<span id="612_id" style = "color:white">真</span>　である。　　<button onclick="show_answer612()">答え</button></li>
+ </ol>
+ -->
+ <br>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>LA_11</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   //displayAlign: "left",
+   displayIndent: "2em"
+ });
+</script>
+<script>
+    let M = [];//行列の成分を配列に格納
+    for (let i = 0; i < 16; i++){
+            M[i] = Math.floor(Math.random()*7)-3;
+        }
+    console.log(M);
+
+    function det3(a,b,c,d,e,f,g,h,i){
+        return a*(e*i - f*h) - d*(b*i-c*h) + g*(b*f-c*e);
+    }
+
+    let det = M[0]*det3(M[5],M[6],M[7], M[9],M[10],M[11], M[13],M[14],M[15])
+                - M[4]*det3(M[1],M[2],M[3], M[9],M[10],M[11], M[13],M[14],M[15])
+                + M[8]*det3(M[1],M[2],M[3], M[5],M[6],M[7], M[13],M[14],M[15])
+                - M[12]*det3(M[1],M[2],M[3], M[5],M[6],M[7], M[9],M[10],M[11]);
+    console.log(det);
+
+    function generate_matrix(){
+        let matrix_in_text = "";
+        matrix_in_text = "$ \\begin{bmatrix}"
+        for (let i = 0; i < 16; i++){
+            matrix_in_text += M[i] + "&";
+            if(i == 3 || i == 7 || i == 11){
+                matrix_in_text += "\\\\"
+            }
+        }
+        matrix_in_text += "\\end{bmatrix} $"
+        document.getElementById("matrix_id").textContent = matrix_in_text;
+    }
+
+    function show_answer(){
+        document.getElementById("ans_id").textContent = " "+ det + " ";
+    }
+</script>
+</head>
+
+<!--
+<body onload="initialize()">
+-->
+<body onload="generate_matrix()">
+ <center><h1>行列式（4次）</h1></center>
+ <center>
+ 行列　<span id="matrix_id"></span>　の行列式の値は<span id="ans_id">　　</span>である。　　<button onclick="show_answer()">答え</button>
+ </center>
+</body>
+
+</html>

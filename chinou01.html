@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <title>chinou01</title>
+ <script>
+    let x = 200;
+    let y = 300;
+    let angle = 0;
+
+    let turtle = {
+        forward: function(size){
+        let canvas = document.getElementById("canvas_id");
+        let ctx = canvas.getContext("2d");
+        ctx.lineWidth =2;
+        ctx.moveTo(x, y);
+        x += size*Math.cos(angle);
+        y += size*Math.sin(angle);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        console.log([x,y]);
+        },
+
+        turn: function(a){angle -= a*Math.PI/180;},
+    }
+
+    function start(){        
+
+        //ここにタートルの動きを実装する。
+
+        // for文の書き方は以下を参考にせよ。
+//        for(let i=0; i<13; i++){
+//            turtle.forward(50);
+//            turtle.turn(360/13);
+//        }
+    }
+ </script>
+
+</head>
+
+<body>
+ <center><h1>知能情報システム論（久保田担当分）その1</h1></center>
+ <center>
+ <canvas id="canvas_id" width="500" height="500"></canvas> <br>
+ <button id="start_id" onclick="start()">実行</button><br>
+</center>
+</body>
+
+</html>
