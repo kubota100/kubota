@@ -108,7 +108,7 @@
     function matrix_rep(X){
         let row_num = X.length;
         let column_num = X[0].length;
-        let result = "$\\begin{bmatrix}";
+        let result = "$ \\begin{bmatrix}";
         for(let i=0; i<row_num; i++){
             for(let j=0; j<column_num; j++){
                 result += X[i][j] + "&"
@@ -117,7 +117,7 @@
             result += "\\\\";
         }
         result.slice(0, -2);
-        result += "\\end{bmatrix}$";
+        result += "\\end{bmatrix} $";
         return result;
     }
 
