@@ -8,6 +8,19 @@
  <script type="text/javascript"
  src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 0.1秒後にMathJaxを初期化する
+     setTimeout(function() {
+         MathJax.Hub.Config({
+             tex2jax: {
+                 inlineMath: [['$', '$'], ['\\(', '\\)']]
+             }
+         });
+         MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+     }, 10); // 100ミリ秒 = 0.1秒
+    });
+</script>
 <script type="text/x-mathjax-config">
  MathJax.Hub.Config ({
    TeX: { equationNumbers: { autoNumber: "AMS" }},
