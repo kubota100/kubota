@@ -4,6 +4,29 @@
 <head>
 <meta charset="utf-8">
 <title>線形数学演習I</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {delimiters: [
+      {left: "\\[", right: "\\]", display: true},
+      {left: "$", right: "$", display: false}
+    ]});
+  });
+  </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      setTimeout(function() { 
+          renderMathInElement(document.body, {delimiters: [
+      {left: "\\[", right: "\\]", display: true},
+      {left: "$", right: "$", display: false}
+    ]});
+          },100)
+  });
+  </script>
+
+<!--
 <script type="text/javascript"
 src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
@@ -33,6 +56,7 @@ MathJax.Hub.Config ({
   jax: ["input/TeX", "output/CommonHTML"]
 });
 </script>
+-->
 <style>
 .box {
     border: red 1px solid; /*境界線の指定*/
@@ -171,7 +195,7 @@ MathJax.Hub.Config ({
       <tr>
         <td>1.27</td>
         <td></td>
-        <td> N = A - aIとおくと aI と N は可換であるから二項定理が適用できる。</td>
+        <td> $N = A - aI$とおくと aI と N は可換であるから二項定理が適用できる。</td>
       </tr>
       <tr>
         <td>1.28</td>
