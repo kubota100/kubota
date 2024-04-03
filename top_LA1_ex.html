@@ -4,6 +4,35 @@
 <head>
 <meta charset="utf-8">
 <title>線形数学演習I</title>
+<script type="text/javascript"
+src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+   document.addEventListener("DOMContentLoaded", function() {
+     // 0.1秒後にMathJaxを初期化する
+    setTimeout(function() {
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        });
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+    }, 10); // 100ミリ秒 = 0.1秒
+   });
+</script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config ({
+  TeX: { equationNumbers: { autoNumber: "AMS" }},
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    processEscapes: true
+  },
+  "HTML-CSS": { matchFontHeight: false },
+  displayAlign: "left",
+  displayIndent: "2em",
+  jax: ["input/TeX", "output/CommonHTML"]
+});
+</script>
 <style>
 .box {
     border: red 1px solid; /*境界線の指定*/
@@ -29,7 +58,7 @@
 ただし、証明や導出が容易なものについては質疑応答の際に<br>
 「それが成り立つのはなぜですか？」と質問する可能性がある。
 <br> <br>
-演習問題の解答状況
+演習問題の解答状況 <font color = "red">（4/3更新）</font>
 <br>
 <table border = "1">
     <tr>
@@ -55,7 +84,7 @@
       <tr>
         <td>0.4</td>
         <td></td>
-        <td>本来は数学的帰納法を用いて証明するべきであるが、シグマ記号を使わずに<br>式を書き下し、等式が成立していることが説明できれば良しとする。</td>
+        <td></td>
       </tr>
       <tr>
         <td>0.5</td>
@@ -65,7 +94,7 @@
       <tr>
         <td>0.6</td>
         <td></td>
-        <td>本問も数学的帰納法を用いて証明するべきであるが、シグマ記号を使わずに<br>式を書き下し、等式が成立していることが説明できれば良しとする。</td>
+        <td></td>
       </tr>
       <tr>
         <td>0.7</td>
@@ -100,7 +129,7 @@
       <tr>
         <td>1.17</td>
         <td></td>
-        <td>1.16の結果を用いてよい。</td>
+        <td></td>
       </tr>
       <tr>
         <td>1.18</td>
@@ -140,7 +169,8 @@
       <tr>
         <td>1.27</td>
         <td></td>
-        <td>***</td>
+        <td>$N = \begin{bmatrix} 0 &1&0 \\ 0&0&1 \\ 0&0&0 \end{bmatrix}$ とおくと $A = aI + N$ である。<br>
+        すると、$aI$ と $N$ は可換であるから二項定理が適用できる。</td>
       </tr>
       <tr>
         <td>1.28</td>
@@ -148,10 +178,11 @@
         <td></td>
       </tr>
       <tr>
-        <td></td>
+        <td>︙</td>
         <td></td>
         <td></td>
       </tr>
+      <!--
       <tr>
         <td></td>
         <td></td>
@@ -167,7 +198,7 @@
         <td></td>
         <td></td>
       </tr>
-
+      -->
   </table>
 
 <br> <br>
