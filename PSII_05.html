@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_05</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 0.1秒後にMathJaxを初期化する
+     setTimeout(function() {
+         MathJax.Hub.Config({
+             tex2jax: {
+                 inlineMath: [['$', '$'], ['\\(', '\\)']]
+             }
+         });
+         MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+     }, 10); // 100ミリ秒 = 0.1秒
+    });
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    let num_of_data = Math.floor(Math.random()*3 + 4);
+    let data_x = [];
+    for(let i=0; i<num_of_data; i++){
+        let tmp = 0;
+        tmp = (Math.random()*21+10) + (Math.random()*21+10) + (Math.random()*21+10);
+        tmp = Math.floor(tmp/3);
+        data_x.push(tmp);
+    }
+    console.log(data_x);
+
+    let data_y = [];
+    for(let i=0; i<num_of_data; i++){
+        let tmp = 0;
+        tmp = data_x[i] + (Math.random()*21+10);
+        tmp = Math.floor(tmp/2);
+        data_y.push(tmp);
+    }
+    console.log(data_y);
+
+
+    let data_in_text = "$";
+    for(let i=0; i<num_of_data; i++){
+        data_in_text += "(" + data_x[i] + ", " + data_y[i] + "),　";
+    }
+    data_in_text = data_in_text.slice(0, -2);
+    data_in_text += "$"
+
+    let data_x_square = [];
+    for(let i=0; i<num_of_data; i++){
+        data_x_square.push(data_x[i]**2);
+    }
+
+    let data_y_square = [];
+    for(let i=0; i<num_of_data; i++){
+        data_y_square.push(data_y[i]**2);
+    }
+
+    let variance_x = average(data_x_square) - average(data_x)**2;
+    let variance_y = average(data_y_square) - average(data_y)**2;
+    console.log([variance_x, variance_y]);
+
+    let variance_x_app = Math.round(variance_x*100)/100;
+    let variance_y_app = Math.round(variance_y*100)/100;
+
+    let data_xy = [];
+    for(let i=0; i<num_of_data; i++){
+        data_xy.push(data_x[i]*data_y[i]);
+    }
+
+    let covariance = average(data_xy) - average(data_x)*average(data_y);
+    let covariance_app = Math.round(covariance*100)/100;
+
+    let r_xy = covariance / (Math.sqrt(variance_x)*Math.sqrt(variance_y));
+    let r_xy_app = Math.round(r_xy*100)/100;
+
+    let st = Math.sqrt(variance);
+    console.log(st);
+
+    standardized_data = [];
+    for(let i=0; i<num_of_data; i++){
+        let tmp = (data[i] - ave)/st;
+        tmp = Math.round(tmp*100)/100;
+        standardized_data.push(tmp);        
+    }
+    console.log(standardized_data);
+
+    let standardized_data_in_text = "";
+    for(let i=0; i<num_of_data; i++){
+        standardized_data_in_text += standardized_data[i] + ",　";
+    }
+    standardized_data_in_text = standardized_data_in_text.slice(0, -2);
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function generate_quizzes(){
+        document.getElementById("q1_id").textContent = data_in_text;
+
+        document.getElementById("a1_id").textContent = variance_x_app;
+        document.getElementById("a2_id").textContent = variance_y_app;
+        document.getElementById("a3_id").textContent = covariance_app;
+        document.getElementById("a4_id").textContent = r_xy_app;
+    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "black";
+    }
+</script>
+</head>
+
+<body onload="generate_quizzes()">
+ <center>
+    <h1>相関係数</h1>
+    必要であれば一般電卓を使用してよい。<br>
+    共分散 $s_{xy}$ の計算は公式 $s_{xy} = \overline{xy} - \bar{x} \bar{y}$ を用いると良い。 <br>　<br>
+ </center>
+ 次はある教科の中間試験の点数 $x$ と期末試験の点数 $y$（それぞれ30点満点）をペアにしてまとめたものである。<br>　<br>
+ 　　<span id="q1_id"></span> <br>　<br>
+ 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
+ [1] $x$ の分散 $s_x^2$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button><br>
+ [2] $y$ の分散 $s_y^2$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button><br>
+ [3] $x$ と $y$ の共分散 $s_{xy}$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+ [4] $x$ と $y$ の相関係数 $r_{xy}$ は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
+
+ 
+ <!--
+ $A = $ <span id="q1_id"></span> とする。<br>
+ <ol class="list_parentheses">
+    <li> 行列$A$は正則か。正則であれば「正則である」と答え、正則でなければ「正則でない」と答えよ。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+        　　　<span id="a1_id" style="color:white">　　</span> </li>
+    <li> 行列$A$が正則であるならば$A$の逆行列$A^{-1}$を求めよ。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+        　　　<span id="a2_id" style="color:white">　　</span> </li>
+ </ol>
+ -->
+</body>
+</html>
