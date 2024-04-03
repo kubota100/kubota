@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_09</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 0.1秒後にMathJaxを初期化する
+     setTimeout(function() {
+         MathJax.Hub.Config({
+             tex2jax: {
+                 inlineMath: [['$', '$'], ['\\(', '\\)']]
+             }
+         });
+         MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+     }, 10); // 100ミリ秒 = 0.1秒
+    });
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+<style>
+    .box {
+        border: blue 1px solid; /*境界線の指定*/
+        padding:10px;
+        }
+        .box p {
+        margin:0;
+        padding:0;
+        }
+    </style>
+    
+
+<script>
+    let x1 = Math.floor(Math.random()*100 + 50)/100;
+    let mu1 = Math.floor(Math.random()*21 - 10);
+    let sigma1 = Math.floor(Math.random()*8 + 3);
+    let q1 = Math.round((x1 * sigma1 + mu1)*100)/100;
+    let a1 = Math.round((1 - pnorm(x1))*10000)/100; 
+    console.log(q1);
+
+    let mu2 = Math.floor(Math.random()*21 - 10);
+    let sigma2 = Math.floor(Math.random()*8 + 3);
+    let b = (-1)*Math.floor(Math.random()*150 + 50)/100;
+    let a2 = Math.round((b*sigma2 + mu2)*100)/100;
+    let q2 = Math.round(pnorm((-1)*b)*10000)/10000;
+    console.log(b);
+
+    /////////////////////////////////////////
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) {
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    function generate_quizzes(){
+        document.getElementById("q11_id").textContent = "$N(" + mu1 +", " + sigma1 + "^2)$";
+        document.getElementById("q12_id").textContent = "$P( X > " + q1 + ")$";
+        document.getElementById("q21_id").textContent = "$N(" + mu2 +", " + sigma2 + "^2)$";
+        document.getElementById("q22_id").textContent = "$P( a < X ) =" + q2 + " $";
+
+        document.getElementById("a1_id").textContent = a1;
+        document.getElementById("a2_id").textContent = a2;
+    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "black";
+    }
+</script>
+</head>
+
+<body onload="generate_quizzes()">
+ <center>
+    <h1>標準正規分布表の読み取り(2)</h1>
+    必要であれば一般電卓を使用してよい。<br>
+    教科書 p.86 問題 6.9, 6.10 にも目を通しておくこと。
+    <br>　<br>
+ <div class="box">
+ [例題] <br>
+ $X$ が $N(16, 3^2)$ に従うとする。このとき $P(X < 18.46)$ を求めよ。
+ <br>　<br>
+ [解説] <br>
+ $X \sim N(16, 3^2)$ より $\frac{X-16}{3} \sim N(0,1)$である。<br>
+ また、 $P(X < 18.46) = P(\frac{X-16}{3} < 0.82)$であり、右辺は標準正規分布表からその値を捉えることができる。<br>
+ $P(\frac{X-16}{3} < 0.82) = 0.5 + 0.29389$ だから $P(X < 18.46) = 0.7939$ (適当な位で四捨五入した)。
+ </div>
+ </center>
+ <br>　<br>
+ 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
+ [1] $X$ が <span id="q11_id"></span> に従うとする。
+ このとき <span id="q12_id"></span> は　<span id="a1_id" style="color:white"></span>　% である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+ [2] $X$ が <span id="q21_id"></span> に従うとする。
+ このとき <span id="q22_id"></span> を満たす $a$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+
+ <br>　<br>
+ <br>　<br>
+ <!--
+ [例題] $X$ が $N(-2, 6^2)$ に従うとする。このとき $P(a < X) = 0.86$ を満たす $a$ を求めよ。<br>
+ [解説] <br>
+ $X \sim N(-2, 6^2)$ より $\frac{X+2}{6} \sim N(0,1)$である。<br>
+ したがって $0.86 = P(a < X) = P(\frac{a+2}{6} < \frac{X+2}{6})$である。<br>
+ そこで $b = \frac{a+2}{6}$とおくと、標準正規分布表より $P(b < \frac{X+2}{6}) = 0.86$ を満たす $b$ が $-1.08$ であることが分かる。<br>
+ よって $\frac{a+2}{6} = b = -1.08$ を $a$ について解いて $a = -8.48$ を得る。
+ -->
+
+ <!--
+ 確率変数 $Z$ が標準正規分布 $ N(0,1)$ に従うとする。<br>
+ 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
+ [1] <span id="q1_id"></span> は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+ [2] <span id="q2_id"></span> は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+ [3] <span id="q3_id"></span> が成り立つ $a$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+ [4] <span id="q4_id"></span> が成り立つ $a$ は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
+ -->
+ 
+ <!--
+ [1] $X$ の平均値 $E[X]$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+ [2] $X^2$ の平均値 $E[X^2]$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+ [3] $X$ の分散 $V[X]$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+ [4] <span id="q9_id"></span> は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
+ [5] <span id="q10_id"></span> は　<span id="a5_id" style="color:white"></span>　である。　　<button id="5_id" onclick="show_answer(this)">答え</button> <br>
+ -->
+ 
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_06</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 0.1秒後にMathJaxを初期化する
+     setTimeout(function() {
+         MathJax.Hub.Config({
+             tex2jax: {
+                 inlineMath: [['$', '$'], ['\\(', '\\)']]
+             }
+         });
+         MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+     }, 10); // 100ミリ秒 = 0.1秒
+    });
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    let num_of_data = 4; //Math.floor(Math.random()*3 + 3);
+    let variable = [];
+    while(variable.length != num_of_data){
+        let tmp = Math.floor(Math.random()*11-5);
+        if(!(variable.includes(tmp))){
+            variable.push(tmp);
+        }
+    }
+    variable.sort(function(a,b){
+        return a-b;
+    });
+    console.log(variable);
+
+    let probability = [];
+    for(i=0; i<num_of_data - 1; i++){
+        // let tmp = Math.floor(((Math.random()*11+20) + (Math.random()*11+20))/2);
+        let tmp = Math.floor(Math.random()*11+20);
+        probability.push(tmp);
+    }
+    probability.push(100-probability[0]-probability[1]-probability[2]);
+    //丸め誤差を回避するため一度和が100になるようにしておく
+    for(i=0; i<num_of_data; i++){
+        probability[i] /= 100;
+    }
+    console.log(probability);
+
+    let E_X = expectation(variable, probability);
+    let E_X_app = Math.round(E_X*100)/100;
+
+    let variable_square = [];
+    for(let i=0; i<num_of_data; i++){
+        variable_square.push(variable[i]**2);
+    }
+
+    let E_X2 = expectation(variable_square, probability);
+    let E_X2_app = Math.round(E_X2*100)/100;
+
+    let V_X = E_X2 - E_X**2;
+    let V_X_app = Math.round(V_X*100)/100;
+
+    let coff1_E = Math.floor(Math.random()*4+2);
+    let coff0_E = Math.floor(Math.random()*4+2);
+    if(Math.floor(Math.random()*2) == 0){coff0_E *= -1;}
+
+    let coff1_V = Math.floor(Math.random()*4+2);
+    let coff0_V = Math.floor(Math.random()*4+2);
+    if(Math.floor(Math.random()*2) == 0){coff0_V *= -1;}
+
+    let q4_in_text = " $E[" + coff1_E + "X";
+    if(coff0_E > 0){
+        q4_in_text += "+";
+    }
+    q4_in_text += coff0_E + "]$ ";
+
+    let q5_in_text = " $V[" + coff1_V + "X";
+    if(coff0_V > 0){
+        q5_in_text += "+";
+    }
+    q5_in_text += coff0_V + "]$ ";
+
+    let E_axb = coff1_E*E_X + coff0_E;
+    let E_axb_app = Math.round(E_axb*100)/100;
+
+    let V_axb = (coff1_V**2)*V_X;
+    let V_axb_app = Math.round(V_axb*100)/100;
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function generate_quizzes(){
+        document.getElementById("q1_id").textContent = variable[0];
+        document.getElementById("q2_id").textContent = variable[1];
+        document.getElementById("q3_id").textContent = variable[2];
+        document.getElementById("q4_id").textContent = variable[3];
+        document.getElementById("q5_id").textContent = "$ \\dfrac{" + Math.round(100*probability[0]) + "}{100}$";
+        document.getElementById("q6_id").textContent = "$ \\dfrac{" + Math.round(100*probability[1]) + "}{100}$";
+        document.getElementById("q7_id").textContent = "$ \\dfrac{" + Math.round(100*probability[2]) + "}{100}$";
+        document.getElementById("q8_id").textContent = "$ \\dfrac{" + Math.round(100*probability[3]) + "}{100}$";
+        document.getElementById("q9_id").textContent = q4_in_text;
+        document.getElementById("q10_id").textContent = q5_in_text;
+
+        document.getElementById("a1_id").textContent = E_X_app;
+        document.getElementById("a2_id").textContent = E_X2_app;
+        document.getElementById("a3_id").textContent = V_X_app;
+        document.getElementById("a4_id").textContent = E_axb_app;
+        document.getElementById("a5_id").textContent = V_axb_app;
+
+    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "black";
+    }
+</script>
+</head>
+
+<body onload="generate_quizzes()">
+ <center>
+    <h1>確率変数の平均値と分散</h1>
+    必要であれば一般電卓を使用してよい。<br>
+    確率変数の平均値は「期待値」と呼ぶこともある。<br>　<br>
+ </center>
+ 確率変数 $X$ は次の確率分布に従う。
+ <p>
+    <table border = "1">
+        <tr>
+          <td align="center" bgcolor="lightgrey">$x$</td>
+          <td align="center"> <span id="q1_id"></span> </td>
+          <td align="center"> <span id="q2_id"></span> </td>
+          <td align="center"> <span id="q3_id"></span> </td>
+          <td align="center"> <span id="q4_id"></span> </td>
+        </tr>
+          <tr>
+            <td align="center" bgcolor="lightgrey">$P(X=x)$</td>
+            <td> <span id="q5_id"></span> </td>
+            <td> <span id="q6_id"></span> </td>
+            <td> <span id="q7_id"></span> </td>
+            <td> <span id="q8_id"></span> </td>
+            </tr>
+      </table>
+  </p>
+ 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
+ [1] $X$ の平均値 $E[X]$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+ [2] $X^2$ の平均値 $E[X^2]$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+ [3] $X$ の分散 $V[X]$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+ [4] <span id="q9_id"></span> は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
+ [5] <span id="q10_id"></span> は　<span id="a5_id" style="color:white"></span>　である。　　<button id="5_id" onclick="show_answer(this)">答え</button> <br>
+
+
+ <!--
+ 次はある教科の中間試験の点数 $x$ と期末試験の点数 $y$（それぞれ30点満点）をペアにしてまとめたものである。<br>　<br>
+ 　　<span id="q1_id"></span> <br>　<br>
+ 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
+ [1] $x$ の分散 $s_x^2$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button><br>
+ [2] $y$ の分散 $s_y^2$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button><br>
+ [3] $x$ と $y$ の共分散 $s_{xy}$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+ [4] $x$ と $y$ の相関係数 $r_{xy}$ は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
+ -->
+
+ 
+</body>
+</html>

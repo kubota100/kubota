@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_07</title>
+ <script type="text/javascript"
+ src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // 0.1秒後にMathJaxを初期化する
+     setTimeout(function() {
+         MathJax.Hub.Config({
+             tex2jax: {
+                 inlineMath: [['$', '$'], ['\\(', '\\)']]
+             }
+         });
+         MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+     }, 10); // 100ミリ秒 = 0.1秒
+    });
+</script>
+<script type="text/x-mathjax-config">
+ MathJax.Hub.Config ({
+   TeX: { equationNumbers: { autoNumber: "AMS" }},
+   tex2jax: {
+     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+     processEscapes: true
+   },
+   "HTML-CSS": { matchFontHeight: false },
+   displayAlign: "left",
+   displayIndent: "2em",
+   jax: ["input/TeX", "output/CommonHTML"]
+ });
+</script>
+<style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    let num_of_data = 3; //Math.floor(Math.random()*3 + 3);
+    let variable_x = [];
+    while(variable_x.length != num_of_data){
+        let tmp = Math.floor(Math.random()*7-3);
+        if(!(variable_x.includes(tmp))){
+            variable_x.push(tmp);
+        }
+    }
+    variable_x.sort(function(a,b){
+        return a-b;
+    });
+    console.log(variable_x);
+
+    let probability_x = [];
+    for(i=0; i<num_of_data - 1; i++){
+        let tmp = Math.floor(Math.random()*11+28);
+        probability_x.push(tmp);
+    }
+    probability_x.push(100-probability_x[0]-probability_x[1]);
+    //丸め誤差を回避するため一度和が100になるようにしておく
+    for(i=0; i<num_of_data; i++){
+        probability_x[i] /= 100;
+    }
+    console.log(probability_x);
+
+    let variable_y = [];
+    while(variable_y.length != num_of_data){
+        let tmp = Math.floor(Math.random()*7-3);
+        if(!(variable_y.includes(tmp))){
+            variable_y.push(tmp);
+        }
+    }
+    variable_y.sort(function(a,b){
+        return a-b;
+    });
+    console.log(variable_y);
+
+    let probability_y = [];
+    for(i=0; i<num_of_data - 1; i++){
+        let tmp = Math.floor(Math.random()*11+28);
+        probability_y.push(tmp);
+    }
+    probability_y.push(100-probability_y[0]-probability_y[1]);
+    //丸め誤差を回避するため一度和が100になるようにしておく
+    for(i=0; i<num_of_data; i++){
+        probability_y[i] /= 100;
+    }
+    console.log(probability_y);
+
+    let E_X = expectation(variable_x, probability_x);
+    let E_Y = expectation(variable_y, probability_y);
+    let E_X_plus_Y = E_X + E_Y;
+    let E_X_plus_Y_app = Math.round(E_X_plus_Y*100)/100;
+    let E_XY = E_X * E_Y;
+    let E_XY_app = Math.round(E_XY*100)/100;
+
+    let variable_x_square = [];
+    for(let i=0; i<num_of_data; i++){
+        variable_x_square.push(variable_x[i]**2);
+    }
+    let variable_y_square = [];
+    for(let i=0; i<num_of_data; i++){
+        variable_y_square.push(variable_y[i]**2);
+    }
+
+    let V_X = expectation(variable_x_square, probability_x) - E_X**2;
+    let V_Y = expectation(variable_y_square, probability_y) - E_Y**2;
+
+    let V_X_plus_Y = V_X + V_Y;
+    let V_X_plus_Y_app = Math.round(V_X_plus_Y*100)/100;
+
+    let V_XY = expectation(variable_x_square, probability_x)*expectation(variable_y_square, probability_y) - E_XY**2;
+    let V_XY_app = Math.round(V_XY*100)/100;
+
+    let seed_x = Math.floor(Math.random()*3);
+    let seed_y = Math.floor(Math.random()*3);
+    let U_value = variable_x[seed_x] + variable_y[seed_y];
+    let V_value = variable_x[seed_x] - variable_y[seed_y];
+    console.log([seed_x, seed_y]);
+
+    let ans5 = probability_x[seed_x]*probability_y[seed_y];
+    let ans5_app = Math.round(ans5*10000)/100;
+
+    let ans6 = 0;
+    // U = X+Y = U_value となるX, Yの組をすべて求める。
+    let ans6_pair = [];
+    for(let i=0; i<num_of_data; i++){
+        for(let j=0; j<num_of_data; j++){
+            if(variable_x[i]+variable_y[j] == U_value){
+                ans6_pair.push([i,j])
+            }
+        }
+    }
+    console.log(ans6_pair);
+    for(let i=0; i<ans6_pair.length; i++){
+        ans6 += probability_x[ans6_pair[i][0]]*probability_y[ans6_pair[i][1]];
+    }
+    let ans6_app = Math.round(ans6*10000)/100;
+
+    let ans7 = 0;
+    // V = X-Y = V_value となるX, Yの組をすべて求める。
+    let ans7_pair = [];
+    for(let i=0; i<num_of_data; i++){
+        for(let j=0; j<num_of_data; j++){
+            if(variable_x[i]-variable_y[j] == V_value){
+                ans7_pair.push([i,j])
+            }
+        }
+    }
+    console.log(ans7_pair);
+    for(let i=0; i<ans7_pair.length; i++){
+        ans7 += probability_x[ans7_pair[i][0]]*probability_y[ans7_pair[i][1]];
+    }
+    let ans7_app = Math.round(ans7*10000)/100;
+
+    ///////////////////////////////////////////////
+
+
+    let coff1_E = Math.floor(Math.random()*4+2);
+    let coff0_E = Math.floor(Math.random()*4+2);
+    if(Math.floor(Math.random()*2) == 0){coff0_E *= -1;}
+
+    let coff1_V = Math.floor(Math.random()*4+2);
+    let coff0_V = Math.floor(Math.random()*4+2);
+    if(Math.floor(Math.random()*2) == 0){coff0_V *= -1;}
+
+    let q4_in_text = " $E[" + coff1_E + "X";
+    if(coff0_E > 0){
+        q4_in_text += "+";
+    }
+    q4_in_text += coff0_E + "]$ ";
+
+    let q5_in_text = " $V[" + coff1_V + "X";
+    if(coff0_V > 0){
+        q5_in_text += "+";
+    }
+    q5_in_text += coff0_V + "]$ ";
+
+    let E_axb = coff1_E*E_X + coff0_E;
+    let E_axb_app = Math.round(E_axb*100)/100;
+
+    let V_axb = (coff1_V**2)*V_X;
+    let V_axb_app = Math.round(V_axb*100)/100;
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function generate_quizzes(){
+        document.getElementById("q1_id").textContent = variable_x[0];
+        document.getElementById("q2_id").textContent = variable_x[1];
+        document.getElementById("q3_id").textContent = variable_x[2];
+        document.getElementById("q4_id").textContent = variable_y[0];
+        document.getElementById("q5_id").textContent = variable_y[1];
+        document.getElementById("q6_id").textContent = variable_y[2];
+        document.getElementById("q7_id").textContent = "$ \\dfrac{" + Math.round(100*probability_x[0]) + "}{100}$";
+        document.getElementById("q8_id").textContent = "$ \\dfrac{" + Math.round(100*probability_x[1]) + "}{100}$";
+        document.getElementById("q9_id").textContent = "$ \\dfrac{" + Math.round(100*probability_x[2]) + "}{100}$";
+        document.getElementById("q10_id").textContent = "$ \\dfrac{" + Math.round(100*probability_y[0]) + "}{100}$";
+        document.getElementById("q11_id").textContent = "$ \\dfrac{" + Math.round(100*probability_y[1]) + "}{100}$";
+        document.getElementById("q12_id").textContent = "$ \\dfrac{" + Math.round(100*probability_y[2]) + "}{100}$";
+        document.getElementById("q13_id").textContent = "$P(U=" + U_value + ", V=" + V_value + ")$";
+        document.getElementById("q14_id").textContent = "$P(U=" + U_value + ")$";
+        document.getElementById("q15_id").textContent = "$P(V=" + V_value + ")$";
+
+        document.getElementById("a1_id").textContent = E_X_plus_Y_app;
+        document.getElementById("a2_id").textContent = E_XY_app;
+        document.getElementById("a3_id").textContent = V_X_plus_Y_app;
+        document.getElementById("a4_id").textContent = V_XY_app;
+        document.getElementById("a5_id").textContent = ans5_app;
+        document.getElementById("a6_id").textContent = ans6_app;
+        document.getElementById("a7_id").textContent = ans7_app;
+    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "black";
+    }
+</script>
+</head>
+
+<body onload="generate_quizzes()">
+ <center>
+    <h1>ふたつの確率変数</h1>
+    必要であれば一般電卓を使用してよい。<br>
+    教科書 p.66 問題 5.15 にも目を通しておくこと。<br>　<br>
+ </center>
+ 確率変数 $X, Y$ は独立で、それらの分布が以下で与えられているとする。
+ <p>
+    <table border = "1">
+        <tr>
+          <td align="center" bgcolor="lightgrey">$x$</td>
+          <td align="center"> <span id="q1_id"></span> </td>
+          <td align="center"> <span id="q2_id"></span> </td>
+          <td align="center"> <span id="q3_id"></span> </td>
+          <td rowspan="2">&nbsp;</td>
+          <td align="center" bgcolor="lightgrey">$y$</td>
+          <td align="center"> <span id="q4_id"></span> </td>
+          <td align="center"> <span id="q5_id"></span> </td>
+          <td align="center"> <span id="q6_id"></span> </td>
+        </tr>
+          <tr>
+            <td align="center" bgcolor="lightgrey">$P(X=x)$</td>
+            <td> <span id="q7_id"></span> </td>
+            <td> <span id="q8_id"></span> </td>
+            <td> <span id="q9_id"></span> </td>
+            <td align="center" bgcolor="lightgrey">$P(Y=y)$</td>
+            <td> <span id="q10_id"></span> </td>
+            <td> <span id="q11_id"></span> </td>
+            <td> <span id="q12_id"></span> </td>
+            </tr>
+      </table>
+  </p>
+ 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
+ [1] $E[X+Y]$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+ [2] $E[XY]$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+ [3] $V[X+Y]$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+ [4] $V[XY]$ は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
+ 次に、確率変数 $U, V$ を $U = X+Y, V = X - Y$ と定める。<br>
+ [5] <span id="q13_id"></span> は　<span id="a5_id" style="color:white"></span>　% である。　　<button id="5_id" onclick="show_answer(this)">答え</button> <br>
+ [6] <span id="q14_id"></span> は　<span id="a6_id" style="color:white"></span>　% である。　　<button id="6_id" onclick="show_answer(this)">答え</button> <br>
+ [7] <span id="q15_id"></span> は　<span id="a7_id" style="color:white"></span>　% である。　　<button id="7_id" onclick="show_answer(this)">答え</button> <br>
+
+ <!--
+ [1] $X$ の平均値 $E[X]$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+ [2] $X^2$ の平均値 $E[X^2]$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+ [3] $X$ の分散 $V[X]$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+ [4] <span id="q9_id"></span> は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
+ [5] <span id="q10_id"></span> は　<span id="a5_id" style="color:white"></span>　である。　　<button id="5_id" onclick="show_answer(this)">答え</button> <br>
+ -->
+ 
+</body>
+</html>
