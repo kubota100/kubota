@@ -5,46 +5,27 @@
  <meta charset="utf-8">
  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
  <title>IM_02</title>
- <script type="text/javascript"
- src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<script>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+  <script>
     document.addEventListener("DOMContentLoaded", function() {
-      // 0.1秒後にMathJaxを初期化する
-     setTimeout(function() {
-         MathJax.Hub.Config({
-             tex2jax: {
-                 inlineMath: [['$', '$'], ['\\(', '\\)']]
-             }
-         });
-         MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-     }, 10); // 100ミリ秒 = 0.1秒
+      renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+      ]});
     });
-</script>
-<script type="text/x-mathjax-config">
- MathJax.Hub.Config ({
-   TeX: { equationNumbers: { autoNumber: "AMS" }},
-   tex2jax: {
-     inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-     processEscapes: true
-   },
-   "HTML-CSS": { matchFontHeight: false },
-   //displayAlign: "left",
-   displayIndent: "2em",
-   jax: ["input/TeX", "output/CommonHTML"]
- });
-</script>
-
-<!--
-<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script>
-    MathJax = {
-      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']]},
-      jax: ["input/TeX","output/CommonHTML"]
-    };
-</script>    
--->
+    </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(function() { 
+            renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+      ]});
+            },100)
+    });
+    </script>
 <script>
     let TF = ["偽", "真"];
 
@@ -158,11 +139,13 @@
 <body onload="generate_quizzes()">
  <center>
     <h1>全称命題と存在命題</h1>
+    <!--
     <font color="red">10月4日追記： <br>
         10月3日の授業で問題[2]のプログラムに誤りがあると発言しましたが、<br>
         後で確認してみたところ誤りがない（正しく作動している）気がしています。 <br>
         もし答えがおかしいのでは？という命題に遭遇した学生さんは遠慮なくお問い合わせ下さい。<br>
         おかしい部分をスクショか写真に収めておいて頂けると助かります。 </font> <br> <br>
+        -->
  </center>
 
     論述領域（ドメイン）を$-3$以上$3$以下の整数とする。以下の命題の真偽を答えよ。 <br> <br>
