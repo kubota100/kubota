@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_10</title>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+ <script>
+   document.addEventListener("DOMContentLoaded", function() {
+     renderMathInElement(document.body, {delimiters: [
+       {left: "\\[", right: "\\]", display: true},
+       {left: "$", right: "$", display: false}
+     ]});
+   });
+   </script>
+ <script>
+   document.addEventListener("DOMContentLoaded", function() {
+       setTimeout(function() { 
+           renderMathInElement(document.body, {delimiters: [
+       {left: "\\[", right: "\\]", display: true},
+       {left: "$", right: "$", display: false}
+     ]});
+           },100)
+   });
+   </script>
+   
+<style>
+    .box {
+        border: blue 1px solid; /*境界線の指定*/
+        padding:10px;
+        }
+        .box p {
+        margin:0;
+        padding:0;
+        }
+    </style>
+    
+
+<script>
+    let pop_variance = Math.floor(Math.random()*110 + 40)/10;
+    let num_of_samples = Math.floor(Math.random()*20 + 10);
+    let sample_mean = Math.floor(Math.random()*10000 + 5000)/100;
+    let conf_coef_list = [90, 95, 99];
+    let conf_coef_seed = Math.floor(Math.random()*3)
+    let conf_coef = conf_coef_list[conf_coef_seed];
+    let both_sides = Math.round((100 - conf_coef)*5)/10;
+    let alpha_point_list = [1.645, 1.960, 2.576];
+    let alpha_point = alpha_point_list[conf_coef_seed];
+    let pop_mean_lower = (-1)*alpha_point*pop_variance/Math.sqrt(num_of_samples) + sample_mean;
+    let pop_mean_lower_app = Math.round(pop_mean_lower*100)/100;
+    let pop_mean_upper = alpha_point*pop_variance/Math.sqrt(num_of_samples) + sample_mean;
+    let pop_mean_upper_app = Math.round(pop_mean_upper*100)/100;
+
+    /////////////////////////////////////////
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) {
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    function generate_quizzes(){
+        document.getElementById("q1_id").textContent = "$ \\sigma^2 =" + pop_variance + "^2$";
+        document.getElementById("q2_id").textContent = "$" + num_of_samples + "$";
+        document.getElementById("q3_id").textContent = "$ \\bar{x} =" + sample_mean + "$";
+        document.getElementById("q4_id").textContent = "$" + conf_coef + "\\% $";
+        //
+        document.getElementById("q5_id").textContent = "$ \\frac{\\overline{X} - \\mu}{" + pop_variance + "/ \\sqrt{" + num_of_samples + "}}$";
+        document.getElementById("q6_id").textContent = "$" + both_sides + "\\% $";
+        document.getElementById("q7_id").textContent = "$" + both_sides + "\\% $";
+        document.getElementById("q8_id").textContent = "$-" + alpha_point + ", " + alpha_point + "$";
+        document.getElementById("q9_id").textContent = "$ \\bar{x} =" + sample_mean + "$";
+        document.getElementById("q10_id").textContent = "\\[ -" + alpha_point + "\\leq \\frac{" + sample_mean + "- \\mu}{" + pop_variance + "/ \\sqrt{" + num_of_samples + "}} \\leq" + alpha_point + "\\]";
+        document.getElementById("q11_id").textContent = "$" + conf_coef + "\\% $";
+        document.getElementById("q12_id").textContent = "\\[" + pop_mean_lower_app + "\\leq \\mu \\leq" + pop_mean_upper_app + "\\]";
+        /*
+        document.getElementById("a1_id").textContent = a1;
+        document.getElementById("a2_id").textContent = a2;
+        */
+    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body onload="generate_quizzes()">
+ <center>
+    <h1>母平均の区間推定（母分散既知）</h1>
+    必要であれば一般電卓を使用してよい。
+ <!--
+ <div class="box">
+ [例題] <br>
+ $X$ が $N(16, 3^2)$ に従うとする。このとき $P(X < 18.46)$ を求めよ。
+ <br>　<br>
+ [解説] <br>
+ $X \sim N(16, 3^2)$ より $\frac{X-16}{3} \sim N(0,1)$である。<br>
+ また、 $P(X < 18.46) = P(\frac{X-16}{3} < 0.82)$であり、右辺は標準正規分布表からその値を捉えることができる。<br>
+ $P(\frac{X-16}{3} < 0.82) = 0.5 + 0.29389$ だから $P(X < 18.46) = 0.7939$ (適当な位で四捨五入した)。
+ </div>
+ -->
+ </center>
+ <br>　<br>
+ 母分散が <span id="q1_id"></span> である正規母集団から <span id="q2_id"></span> 個の標本を抽出して標本平均 <span id="q3_id"></span> を得た。<br>
+ 母平均 $\mu$ の <span id="q4_id"></span> 信頼区間を求めよ。<br>
+ 区間の両端の数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+ <br> <br>
+
+ <sapn id="a1_id" style="color:white">
+ [解答] <br>
+ 問題文から <span id="q5_id"></span> が標準正規分布 $N(0,1)$ に従う。 <br>
+ 標準正規分布の下側 <span id="q6_id"></span> 点と上側 <span id="q7_id"></span> 点はそれぞれ <span id="q8_id"></span> であり、
+ 標本平均が <span id="q9_id"></span> だから
+ <span id="q10_id"></span>
+ である。これを $\mu$ について解いて母平均の <span id="q11_id"></span> 信頼区間
+ <span id="q12_id"></span>
+ を得る。
+ </sapn>
+
+ <!--
+ [1] $X$ が <span id="q11_id"></span> に従うとする。
+ このとき <span id="q12_id"></span> は　<span id="a1_id" style="color:white"></span>　% である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+ [2] $X$ が <span id="q21_id"></span> に従うとする。
+ このとき <span id="q22_id"></span> を満たす $a$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+ -->
+
+ <br>　<br>
+ <br>　<br>
+ <!--
+ [例題] $X$ が $N(-2, 6^2)$ に従うとする。このとき $P(a < X) = 0.86$ を満たす $a$ を求めよ。<br>
+ [解説] <br>
+ $X \sim N(-2, 6^2)$ より $\frac{X+2}{6} \sim N(0,1)$である。<br>
+ したがって $0.86 = P(a < X) = P(\frac{a+2}{6} < \frac{X+2}{6})$である。<br>
+ そこで $b = \frac{a+2}{6}$とおくと、標準正規分布表より $P(b < \frac{X+2}{6}) = 0.86$ を満たす $b$ が $-1.08$ であることが分かる。<br>
+ よって $\frac{a+2}{6} = b = -1.08$ を $a$ について解いて $a = -8.48$ を得る。
+ -->
+
+ <!--
+ 確率変数 $Z$ が標準正規分布 $ N(0,1)$ に従うとする。<br>
+ 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
+ [1] <span id="q1_id"></span> は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+ [2] <span id="q2_id"></span> は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+ [3] <span id="q3_id"></span> が成り立つ $a$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+ [4] <span id="q4_id"></span> が成り立つ $a$ は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
+ -->
+ 
+ <!--
+ [1] $X$ の平均値 $E[X]$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+ [2] $X^2$ の平均値 $E[X^2]$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+ [3] $X$ の分散 $V[X]$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+ [4] <span id="q9_id"></span> は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
+ [5] <span id="q10_id"></span> は　<span id="a5_id" style="color:white"></span>　である。　　<button id="5_id" onclick="show_answer(this)">答え</button> <br>
+ -->
+ 
+</body>
+</html>
