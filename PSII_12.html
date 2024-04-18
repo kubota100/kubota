@@ -4,7 +4,7 @@
 <head>
  <meta charset="utf-8">
  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
- <title>PSII_11</title>
+ <title>PSII_12</title>
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
@@ -44,8 +44,8 @@
     let data = [];
     for(let i=0; i<num_of_data; i++){
         let tmp = 0;
-        tmp = (Math.random()*21+10) + (Math.random()*21+10) + (Math.random()*21+10);
-        tmp = Math.floor(tmp/3);
+        tmp = Math.floor((Math.random()*40+230))/10;
+//        tmp = Math.floor(tmp/2)/10;
         data.push(tmp);
     }
     console.log(data);
@@ -59,8 +59,11 @@
     let conf_coef_list = [90, 95, 99];
     let conf_coef_seed = Math.floor(Math.random()*3)
     let conf_coef = conf_coef_list[conf_coef_seed];
-    let alpha_point_list = [[2.13185, 2.77645, 4.60409],[2.01505, 2.57058, 4.03214],[1.94318, 2.44691, 3.70743]]; //0→自由度4, 1→自由度5, 2→自由度6
-    let alpha_point = alpha_point_list[num_of_data-5][conf_coef_seed];
+    //
+    let alpha_point_lower_list = [[0.7107, 0.4844, 0.2070], [1.1455, 0.8312, 0.4117], [1.6354, 1.2373, 0.6757]]; //0→自由度4, 1→自由度5, 2→自由度6
+    let alpha_point_lower = alpha_point_lower_list[num_of_data-5][conf_coef_seed];
+    let alpha_point_upper_list = [[9.4877, 11.1433, 14.8603], [11.0705, 12.8325, 16.7496], [12.5916, 14.4494, 18.5476]]; //0→自由度4, 1→自由度5, 2→自由度6
+    let alpha_point_upper = alpha_point_upper_list[num_of_data-5][conf_coef_seed];
 
     let both_sides = Math.round((100 - conf_coef)*5)/10;
 
@@ -71,17 +74,13 @@
     for(let i=0; i<num_of_data; i++){
         data_square.push(data[i]**2);
     }
-    variance = average(data_square) - average(data)**2;
+    let variance = average(data_square) - average(data)**2;
+    variance = Math.round(variance*100000000)/100000000;
 
-    let un_var = num_of_data*variance / (num_of_data - 1);
-    un_var = Math.round(un_var*100000000)/100000000;
-    console.log(ave);
-    console.log(un_var);
-
-    let pop_mean_lower = (-1)*alpha_point*Math.sqrt(un_var)/Math.sqrt(num_of_data) + ave;
-    let pop_mean_lower_app = Math.round(pop_mean_lower*100)/100;
-    let pop_mean_upper = alpha_point*Math.sqrt(un_var)/Math.sqrt(num_of_data) + ave;
-    let pop_mean_upper_app = Math.round(pop_mean_upper*100)/100;
+    let pop_var_lower = num_of_data*variance / alpha_point_upper;
+    let pop_var_lower_app = Math.round(pop_var_lower*100)/100;
+    let pop_var_upper = num_of_data*variance / alpha_point_lower;
+    let pop_var_upper_app = Math.round(pop_var_upper*100)/100;
 
     /////////////////////////////////////////
 
@@ -125,18 +124,18 @@
         document.getElementById("q1_id").textContent = "$" + num_of_data + "$";
         document.getElementById("q2_id").textContent = data_in_text;
         document.getElementById("q3_id").textContent = "$" + conf_coef + "\\% $";
-        document.getElementById("q5_id").textContent = "$ \\frac{\\overline{X} - \\mu}{ U / \\sqrt{" + num_of_data + "}}$";
+        document.getElementById("q5_id").textContent = "$ \\frac{" + num_of_data + "S^2}{\\sigma^2} $";
         document.getElementById("q6_id").textContent = "$" + (num_of_data - 1) + "$";
-        document.getElementById("q7_id").textContent = "$ t_" + (num_of_data - 1) + "$";
-        document.getElementById("q8_id").textContent = "$ t_" + (num_of_data - 1) + "$";
+        document.getElementById("q7_id").textContent = "$ \\chi_" + (num_of_data - 1) + "^2 $";
+        document.getElementById("q8_id").textContent = "$ \\chi_" + (num_of_data - 1) + "^2 $";
         document.getElementById("q9_id").textContent = "$" + both_sides + "\\% $";
         document.getElementById("q10_id").textContent = "$" + both_sides + "\\% $";
-        document.getElementById("q11_id").textContent = "$-" + alpha_point + ", \\, " + alpha_point + "$";
-        document.getElementById("q12_id").textContent = "$ \\bar{x} =" + ave + "$";
-        document.getElementById("q13_id").textContent = "$ u^2 =" + un_var + "$";
-        document.getElementById("q14_id").textContent = "\\[ -" + alpha_point + "\\leq \\frac{" + ave + "- \\mu}{ \\sqrt{" + un_var + "} / \\sqrt{" + num_of_data + "}} \\leq" + alpha_point + "\\]";
+        document.getElementById("q11_id").textContent = "$" + alpha_point_lower + ", \\, " + alpha_point_upper + "$";
+        //document.getElementById("q12_id").textContent = "$ \\bar{x} =" + ave + "$";
+        document.getElementById("q13_id").textContent = "$ s^2 =" + variance + "$";
+        document.getElementById("q14_id").textContent = "\\[ " + alpha_point_lower + "\\leq \\frac{" + num_of_data + "\\times "+ variance + "}{ \\sigma^2 } \\leq" + alpha_point_upper + "\\]";
         document.getElementById("q15_id").textContent = "$" + conf_coef + "\\% $";
-        document.getElementById("q16_id").textContent = "\\[" + pop_mean_lower_app + "\\leq \\mu \\leq" + pop_mean_upper_app + "\\]";
+        document.getElementById("q16_id").textContent = "\\[" + pop_var_lower_app + "\\leq \\sigma^2 \\leq" + pop_var_upper_app + "\\]";
         /*
         document.getElementById("q9_id").textContent = "$ \\bar{x} =" + sample_mean + "$";
         document.getElementById("q10_id").textContent = "\\[ -" + alpha_point + "\\leq \\frac{" + sample_mean + "- \\mu}{" + pop_variance + "/ \\sqrt{" + num_of_samples + "}} \\leq" + alpha_point + "\\]";
@@ -159,33 +158,39 @@
 
 <body onload="generate_quizzes()">
  <center>
-    <h1>母平均の区間推定（母分散未知）</h1>
+    <h1>母分散の区間推定</h1>
     必要であれば一般電卓を使用してよい。<br>　<br>
     <div class="box">
         [ Tips ] <br>
-        不偏分散 $u^2$ を求めるときは標本分散 $s^2$ を分散公式
-        \[ s^2 = \overline{x^2} - \bar{x}^2 \]
-        によって求め、その後で等式
-        \[ u^2 = \frac{n}{n-1} s^2 \]
-        を用いるのが簡単だと思われる。
+        正規分布 $N(\mu, \sigma^2)$ から無作為標本 $X_1, \dots, X_n$ をとる。このとき<br>
+        \[ \sum_{i=1}^n \left( \frac{X_i - \overline{X}}{\sigma} \right)^2 \]
+        は自由度 $n-1$ のカイ2乗分布 $\chi^2_{n-1}$ に従う。
+        この式を変形すると
+        \[ \frac{1}{\sigma^2}\sum_{i=1}^n (X_i - \overline{X})^2
+        = \frac{n}{\sigma^2} S^2
+        = \frac{n-1}{\sigma^2} U^2 \]
+        となる。ただし、$S^2$ は標本分散、$U^2$ は不偏分散を表す。母分散の推定は
+        \[ \frac{n}{\sigma^2} S^2 \sim \chi^2_{n-1} \text{　{\footnotesize もしくは}　} \frac{n-1}{\sigma^2} U^2 \sim \chi^2_{n-1} \]
+        のうち好きな方を用いて行う。
         </div>
  </center>
  <br>　<br>
  正規母集団から <span id="q1_id"></span> 個の標本を抽出して次のデータを得た。<br>
  　　 <span id="q2_id"></span> <br>
- 母平均 $\mu$ の <span id="q3_id"></span> 信頼区間を求めよ。<br>
+ 母分散 $\sigma^2$ の <span id="q3_id"></span> 信頼区間を求めよ。<br>
  区間の両端の数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。　　<button id="1_id" onclick="show_answer(this)">答え</button>
  <br> <br>
 
  <sapn id="a1_id" style="color:white">
  [解答] <br>
- 問題文から <span id="q5_id"></span> が自由度 <span id="q6_id"></span> の $t$ 分布 <span id="q7_id"></span> に従う。 <br>
+ 問題文から <span id="q5_id"></span> が自由度 <span id="q6_id"></span> のカイ2乗分布 <span id="q7_id"></span> に従う。 <br>
  <span id="q8_id"></span> の下側 <span id="q9_id"></span> 点と上側 <span id="q10_id"></span> 点はそれぞれ <span id="q11_id"></span> であり、 <br>
- 標本平均が <span id="q12_id"></span>, 不偏分散が <span id="q13_id"></span> だから 
+ 標本分散が <span id="q13_id"></span> だから 
  <span id="q14_id"></span>
- である。これを $\mu$ について解いて母平均の <span id="q15_id"></span> 信頼区間
+ である。これを $\sigma^2$ について解いて母分散の <span id="q15_id"></span> 信頼区間
  <span id="q16_id"></span>
  を得る。
- </sapn>  <br> <br>
+ </sapn> 
+ <br> <br>
 </body>
 </html>

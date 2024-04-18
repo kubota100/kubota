@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_14</title>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+ <script>
+   document.addEventListener("DOMContentLoaded", function() {
+     renderMathInElement(document.body, {delimiters: [
+       {left: "\\[", right: "\\]", display: true},
+       {left: "$", right: "$", display: false}
+     ]});
+   });
+   </script>
+ <script>
+   document.addEventListener("DOMContentLoaded", function() {
+       setTimeout(function() { 
+           renderMathInElement(document.body, {delimiters: [
+       {left: "\\[", right: "\\]", display: true},
+       {left: "$", right: "$", display: false}
+     ]});
+           },100)
+   });
+   </script>
+ <style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+<style>
+    .box {
+        border: blue 1px solid; /*境界線の指定*/
+        padding:10px;
+        }
+        .box p {
+        margin:0;
+        padding:0;
+        }
+</style>
+
+</head>
+
+<body onload="generate_quizzes()">
+ <center>
+    <h1>従う分布の思い出し方</h1>
+    このページは区間推定で用いる統計量の簡単なまとめである。<br>
+    「自由度」について確率統計IIでは説明しないため暗記事項とする箇所があるが、<br>
+    基本的には「文字を機械的に置き換えたら自由度がひとつ下がる」と覚えておくとよい。
+    <br>　<br>
+    <div class="box">
+        [ 基本事項 ] <br>
+        $a$ を実数とし、$X, Y$ を確率変数とすると以下が成り立つ。 <br>
+        \[ \begin{aligned}
+        E[X+Y] &= E[X] + E[Y] \\
+        E[aX] &= aE[X] \\
+        V[aX] &= a^2 V[X] 
+        \end{aligned} \]
+        これに加え、もし $X, Y$ が独立ならば
+        \[ V[X+Y] = V[X] + V[Y] \]
+        も成り立つ。
+        </div>
+ </center> <br>
+ <center><u>母分散 $\sigma^2$ が既知の場合に母平均 $\mu$ を推定する</u></center> <br>
+ $X_1, \dots, X_n$ を正規分布 $N(\mu, \sigma^2)$ に従う独立な確率変数とする。<br>
+ このとき、和 $\sum_{i=1}^n X_i$ は $N(n\mu, n\sigma^2)$ に従う。
+ したがって標本平均
+ \[ \overline{X} = \frac{1}{n} \sum_{i=1}^n X_i \]
+ は $N(\mu, \frac{\sigma^2}{n})$ に従う。
+ 母分散既知の場合の母平均の区間推定は、これを標準化した
+ \[ \frac{\overline{X} - \mu}{ \sigma / \sqrt{n} } \]
+ が標準正規分布 $N(0,1)$ に従うことを使う。<br>　<br>　<br>
+
+ <center><u>母分散 $\sigma^2$ が未知の場合に母平均 $\mu$ を推定する</u></center> <br>
+ 母分散が未知の場合、先の式で $\sigma$ が使えないので、$\sigma$ を不偏分散 $U^2$ の正の平方根 $U$ で置き換えて
+ \[ \frac{\overline{X} - \mu}{ U / \sqrt{n} } \]
+ が自由度 $n-1$ の $t$ 分布 $t_{n-1}$ に従うことを使う。<br>　<br>　<br>
+
+ <center><u>カイ2乗分布について</u></center> <br>
+ $Z_1, \dots, Z_n$ を標準正規分布 $N(0, 1)$ に従う独立な確率変数とする。<br>
+ このとき、2乗和 $Z_1^2 + \cdots + Z_n^2$ が従う分布を自由度 $n$ のカイ2乗分布 $\chi_{n}^2$ という。<br>
+ したがって、正規分布 $N(\mu, \sigma^2)$ に従う独立な確率変数 $X_1, \dots, X_n$ について、それらの標準化の2乗和
+ \[ \sum_{i=1}^n \left( \frac{X_i - \mu}{\sigma} \right)^2 \]
+ は自由度 $n$ のカイ2乗分布 $\chi_{n}^2$ に従う。<br>　<br>　<br>
+
+ <center><u>（母平均が未知の場合に）母分散を推定する</u></center> <br>
+ 母平均が未知の場合、先の式で $\mu$ を標本平均 $\overline{X}$ で置き換えて
+ \[ \sum_{i=1}^n \left( \frac{X_i - \overline{X}}{\sigma} \right)^2 \quad \left( = \frac{1}{\sigma^2} \sum_{i=1}^n (X_i - \overline{X})^2 \right)\]
+ を用いて母分散を推定する。この量は自由度 $n-1$ のカイ2乗分布 $\chi_{n-1}^2$ に従う。<br>　<br>　<br>
+ <!--
+ 確率変数 $X$ は次の確率分布に従う。
+ <p>
+    <table border = "1">
+        <tr>
+          <td align="center" bgcolor="lightgrey">$x$</td>
+          <td align="center"> <span id="q1_id"></span> </td>
+          <td align="center"> <span id="q2_id"></span> </td>
+          <td align="center"> <span id="q3_id"></span> </td>
+          <td align="center"> <span id="q4_id"></span> </td>
+        </tr>
+          <tr>
+            <td align="center" bgcolor="lightgrey">$P(X=x)$</td>
+            <td> <span id="q5_id"></span> </td>
+            <td> <span id="q6_id"></span> </td>
+            <td> <span id="q7_id"></span> </td>
+            <td> <span id="q8_id"></span> </td>
+            </tr>
+      </table>
+  </p>
+ 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
+ [1] $X$ の平均値 $E[X]$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+ [2] $X^2$ の平均値 $E[X^2]$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+ [3] $X$ の分散 $V[X]$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+ [4] <span id="q9_id"></span> は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
+ [5] <span id="q10_id"></span> は　<span id="a5_id" style="color:white"></span>　である。　　<button id="5_id" onclick="show_answer(this)">答え</button> <br>
+-->
+
+ 
+</body>
+</html>
