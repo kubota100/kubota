@@ -71,7 +71,7 @@
     for(let i=0; i<num_of_data; i++){
         data_square.push(data[i]**2);
     }
-    variance = average(data_square) - average(data)**2;
+    let variance = average(data_square) - average(data)**2;
 
     let un_var = num_of_data*variance / (num_of_data - 1);
     un_var = Math.round(un_var*100000000)/100000000;
