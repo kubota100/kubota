@@ -4,7 +4,7 @@
 <head>
  <meta charset="utf-8">
  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
- <title>PSII_16</title>
+ <title>PSII_17</title>
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
@@ -44,7 +44,7 @@
     let data = [];
     for(let i=0; i<num_of_data; i++){
         let tmp = 0;
-        tmp = Math.floor((Math.random()*31+85))/10;
+        tmp = Math.floor((Math.random()*101+200))/100;
         data.push(tmp);
     }
     console.log(data);
@@ -56,14 +56,15 @@
     data_in_text = data_in_text.slice(0, -7);
     data_in_text += "$"
 
-    let pop_mean = Math.floor((Math.random()*3+9));
-    let pop_std = Math.floor((Math.random()*16+5))/10;
+    let pop_std = Math.floor((Math.random()*100+1))/100;
     let sign_level_list = [10, 5, 1];
     let sign_level_seed = Math.floor(Math.random()*3);
     let sign_level = sign_level_list[sign_level_seed];
 
-    let alpha_point_list = [[2.13185, 2.77645, 4.60409],[2.01505, 2.57058, 4.03214],[1.94318, 2.44691, 3.70743]]; //0→自由度4, 1→自由度5, 2→自由度6
-    let alpha_point = alpha_point_list[num_of_data-5][sign_level_seed];
+    let alpha_point_lower_list = [[0.7107, 0.4844, 0.2070], [1.1455, 0.8312, 0.4117], [1.6354, 1.2373, 0.6757]]; //0→自由度4, 1→自由度5, 2→自由度6
+    let alpha_point_lower = alpha_point_lower_list[num_of_data-5][sign_level_seed];
+    let alpha_point_upper_list = [[9.4877, 11.1433, 14.8603], [11.0705, 12.8325, 16.7496], [12.5916, 14.4494, 18.5476]]; //0→自由度4, 1→自由度5, 2→自由度6
+    let alpha_point_upper = alpha_point_upper_list[num_of_data-5][sign_level_seed];
 
     let sample_mean = average(data);
     sample_mean = Math.round(sample_mean*100000000)/100000000;
@@ -73,20 +74,16 @@
         data_square.push(data[i]**2);
     }
     let variance = average(data_square) - average(data)**2;
+    variance = Math.round(variance*100000000)/100000000;
 
-    let un_var = num_of_data*variance / (num_of_data - 1);
-    let un_std = Math.sqrt(un_var);
-    un_std = Math.round(un_std*100000000)/100000000;
-    console.log(un_std);
-
-    let t_value = (sample_mean - pop_mean) / (un_std / Math.sqrt(num_of_data));
-    t_value = Math.round(t_value*100000000)/100000000;
+    let y_value = (num_of_data * variance)/(pop_std**2);
+    y_value = Math.round(y_value*100000000)/100000000;
 
     let judge = "";
-    if(Math.abs(t_value) > alpha_point){
-        judge = "$t$ は棄却域に落ちるので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却される。"
+    if((y_value < alpha_point_lower)||(alpha_point_upper < y_value)){
+        judge = "$y$ は棄却域に落ちるので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却される。"
     } else {
-        judge = "$t$ は棄却域に落ちていないので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却されない。"
+        judge = "$y$ は棄却域に落ちていないので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却されない。"
     }
 
     //let both_sides = Math.round((100 - conf_coef)*5)/10;
@@ -132,17 +129,17 @@
     function generate_quizzes(){
         document.getElementById("q1_id").textContent = "$" + num_of_data + "$";
         document.getElementById("q2_id").textContent = data_in_text;
-        document.getElementById("q3_id").textContent = "$ \\mu = " + pop_mean + "$";
+        document.getElementById("q3_id").textContent = "$ \\sigma^2 = " + pop_std + "^2 $";
         document.getElementById("q4_id").textContent = "$" + sign_level + "\\% $";
 //        document.getElementById("q5_id").textContent = "$ \\sigma^2 = " + pop_std + "^2 $";
         //
-        document.getElementById("q6_id").textContent = "$ H_0: \\mu =" + pop_mean + "$";
-        document.getElementById("q7_id").textContent = "$ H_1: \\mu \\neq" + pop_mean + "$";
+        document.getElementById("q6_id").textContent = "$ H_0: \\sigma^2 = " + pop_std + "^2 $";
+        document.getElementById("q7_id").textContent = "$ H_1: \\sigma^2 \\neq " + pop_std + "^2 $";;
         document.getElementById("q7a_id").textContent = "$" + (num_of_data - 1) + "$";
-        document.getElementById("q7b_id").textContent = "$t_{" + (num_of_data - 1) + "}$";
+        document.getElementById("q7b_id").textContent = "$\\chi^2_{" + (num_of_data - 1) + "}$";
         document.getElementById("q8_id").textContent = "$" + sign_level + "\\% $";
-        document.getElementById("q9_id").textContent = "$ |t| >" + alpha_point + "$";
-        document.getElementById("q10_id").textContent = "\\[ t = \\frac{"+ sample_mean + " - " + pop_mean +"}{ "+ un_std +" / \\sqrt{ "+ num_of_data +"}} = "+ t_value +" \\]";
+        document.getElementById("q9_id").textContent = "$ y <" + alpha_point_lower + "$ または $ "+ alpha_point_upper +" < y$";
+        document.getElementById("q10_id").textContent = "\\[ y = \\frac{"+ num_of_data + " \\times " + variance +"}{ "+ pop_std +"^2 } = "+ y_value +" \\]";
         document.getElementById("q11_id").textContent = judge;
     }
 
@@ -155,14 +152,15 @@
 
 <body onload="generate_quizzes()">
  <center>
-    <h1>母平均の検定（母分散未知）</h1>
+    <h1>母分散の検定</h1>
     必要であれば一般電卓を使用してよい。
  </center>
  <br>　<br>
- 次の <span id="q1_id"></span> 個の数は正規母集団 $N(\mu, \sigma^2)$ から取り出された無作為標本である。<br>
+ ある機器の部品の製造会社で、過去の製品のばらつきは分散 <span id="q3_id"></span> であるといわれている。<br>
+ いま、製造方法を変え、無作為標本抽出を行い、次の <span id="q1_id"></span> 個のデータが得られた。<br>
  　　 <span id="q2_id"></span> <br>
- この標本は平均値 <span id="q3_id"></span> の正規母集団から取り出された無作為標本といえるか。<br>
- 有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+ 製造方法を変えたことにより、ばらつきに変化が生じたと言えるか。<br>
+ 母集団は正規分布に従うものとして、有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
  <br> <br>
 
  <sapn id="a1_id" style="color:white">
@@ -170,10 +168,10 @@
  帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
  　　<span id="q6_id"></span> <br>
  　　<span id="q7_id"></span> <br>
- 標本平均を $\overline{X}$, 不偏分散を $U^2$ として、統計量
- \[ T = \frac{\overline{X} - \mu}{U / \sqrt{n}} \]
- が自由度 <span id="q7a_id"></span> の $t$ 分布 <span id="q7b_id"></span> に従うことを利用して検定を行う。<br>
- 有意水準 <span id="q8_id"></span> より、棄却域は <span id="q9_id"></span> である。（←余白に絵もかくこと）<br>
+ 標本分散を $S^2$ として、統計量
+ \[ Y = \frac{n S^2}{\sigma^2} \]
+ が自由度 <span id="q7a_id"></span> の $\chi^2$ 分布 <span id="q7b_id"></span> に従うことを利用して検定を行う。<br>
+ 有意水準 <span id="q8_id"></span> より、棄却域は「 <span id="q9_id"></span> 」である。（←余白に絵もかくこと）<br>
  帰無仮説 $H_0$ のもとで実現値は
  <span id="q10_id"></span>
  となり、<span id="q11_id"></span>

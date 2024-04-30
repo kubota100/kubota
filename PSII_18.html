@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_18</title>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+ <script>
+   document.addEventListener("DOMContentLoaded", function() {
+     renderMathInElement(document.body, {delimiters: [
+       {left: "\\[", right: "\\]", display: true},
+       {left: "$", right: "$", display: false}
+     ]});
+   });
+   </script>
+ <script>
+   document.addEventListener("DOMContentLoaded", function() {
+       setTimeout(function() { 
+           renderMathInElement(document.body, {delimiters: [
+       {left: "\\[", right: "\\]", display: true},
+       {left: "$", right: "$", display: false}
+     ]});
+           },100)
+   });
+   </script>
+   
+ <style>
+    .box {
+        border: blue 1px solid; /*境界線の指定*/
+        padding:10px;
+        }
+        .box p {
+        margin:0;
+        padding:0;
+        }
+ </style>
+ <style>
+    .container {
+            margin: 0;
+        }
+    
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+</style>
+    
+<script>
+    let num_of_kinoko = Math.floor(Math.random()*100 + 100);
+    let num_of_takenoko = Math.floor(Math.random()*200 + 200);
+    let num_of_samples = num_of_kinoko + num_of_takenoko;
+
+    let sign_level_list = [10, 5, 1];
+    let sign_level_seed = Math.floor(Math.random()*3);
+    let sign_level = sign_level_list[sign_level_seed];
+    let alpha_point_list = [1.645, 1.960, 2.576];
+    let alpha_point = alpha_point_list[sign_level_seed];
+
+    let z_value = ((num_of_kinoko/num_of_samples) - (1/3)) / Math.sqrt( 2/(9*num_of_samples));
+    z_value = Math.round(z_value*100000000)/100000000;
+
+    let judge = "";
+    let judge2 = "";    
+    if(Math.abs(z_value) > alpha_point){
+        judge = "$z$ は棄却域に落ちるので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却される。"
+        judge2 = "定説を支持しない。"
+    } else {
+        judge = "$z$ は棄却域に落ちていないので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却されない。"
+        judge2 = "定説を支持するといえる。"
+    }
+
+    //let both_sides = Math.round((100 - conf_coef)*5)/10;
+
+    /////////////////////////////////////////
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) {
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    function generate_quizzes(){
+        document.getElementById("q1_id").textContent = "$" + num_of_kinoko + "$";
+//        document.getElementById("q2_id").textContent = data_in_text;
+        document.getElementById("q3_id").textContent = "$" + num_of_takenoko + "$";;
+        document.getElementById("q4_id").textContent = "$" + sign_level + "\\% $";
+//        document.getElementById("q5_id").textContent = "$ \\sigma^2 = " + pop_std + "^2 $";
+        //
+        document.getElementById("q6_id").textContent = "$ H_0: p = \\frac{1}{3} $";
+        document.getElementById("q7_id").textContent = "$ H_1: p \\neq \\frac{1}{3} $";;
+        document.getElementById("q7a_id").textContent = "$" + num_of_samples + "$";
+//        document.getElementById("q7b_id").textContent = "$\\chi^2_{" + (num_of_data - 1) + "}$";
+        document.getElementById("q8_id").textContent = "$" + sign_level + "\\% $";
+        document.getElementById("q9_id").textContent = "$ |z| > "+ alpha_point + "$";
+        document.getElementById("q10_id").textContent = "\\[ z = \\frac{ \\frac{"+ num_of_kinoko +"}{"+num_of_samples+"} - \\frac{1}{3}}{ \\sqrt{ \\left( \\frac{1}{3} \\cdot \\frac{2}{3} \\right) / "+ num_of_samples +"}} = "+ z_value +" \\]";
+        document.getElementById("q11_id").textContent = judge;
+        document.getElementById("q12_id").textContent = judge2;
+    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body onload="generate_quizzes()">
+ <div class="container">
+ <center>
+    <h1>母比率の検定</h1>
+    必要であれば一般電卓を使用してよい。<br>
+    教科書 p.136 問題 9.2 にも目を通しておくこと。
+ </center>
+ <br>　<br>
+ あなたは明治のチョコスナック「きのこの山」と「たけのこの里」、どちらがお好きだろうか？
+ 複数の調査で「きのこの山」派と「たけのこの里」派の割合はおおよそ $1:2$ であることが分かっている（<a href="https://macaro-ni.jp/104842">ソースその1</a>, <a href="https://www.itmedia.co.jp/news/articles/1402/04/news016.html">ソースその2</a>, <a href="https://netatopi.jp/article/1171674.html">ソースその3</a>）。
+ ただし、ソースその3では「どちらも好き」「食べたことない」「無回答」を除いた割合で計上した。
+ A大学で学生を無作為に抽出し「きのこの山」と「たけのこの里」どちらが好きか？を調査した結果、
+ 「きのこの山」派が <span id="q1_id"></span> 人、「たけのこの里」派が <span id="q3_id"></span> 人であることが分かった。
+ この調査結果は定説「『きのこの山』派と『たけのこの里』派の割合は $1:2$ である」を支持しているといえるか。
+ 有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+ <br> <br>
+
+ <sapn id="a1_id" style="color:white">
+ [解答] <br>
+ この集団における「きのこの山」派の割合（母比率）を $p$ とする。
+ 帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
+ 　　<span id="q6_id"></span> <br>
+ 　　<span id="q7_id"></span> <br>
+ 標本比率を $\hat{p}$ とする。
+ 標本数 <span id="q7a_id"></span> は十分大きいため中心極限定理より統計量
+ \[ Z = \frac{\hat{p} - p}{\sqrt{\frac{p(1-p)}{n}}} \]
+ は標準正規分布 $N(0,1)$ に従うとみなしてよく、これを用いて検定を行う。
+ 有意水準 <span id="q8_id"></span> より、棄却域は <span id="q9_id"></span> である。
+ 帰無仮説 $H_0$ のもとで実現値は
+ <span id="q10_id"></span>
+ となり、<span id="q11_id"></span>
+ したがって、この調査結果は<span id="q12_id"></span>
+ </sapn>
+
+<br>　<br>
+ </div>
+ </body>
+</html>
