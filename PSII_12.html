@@ -124,6 +124,7 @@
         document.getElementById("q1_id").textContent = "$" + num_of_data + "$";
         document.getElementById("q2_id").textContent = data_in_text;
         document.getElementById("q3_id").textContent = "$" + conf_coef + "\\% $";
+        /*
         document.getElementById("q5_id").textContent = "$ \\frac{" + num_of_data + "S^2}{\\sigma^2} $";
         document.getElementById("q6_id").textContent = "$" + (num_of_data - 1) + "$";
         document.getElementById("q7_id").textContent = "$ \\chi_" + (num_of_data - 1) + "^2 $";
@@ -136,13 +137,14 @@
         document.getElementById("q14_id").textContent = "\\[ " + alpha_point_lower + "\\leq \\frac{" + num_of_data + "\\times "+ variance + "}{ \\sigma^2 } \\leq" + alpha_point_upper + "\\]";
         document.getElementById("q15_id").textContent = "$" + conf_coef + "\\% $";
         document.getElementById("q16_id").textContent = "\\[" + pop_var_lower_app + "\\leq \\sigma^2 \\leq" + pop_var_upper_app + "\\]";
-        /*
-        document.getElementById("q9_id").textContent = "$ \\bar{x} =" + sample_mean + "$";
-        document.getElementById("q10_id").textContent = "\\[ -" + alpha_point + "\\leq \\frac{" + sample_mean + "- \\mu}{" + pop_variance + "/ \\sqrt{" + num_of_samples + "}} \\leq" + alpha_point + "\\]";
-        document.getElementById("q11_id").textContent = "$" + conf_coef + "\\% $";
-        document.getElementById("q12_id").textContent = "\\[" + pop_mean_lower_app + "\\leq \\mu \\leq" + pop_mean_upper_app + "\\]";
         */
-
+        document.getElementById("q17_id").textContent = "$ n =" + num_of_data + "$";
+        document.getElementById("q18_id").textContent = "$ \\chi^2_{ "+ (num_of_data - 1) +" }( "+ (1 - (both_sides / 100)) +" ) =" + alpha_point_lower + "$, ";
+        document.getElementById("q19_id").textContent = "$ \\chi^2_{ "+ (num_of_data - 1) +" }( "+ (both_sides / 100) +" ) =" + alpha_point_upper + "$";
+        document.getElementById("q20_id").textContent = "$ s^2 =" + variance + "$";
+        document.getElementById("q21_id").textContent = "$" + conf_coef + "\\% $";
+        document.getElementById("q22_id").textContent = "\\[" + pop_var_lower_app + "\\leq \\sigma^2 \\leq" + pop_var_upper_app + "\\]";
+        
         /*
         document.getElementById("a1_id").textContent = a1;
         document.getElementById("a2_id").textContent = a2;
@@ -183,6 +185,7 @@
 
  <sapn id="a1_id" style="color:white">
  [解答] <br>
+ <!--
  問題文から <span id="q5_id"></span> が自由度 <span id="q6_id"></span> のカイ2乗分布 <span id="q7_id"></span> に従う。 <br>
  <span id="q8_id"></span> の下側 <span id="q9_id"></span> 点と上側 <span id="q10_id"></span> 点はそれぞれ <span id="q11_id"></span> であり、 <br>
  標本分散が <span id="q13_id"></span> だから 
@@ -190,7 +193,26 @@
  である。これを $\sigma^2$ について解いて母分散の <span id="q15_id"></span> 信頼区間
  <span id="q16_id"></span>
  を得る。
+ <br> <br> <br>
+ [解答] <br>
+ -->
+ 授業で導いたように、（母平均が未知の場合の）母分散 $\sigma^2$ に対する信頼係数 $1-\alpha$ の信頼区間は
+ \[ \frac{nS^2}{\chi^2_{n-1}(\alpha / 2)} \leq \sigma^2 \leq \frac{nS^2}{\chi^2_{n-1}(1- \alpha / 2)} \]
+ である。ここで、$\chi^2_{n-1}(\beta)$ は $\chi^2_{n-1}$ の上側 $\beta$ 点である。<br>
+ 標本サイズ <span id="q17_id"></span> や、<span id="q18_id"> </span><span id="q19_id"></span>、
+ 標本分散の実現値 <span id="q20_id"></span> を代入して母分散の<span id="q21_id"></span>信頼区間
+ <span id="q22_id"></span>
+ を得る。
+ <br>　<br>　<br>
+ [補足] <br>
+ 母分散の信頼区間も導出できることが望ましい。次のように行う。<br>
+ $\frac{n}{\sigma^2}S^2$ が 自由度 $n-1$ のカイ2乗分布 $\chi_{n-1}^2$ に従うので
+ \[ P \left( \chi^2_{n-1}(1-\alpha / 2) \leq \frac{n}{\sigma^2}S^2 \leq \chi^2_{n-1}(\alpha / 2) \right) = 1 - \alpha \]
+ である。上の式の意味がつかめなかったら $\alpha = 0.05$ のつもりで絵も書いてみよう。<br>
+ 左辺のカッコの中を $\sigma^2$ について解いた
+ \[ \frac{nS^2}{\chi^2_{n-1}(\alpha / 2)} \leq \sigma^2 \leq \frac{nS^2}{\chi^2_{n-1}(1 - \alpha / 2)} \]
+ が母分散 $\sigma^2$ に対する信頼係数 $1-\alpha$ の信頼区間である。
  </sapn> 
- <br> <br>
+ <br> <br> <br>
 </body>
 </html>

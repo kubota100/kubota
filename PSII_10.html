@@ -98,6 +98,7 @@
         document.getElementById("q3_id").textContent = "$ \\bar{x} =" + sample_mean + "$";
         document.getElementById("q4_id").textContent = "$" + conf_coef + "\\% $";
         //
+        /*
         document.getElementById("q5_id").textContent = "$ \\frac{\\overline{X} - \\mu}{" + pop_variance + "/ \\sqrt{" + num_of_samples + "}}$";
         document.getElementById("q6_id").textContent = "$" + both_sides + "\\% $";
         document.getElementById("q7_id").textContent = "$" + both_sides + "\\% $";
@@ -106,6 +107,15 @@
         document.getElementById("q10_id").textContent = "\\[ -" + alpha_point + "\\leq \\frac{" + sample_mean + "- \\mu}{" + pop_variance + "/ \\sqrt{" + num_of_samples + "}} \\leq" + alpha_point + "\\]";
         document.getElementById("q11_id").textContent = "$" + conf_coef + "\\% $";
         document.getElementById("q12_id").textContent = "\\[" + pop_mean_lower_app + "\\leq \\mu \\leq" + pop_mean_upper_app + "\\]";
+        */
+        document.getElementById("q13_id").textContent = "\\[ \\overline{X} - z_{\\alpha / 2} \\frac{\\sigma}{\\sqrt{n}} \\leq \\mu \\leq \\overline{X} + z_{\\alpha / 2} \\frac{\\sigma}{\\sqrt{n}} \\]";
+        //
+        document.getElementById("q14_id").textContent = "$ n=" + num_of_samples +",$";
+        document.getElementById("q15_id").textContent = "$ \\sigma=" + pop_variance +"$";
+        document.getElementById("q15-2_id").textContent = "$" + both_sides + "\\% $";
+        document.getElementById("q16_id").textContent = "$ z_{"+ both_sides/100 +"} =" + alpha_point +"$";
+        document.getElementById("q17_id").textContent = "$ \\bar{x} =" + sample_mean + "$";
+        document.getElementById("q18_id").textContent = "\\[" + pop_mean_lower_app + "\\leq \\mu \\leq" + pop_mean_upper_app + "\\]";
         /*
         document.getElementById("a1_id").textContent = a1;
         document.getElementById("a2_id").textContent = a2;
@@ -143,6 +153,7 @@
 
  <sapn id="a1_id" style="color:white">
  [解答] <br>
+ <!--
  問題文から <span id="q5_id"></span> が標準正規分布 $N(0,1)$ に従う。 <br>
  標準正規分布の下側 <span id="q6_id"></span> 点と上側 <span id="q7_id"></span> 点はそれぞれ <span id="q8_id"></span> であり、
  標本平均が <span id="q9_id"></span> だから
@@ -150,42 +161,26 @@
  である。これを $\mu$ について解いて母平均の <span id="q11_id"></span> 信頼区間
  <span id="q12_id"></span>
  を得る。
+ <br>　<br>
+ [別解] <br>
+ -->
+ 教科書の定理 8.2 や授業で導いた、母平均 $\mu$ に対する信頼係数 $1-\alpha$ の信頼区間
+ <span id="q13_id"></span>
+ に問題文の条件 <span id="q14_id"></span> <span id="q15_id"></span> や標準正規分布の上側 <span id="q15-2_id"></span> 点 <span id="q16_id"></span>、実現値 <span id="q17_id"></span> を代入して
+ <span id="q18_id"></span>
+ を得る。
+ <br>　<br>　<br>
+ [補足] <br>
+ 信頼区間は暗記するのではなく導出できることが望ましい。導出は次のように行う。<br>
+ $\frac{\overline{X} - \mu}{\sigma / \sqrt{n}}$ が標準正規分布 $N(0,1)$ に従うので
+ \[ P \left( -z_{\alpha/2} \leq \frac{\overline{X} - \mu}{\sigma / \sqrt{n}} \leq z_{\alpha/2} \right) = 1 - \alpha \]
+ である。上の式の意味がつかめなかったら $\alpha = 0.05$ のつもりで絵も書いてみよう。<br>
+ 左辺のカッコの中を $\mu$ について解いた
+ \[ \overline{X} - z_{\alpha / 2} \frac{\sigma}{\sqrt{n}} \leq \mu \leq \overline{X} + z_{\alpha / 2} \frac{\sigma}{\sqrt{n}} \]
+ が母平均 $\mu$ に対する信頼係数 $1-\alpha$ の信頼区間である。
  </sapn>
-
- <!--
- [1] $X$ が <span id="q11_id"></span> に従うとする。
- このとき <span id="q12_id"></span> は　<span id="a1_id" style="color:white"></span>　% である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
- [2] $X$ が <span id="q21_id"></span> に従うとする。
- このとき <span id="q22_id"></span> を満たす $a$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
- -->
-
  <br>　<br>
  <br>　<br>
- <!--
- [例題] $X$ が $N(-2, 6^2)$ に従うとする。このとき $P(a < X) = 0.86$ を満たす $a$ を求めよ。<br>
- [解説] <br>
- $X \sim N(-2, 6^2)$ より $\frac{X+2}{6} \sim N(0,1)$である。<br>
- したがって $0.86 = P(a < X) = P(\frac{a+2}{6} < \frac{X+2}{6})$である。<br>
- そこで $b = \frac{a+2}{6}$とおくと、標準正規分布表より $P(b < \frac{X+2}{6}) = 0.86$ を満たす $b$ が $-1.08$ であることが分かる。<br>
- よって $\frac{a+2}{6} = b = -1.08$ を $a$ について解いて $a = -8.48$ を得る。
- -->
-
- <!--
- 確率変数 $Z$ が標準正規分布 $ N(0,1)$ に従うとする。<br>
- 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
- [1] <span id="q1_id"></span> は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
- [2] <span id="q2_id"></span> は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
- [3] <span id="q3_id"></span> が成り立つ $a$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
- [4] <span id="q4_id"></span> が成り立つ $a$ は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
- -->
- 
- <!--
- [1] $X$ の平均値 $E[X]$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
- [2] $X^2$ の平均値 $E[X^2]$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
- [3] $X$ の分散 $V[X]$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
- [4] <span id="q9_id"></span> は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
- [5] <span id="q10_id"></span> は　<span id="a5_id" style="color:white"></span>　である。　　<button id="5_id" onclick="show_answer(this)">答え</button> <br>
- -->
  
 </body>
 </html>
