@@ -97,10 +97,13 @@
         document.getElementById("q2_id").textContent = "$" + num_of_samples + "$";
         document.getElementById("q3_id").textContent = "$" + Math.round(sample_proportion*1000)/10 + "\\% $";
         document.getElementById("q4_id").textContent = "$" + conf_coef + "\\% $";
-        //
-        document.getElementById("q21_id").textContent = "$\\hat{p}=" + sample_proportion +"$";
+        document.getElementById("q6_id").textContent = "$" + both_sides + "\\% $";
+        document.getElementById("q7_id").textContent = "$z_{"+ (both_sides/100) +"} =" + alpha_point + "$";
+
+        // document.getElementById("q21_id").textContent = "$\\hat{p}=" + sample_proportion +"$";
         document.getElementById("q22_id").textContent = "$n=" + num_of_samples +"$";;
         //
+        /*
         document.getElementById("q5_id").textContent = "$ \\frac{\\hat{p} - p}{\\sqrt{ \\frac{\\hat{p}(1-\\hat{p})}{" + num_of_samples +"}}}$";
         document.getElementById("q6_id").textContent = "$" + both_sides + "\\% $";
         document.getElementById("q7_id").textContent = "$" + both_sides + "\\% $";
@@ -109,6 +112,10 @@
         document.getElementById("q10_id").textContent = "\\[ -" + alpha_point + "\\leq \\frac{"+ sample_proportion+" - p}{ \\sqrt{ \\frac{"+ sample_proportion +" \\times (1-"+ sample_proportion +")}{" + num_of_samples + "}}} \\leq" + alpha_point + "\\]";
         document.getElementById("q11_id").textContent = "$" + conf_coef + "\\% $";
         document.getElementById("q12_id").textContent = "\\[" + pop_mean_lower_app + "\\leq \\mu \\leq" + pop_mean_upper_app + "\\]";
+        */
+        document.getElementById("q13_id").textContent = "$ n=" + num_of_samples + "$";
+        document.getElementById("q14_id").textContent = "$ \\hat{p} =" + sample_proportion*1000 + "$";
+        document.getElementById("q15_id").textContent = "\\[" + pop_mean_lower_app + "\\leq \\mu \\leq" + pop_mean_upper_app + "\\]";
         /*
         document.getElementById("a1_id").textContent = a1;
         document.getElementById("a2_id").textContent = a2;
@@ -137,6 +144,7 @@
  [解答] <br>
  $\hat{p}$ を標本比率とする。
  標本数 <span id="q22_id"></span> は十分大きいとみなしてよく、<br>
+ <!--
  したがって中心極限定理および大数の法則から <span id="q5_id"></span> が標準正規分布 $N(0,1)$ に従うとしてよい。 <br>
  標準正規分布の下側 <span id="q6_id"></span> 点と上側 <span id="q7_id"></span> 点はそれぞれ <span id="q8_id"></span> であり、 <br>
  標本比率の実現値は <span id="q21_id"></span> だから
@@ -144,6 +152,23 @@
  となる。これを $p$ について解いて母比率 $p$ の <span id="q11_id"></span> 信頼区間
  <span id="q12_id"></span>
  を得る。
+ -->
+ したがって中心極限定理および大数の法則から $\frac{\hat{p} - p}{\sqrt{ \frac{\hat{p}(1-\hat{p})}{n}}}$ が標準正規分布 $N(0,1)$ に従うとしてよい。<br>
+ 教科書の定理 8.18 や授業で導いた、母比率 $p$ に対する信頼係数 $1 - \alpha$ の信頼区間
+ \[ \hat{p} - z_{\alpha / 2} \sqrt{ \frac{\hat{p}(1-\hat{p})}{n} } \leq p \leq \hat{p} + z_{\alpha / 2} \sqrt{ \frac{\hat{p}(1-\hat{p})}{n} }  \]
+ に問題文の条件 <span id="q13_id"></span> や標準正規分布の上側 <span id="q6_id"></span> 点 <span id="q7_id"></span>、標本比率の実現値 <span id="q14_id"></span> を代入して
+ <span id="q15_id"></span>
+ を得る。
+ <br> <br> <br>
+ [補足] <br>
+ 信頼区間は暗記するのではなく導出できることが望ましい。導出は次のように行う。<br>
+ $\frac{\hat{p} - p}{\sqrt{ \frac{\hat{p}(1-\hat{p})}{n}}}$ が標準正規分布 $N(0,1)$ に従う（とみなしている）ので
+ \[ P \left( -z_{\alpha/2} \leq \frac{\hat{p} - p}{\sqrt{ \frac{\hat{p}(1-\hat{p})}{n}}} \leq z_{\alpha/2} \right) = 1 - \alpha \]
+ である。ただし、$z_{\beta}$ は標準正規分布の上側 $\beta$ 点である。<br>
+ 左辺のカッコの中を $p$ について解いた
+ \[ \hat{p} - z_{\alpha / 2} \sqrt{ \frac{\hat{p}(1-\hat{p})}{n} } \leq p \leq \hat{p} + z_{\alpha / 2} \sqrt{ \frac{\hat{p}(1-\hat{p})}{n} } \]
+ が母比率 $p$ に対する信頼係数 $1-\alpha$ の信頼区間である。
+
  </sapn>
 
 <br>　<br>
