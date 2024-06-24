@@ -72,9 +72,12 @@
  <center>
   <div class="container">
     <h1>統計量の思い出し方</h1>
-    このページは区間推定で用いる統計量の簡単なまとめである。<br>
+    このページは区間推定で用いる統計量の簡単なまとめである。
+    <!--
+    <br>
     「自由度」について確率統計IIでは説明しないため暗記事項とする箇所があるが、<br>
     基本的には「文字を機械的に置き換えたら自由度がひとつ下がる」と覚えておくとよい。
+    -->
     <br>　<br>
     <div class="box">
         [ 基本事項 ] <br>
@@ -134,7 +137,8 @@
 
  <center><u>（母平均が未知の場合に）母分散を推定する</u></center> <br>
  母平均が未知の場合、先の式で $\mu$ を標本平均 $\overline{X}$ で置き換えて
- \[ \sum_{i=1}^n \left( \frac{X_i - \overline{X}}{\sigma} \right)^2 \quad \left( = \frac{1}{\sigma^2} \sum_{i=1}^n (X_i - \overline{X})^2 \right)\]
+ \[ \sum_{i=1}^n \left( \frac{X_i - \overline{X}}{\sigma} \right)^2
+\quad \left( \, = \frac{1}{\sigma^2} \sum_{i=1}^n (X_i - \overline{X})^2 = \frac{nS^2}{\sigma^2} \, \right)\]
  が自由度 $n-1$ のカイ2乗分布 $\chi_{n-1}^2$ に従うことを用いて母分散を推定する。<br>　<br>　<br>
  </div>
  <!--
