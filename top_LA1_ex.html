@@ -4,6 +4,25 @@
 <head>
 <meta charset="utf-8">
 <title>線形数学演習I</title>
+<style>
+  .box {
+      border: blue 1px solid; /*境界線の指定*/
+      padding:10px;
+      }
+      .box p {
+      margin:0;
+      padding:0;
+      }
+  .box_red {
+      border: red 1px solid; /*境界線の指定*/
+      padding:10px;
+      }
+  .box_red p {
+      margin:0;
+      padding:0;
+      }
+  
+</style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
@@ -27,18 +46,23 @@
   </script>
 
 <style>
-.box {
-    border: red 1px solid; /*境界線の指定*/
-    padding:10px;
-    }
-    .box p {
-    margin:0;
-    padding:0;
-    }
+  .container {
+          margin: 0;
+      }
+  
+      /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+      @media screen and (min-width: 680px) {
+          .container {
+              width: 700px;
+              margin-left: auto; /* 左右中央に配置 */
+              margin-right: auto;
+          }
+      }
 </style>
 </head>
 
 <body>
+<div class="container">
 <center>
 <h1>線形数学演習I</h1>
 
@@ -46,12 +70,17 @@
 何度も再読み込みしてもうまくいかない場合は久保田まで連絡ください。
 <br> <br>
 
+<div class="box_red">
+  <font color="red">7/3追加</font> <br>
+  期末試験のサンプルは <a href="2024LAI-ex_exam_sample.pdf">こちら</a> <br>
+</div> <br>
+
 ◎発表のときの注意点◎ <br>
 備考欄に断りがない限り教科書にある定理や公式は証明せずに用いてよい。<br>
 ただし、証明や導出が容易なものについては質疑応答の際に<br>
 「それが成り立つのはなぜですか？」と質問する可能性がある。
 <br> <br>
-発表用問題の解答状況 <font color = "red">（6/27更新）</font>
+発表用問題の解答状況 <font color = "red">（7/3更新）</font>
 <br>
 <table border = "1">
     <tr>
@@ -356,6 +385,7 @@
 <a href="top_LA.html">線形数学I</a>
 <br>　<br>　<br>　<br>
 </center>
+</div>
 </body>
 
 </html>
