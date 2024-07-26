@@ -54,7 +54,7 @@
     
 <script>
     let num_of_kinoko = Math.floor(Math.random()*100 + 100);
-    let num_of_takenoko = Math.floor(Math.random()*200 + 200);
+    let num_of_takenoko = Math.floor(Math.random()*180 + 150);
     let num_of_samples = num_of_kinoko + num_of_takenoko;
 
     let sign_level_list = [10, 5, 1];
@@ -70,10 +70,10 @@
     let judge2 = "";    
     if(Math.abs(z_value) > alpha_point){
         judge = "$z$ は棄却域に落ちるので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却される。"
-        judge2 = "定説を支持しない。"
+        judge2 = "できる。"
     } else {
         judge = "$z$ は棄却域に落ちていないので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却されない。"
-        judge2 = "定説を支持するといえる。"
+        judge2 = "できない。"
     }
 
     //let both_sides = Math.round((100 - conf_coef)*5)/10;
@@ -117,6 +117,7 @@
     }
 
     function generate_quizzes(){
+        document.getElementById("q0_id").textContent = "$" + (num_of_kinoko + num_of_takenoko) + "$";
         document.getElementById("q1_id").textContent = "$" + num_of_kinoko + "$";
 //        document.getElementById("q2_id").textContent = data_in_text;
         document.getElementById("q3_id").textContent = "$" + num_of_takenoko + "$";;
@@ -146,7 +147,8 @@
  <center>
     <h1>母比率の検定</h1>
     必要であれば一般電卓を使用してよい。<br>
-    教科書 p.136 問題 9.2 にも目を通しておくこと。
+    教科書 p.136 問題 9.2 にも目を通しておくこと。<br> <br>
+    <font color = "red">(7/26修正)<br>定説の支持・不支持の問題は表現の仕方が <br> 誤解を招きやすそうなので問題を少し変更しました。</font> <br>
  </center>
  <br>　<br>
  あなたは明治のチョコスナック「きのこの山」と「たけのこの里」、どちらがお好きだろうか？
@@ -155,15 +157,15 @@
  ただし[3]は「どちらも好き」「食べたことない」「無回答」を除いた割合で計上した（$1:1.8$ くらい）。
  なお、調査によっては「きのこの山」派が優勢であるものもある<a href="https://www.itmedia.co.jp/makoto/articles/1304/12/news112.html">[4]</a>。<br>　<br>
  [問題] <br>
- A大学で学生を無作為に抽出し「きのこの山」と「たけのこの里」どちらが好きか？を調査した結果、
- 「きのこの山」派が <span id="q1_id"></span> 人、「たけのこの里」派が <span id="q3_id"></span> 人であることが分かった。
- この調査結果は定説「『きのこの山』派と『たけのこの里』派の割合は $1:2$ である」を支持しているといえるか。
+ 「きのこの山」派であるA君は[1][2][3]の調査結果の真偽を確かめるべく <span id="q0_id"></span> 人を無作為抽出し「きのこの山」と「たけのこの里」どちらが好きか？を尋ねた。
+ その結果「きのこの山」派が <span id="q1_id"></span> 人、「たけのこの里」派が <span id="q3_id"></span> 人であることが分かった。
+ A君の調査は[1][2][3]の調査結果「『きのこの山』派と『たけのこの里』派の割合は $1:2$ である」を否定できるか。
  有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
  <br> <br>
 
  <sapn id="a1_id" style="color:white">
  [解答] <br>
- この集団における「きのこの山」派の割合（母比率）を $p$ とする。
+ 「きのこの山」派の割合（母比率）を $p$ とする。
  帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
  　　<span id="q6_id"></span> <br>
  　　<span id="q7_id"></span> <br>
@@ -175,7 +177,7 @@
  帰無仮説 $H_0$ のもとで実現値は
  <span id="q10_id"></span>
  となり、<span id="q11_id"></span>
- したがって、この調査結果は<span id="q12_id"></span>
+ つまり、[1][2][3]の調査結果を否定<span id="q12_id"></span>
  </sapn>
 
 <br>　<br>
