@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>SL_01</title>
+<style>
+  .box {
+      border: blue 1px solid; /*境界線の指定*/
+      padding:10px;
+      }
+      .box p {
+      margin:0;
+      padding:0;
+      }
+  .box_red {
+      border: red 1px solid; /*境界線の指定*/
+      padding:10px;
+      }
+  .box_red p {
+      margin:0;
+      padding:0;
+      }
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+
+<!--
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {delimiters: [
+      {left: "\\[", right: "\\]", display: true},
+      {left: "$", right: "$", display: false}
+    ]});
+  });
+  </script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      setTimeout(function() { 
+          renderMathInElement(document.body, {delimiters: [
+      {left: "\\[", right: "\\]", display: true},
+      {left: "$", right: "$", display: false}
+    ]});
+          },100)
+  });
+  </script>
+  -->
+
+<script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>
+
+<style>
+  .container {
+          margin: 0;
+      }
+  
+      /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+      @media screen and (min-width: 680px) {
+          .container {
+              width: 700px;
+              margin-left: auto; /* 左右中央に配置 */
+              margin-right: auto;
+          }
+      }
+</style>
+<script>
+    let l_not = (p) => 1-p;
+    let l_and = (p,q) => p*q;
+    let l_or = (p,q) => p+q-p*q;
+    let l_imp = (p,q) => 1-p+p*q;
+    let l_diff = (p,q) => p-p*q;
+
+    let seed1_cof1 = Math.floor(Math.random()*5) + 2;
+    let seed1_cof0 = Math.floor(Math.random()*11) - 5;
+    let seed1_range_k = Math.floor(Math.random()*4) + 3;
+    let P_sol1 = Math.floor(Math.random()*13) - 6;
+    let P_sol2 = Math.floor(Math.random()*13) - 6;
+    let P_cof1 = (-1)*(P_sol1 + P_sol2);
+    let P_cof0 = P_sol1 * P_sol2;
+
+    let ans1_A = [];
+    for(let i=1; i<seed1_range_k+1; i++){
+        ans1_A.push(seed1_cof1*i+seed1_cof0);
+    }
+    let ans1_A_in_tex = Array_to_Set_in_Tex(ans1_A);
+
+    let ans1_B = [P_sol1];
+    if(P_sol2 != P_sol1){
+        ans1_B.push(P_sol2);
+    }
+    let ans1_B_in_tex = Array_to_Set_in_Tex(ans1_B);
+
+    let poly_k = "A = \\{" + seed1_cof1 + "k";
+        if(seed1_cof0 > 0){
+            poly_k += "+" + seed1_cof0;
+        } else if(seed1_cof0 < 0){
+            poly_k += seed1_cof0;
+        } 
+        poly_k += "\\mid k \\in \\{"
+        for(let i=1; i<seed1_range_k +1; i++){
+            poly_k += i + ","
+        }
+        poly_k = poly_k.slice(0, -1);
+        poly_k += "\\} \\}";
+
+    let P = "B = \\{ x \\in \\mathbb{R} \\mid x^2";
+        if(P_cof1 < -1){
+            P += P_cof1 + "x";
+        } else if(P_cof1 == -1) {
+            P += "-x";        
+        } else if(P_cof1 == 1){
+            P += "+x";            
+        } else if(P_cof1 > 1){
+            P += "+" + P_cof1 + "x";
+        }
+        if(P_cof0 < 0){
+            P += P_cof0;
+        } else if(P_cof0 > 0){
+            P += "+" + P_cof0;
+        }
+    P += " = 0 \\}";
+
+    let setQuiz = ["$\\mathbb{N}$", "$\\mathbb{Z}$", "$\\mathbb{Q}$", "$\\mathbb{R}$", "$\\mathbb{C}$"];
+    let setAns = ["自然数全体", "整数全体　", "有理数全体", "実数全体　", "複素数全体"];
+    let seed1 = Math.floor(Math.random()*5);
+    let seed2;
+    while(true){
+        seed2 = Math.floor(Math.random()*5);
+        if(seed2 != seed1){
+            break;
+        }
+    }
+    let Quiz1 = setQuiz[seed1];
+    let Ans1 = setAns[seed1];
+    let Quiz2 = setQuiz[seed2];
+    let Ans2 = setAns[seed2];
+
+    function Array_to_Set_in_Tex(array){
+        if(array.length == 0){
+            return "$\\emptyset$"
+        }else{    
+            let string = "$ \\{";
+            for(let i = 0; i<array.length; i++){
+                string += array[i] + ",";
+            }
+            string = string.slice(0, -1);
+            string += " \\} $";
+            return string;
+        }
+    }
+
+    function seed_Array_to_Array(seed_Array){
+        array = [];
+        for(let i=0; i<seed_Array.length; i++){
+            if(seed_Array[i] == 1){array.push(i);}
+        }
+        return array;
+    }
+
+    function show_answer431(){document.getElementById("a1_id").style.color = "red";}
+    function show_answer432(){document.getElementById("a2_id").style.color = "red";}
+    function show_answer31A(){document.getElementById("answer31_A_id").style.color = "red";}
+    function show_answer31B(){document.getElementById("answer31_B_id").style.color = "red";}
+</script>
+</head>
+
+<body>
+<div class="container">
+<center>
+<h1>集合</h1>
+</center>
+<p>
+    [1] 以下の空欄を埋めよ。
+    <ol class="list_parentheses">
+       <li><script>document.write(Quiz1);</script> は　<sapn id="a1_id" style="color:white"><script>document.write(Ans1);</script></sapn>　の集合である。
+        　<button onclick="show_answer431()">答え</button></li>
+       <li><script>document.write(Quiz2);</script> は　<sapn id="a2_id" style="color:white"><script>document.write(Ans2);</script></sapn>　の集合である。
+        　<button onclick="show_answer432()">答え</button></li></li>
+    </ol>
+</p>
+<br>
+<p>
+    [2] 集合 $A, B$ を
+    <script>
+        document.write("\\[" + poly_k +", \\quad " + P + " \\]");
+    </script>
+    と定める。以下の問に答えよ。
+    <ol class="list_parentheses">
+        <li>$A$ を外延的記法で表すと　
+            <span id="answer31_A_id" style="color:white">
+                <script>document.write(ans1_A_in_tex)</script>
+            </span>
+            　となる。　<button onclick="show_answer31A()">答え</button></li>
+        <li>$B$ を外延的記法で表すと　
+            <span id="answer31_B_id" style="color:white">
+                <script>document.write(ans1_B_in_tex)</script>
+            </span>　となる。　<button onclick="show_answer31B()">答え</button></li>
+    </ol>
+</p>
+</div>
+</body>
+</html>
