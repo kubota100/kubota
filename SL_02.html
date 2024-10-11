@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SL-02</title>
+    <style>
+        .box {
+            border: blue 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box p {
+            margin:0;
+            padding:0;
+        }
+        .box_red {
+            border: red 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box_red p {
+            margin:0;
+            padding:0;
+        }
+        ol.list_parentheses{
+              padding:0 0 0 2em;
+              margin:0;
+        }
+        ol.list_parentheses li{
+              list-style-type:none;
+              list-style-position:inside;
+              counter-increment: cnt;
+        }
+        ol.list_parentheses li:before{
+              display: marker;
+              content: "(" counter(cnt) ") ";
+        }
+        .container {
+          margin: 0;
+        }
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = function() {
+        renderMathInElement(document.body, {delimiters: [
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false}
+        ]});
+        };
+    </script>
+    <script>
+    let TF = ["偽", "真"];
+
+    let P_sol1 = Math.floor(Math.random()*13) - 6;
+    let P_sol2 = Math.floor(Math.random()*13) - 6;
+    let P_cof1 = (-1)*(P_sol1 + P_sol2);
+    let P_cof0 = P_sol1 * P_sol2;
+    let Q_const = Math.floor(Math.random()*21) - 10;
+
+    let ans1 = [0,0,0,0,0,0,0];
+    ans1[1] = Number(Boolean(P_cof0 > 0));
+    ans1[2] = Number(Boolean((3-P_sol1)*(3-P_sol2) > 0));
+    let T_counter = 0;
+    for(i=-3; i<4; i++){
+        if((i-P_sol1)*(i-P_sol2) > 0){
+            T_counter++;
+        }
+    }
+    if(T_counter == 7){
+        ans1[3] = 1;
+    }
+    if(T_counter != 0){
+        ans1[4] = 1;
+    }
+    let T_counter2 = 0;
+    for(i=-3; i<4; i++){
+        if((i-P_sol1)*(i-P_sol2) <= 0){
+            T_counter2++;
+        }
+    }
+    if(T_counter2 != 0){
+        ans1[5] = 1;
+    }
+    if(T_counter2 == 7){
+        ans1[6] = 1;
+    }
+
+    let ans2 = [0,0,0,0,0,0,0];
+
+    let Q_TF = (x,y) => Number(Boolean(2*x + y > Q_const));
+    ans2[1] = Q_TF(0,1);
+    ans2[2] = Q_TF(2,3);
+    T_counter23 = new Array(7);
+    for(let x = -3; x<4; x++){
+        let tmp = 0
+        for(let y=-3; y<4; y++){
+            if(Q_TF(x,y) == 1){tmp++};
+        }
+        T_counter23[x+3] = tmp;
+    }
+    ans2[3] = 1 - Number(Boolean(T_counter23.includes(0)));
+    ans2[4] = Number(Boolean(T_counter23.includes(7)));
+    ans2[5] = 1 - ans2[3];
+    ans2[6] = 1 - ans2[4];
+
+    console.log(T_counter23);
+    console.log(ans2);
+
+        let P = "$ x^2";
+        if(P_cof1 < -1){
+            P += P_cof1 + "x";
+        } else if(P_cof1 == -1) {
+            P += "-x";        
+        } else if(P_cof1 == 1){
+            P += "+x";            
+        } else if(P_cof1 > 1){
+            P += "+" + P_cof1 + "x";
+        }
+        if(P_cof0 < 0){
+            P += P_cof0;
+        } else if(P_cof0 > 0){
+            P += "+" + P_cof0;
+        }
+        P += " > 0 $"
+        let Q = "$ 2x + y >" + Q_const + "$";
+
+    function show_answer1(e){
+        let ans_text = document.getElementById(e.id);
+        ans_text.textContent = TF[ans1[Number(e.id[1])]];
+        ans_text.style.color = "red";
+    }
+
+    function show_answer2(e){
+        let ans_text = document.getElementById(e.id);
+        ans_text.textContent = TF[ans2[Number(e.id[1])]];
+        ans_text.style.color = "red";
+    }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+    <center>
+    <h1>全称命題と存在命題</h1>
+    </center>
+    <p>
+        集合 $A$ を $-3$ 以上 $3$ 以下のすべての整数の集合、つまり
+        \[ A = \{ k \in \mathbb{Z} \mid -3 \leqq k \leqq 3 \} \]
+        とする。以下の命題の真偽を答えよ。
+    </p> <br>
+    <p>
+        [1]命題 $P(x)$ を「<script>document.write(P);</script>」とする。
+        <ol class="list_parentheses">
+            <li>$P(0)$ は <span id="11_id">　</span> である。　 <button id="11_id" onclick="show_answer1(this)">答え</button></li>
+            <li>$P(3)$ は <span id="12_id">　</span> である。　<button id="12_id" onclick="show_answer1(this)">答え</button></li>
+            <li>$\forall x \in A, P(x)$ は <span id="13_id">　</span> である。　<button id="13_id" onclick="show_answer1(this)">答え</button></li>
+            <li>$\exists x \in A \text{ s.t. } P(x)$ は <span id="14_id">　</span> である。　<button id="14_id" onclick="show_answer1(this)">答え</button></li>
+        </ol>
+    </p> <br>
+    <p>
+        [2]命題 $Q(x,y)$ を「<script>document.write(Q);</script>」とする。
+        <ol class="list_parentheses">
+            <li>$Q(0,1)$ は <span id="21_id">　</span> である。　<button id="21_id" onclick="show_answer2(this)">答え</button></li>
+            <li>$Q(2,3)$ は <span id="22_id">　</span> である。　<button id="22_id" onclick="show_answer2(this)">答え</button></li>
+            <li>$\forall x \in A, \exists y \in A \text{ s.t. } Q(x,y)$ は <span id="23_id">　</span> である。　<button id="23_id" onclick="show_answer2(this)">答え</button></li>
+            <li>$\exists x \in A \text{ s.t. } \forall y \in A, Q(x,y)$ は <span id="24_id">　</span> である。　<button id="24_id" onclick="show_answer2(this)">答え</button></li>
+        </ol>
+    </p>
+    </div>
+</body>
+    
+
+</html>

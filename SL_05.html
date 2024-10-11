@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SL-05</title>
+    <style>
+        .box {
+            border: blue 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box p {
+            margin:0;
+            padding:0;
+        }
+        .box_red {
+            border: red 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box_red p {
+            margin:0;
+            padding:0;
+        }
+        ol.list_parentheses{
+              padding:0 0 0 2em;
+              margin:0;
+        }
+        ol.list_parentheses li{
+              list-style-type:none;
+              list-style-position:inside;
+              counter-increment: cnt;
+        }
+        ol.list_parentheses li:before{
+              display: marker;
+              content: "(" counter(cnt) ") ";
+        }
+        .container {
+          margin: 0;
+        }
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = function() {
+        renderMathInElement(document.body, {delimiters: [
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false}
+        ]});
+        };
+    </script>
+
+<script>
+    function show_answer41(){
+        document.getElementById("411_answer_id").style.color = "red";
+        document.getElementById("412_answer_id").style.color = "red";
+    }
+
+    function show_answer42(){
+        document.getElementById("421_answer_id").style.color = "red";
+        document.getElementById("422_answer_id").style.color = "red";
+        document.getElementById("423_answer_id").style.color = "red";
+    }
+</script>
+</head>
+
+<body>
+<div class="container">
+ <center>
+    <h1>直積集合とべき集合</h1>
+    このページは再読み込みをしても新たな問題を生成しない。 <br> <br>
+ </center>
+ <p>
+ [1] $A, B$を集合とする。以下の問に答えよ。
+ <ol class="list_parentheses">
+    <li>$A$ と $B$ の直積集合 $A \times B$ の定義をかけ。 <br>
+        　　　　$A \times B =$　<span id = "411_answer_id" style="color:white">$\{ (a,b) \mid a \in A \text{ かつ } b \in B \}$</span>　</li>
+    <li>$A$ のべき集合 $2^A$ の定義をかけ。<br>
+        　　　　$2^A =$　<span id = "412_answer_id" style="color:white">$\{ S \mid S \subset A \}$</span>　</li>
+     </ol>
+ 　　 <button onclick="show_answer41()">答え</button>
+ </p> <br>
+ <p>
+ [2] 集合 $A, B$ を $A = \{ 1,2,3 \}$, $B = \{ \text{a,b} \}$ と定める。以下の問に答えよ。
+ <ol class="list_parentheses">
+    <li>$A \times B =$　<span id = "421_answer_id" style="color:white">$\{ (1, \text{a}), (1, \text{b}), (2, \text{a}), (2, \text{b}), (3, \text{a}), (3, \text{b}) \}$</span>　である。</li>
+    <li>$B \times A =$　<span id = "422_answer_id" style="color:white">$\{ (\text{a}, 1), (\text{a}, 2), (\text{a}, 3), (\text{b}, 1), (\text {b}, 2), (\text{b}, 3) \}$</span>　である。</li>
+    <li>$2^A =$　<span id = "423_answer_id" style="color:white">$\{ \emptyset, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1,3\}, \{2,3\}, A\}$</span>　である。</li>
+ </ol>
+ 　　 <button onclick="show_answer42()">答え</button>
+ </p>
+</div>
+</body>
+</html>

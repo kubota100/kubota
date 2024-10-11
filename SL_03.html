@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SL-03</title>
+    <style>
+        .box {
+            border: blue 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box p {
+            margin:0;
+            padding:0;
+        }
+        .box_red {
+            border: red 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box_red p {
+            margin:0;
+            padding:0;
+        }
+        ol.list_parentheses{
+              padding:0 0 0 2em;
+              margin:0;
+        }
+        ol.list_parentheses li{
+              list-style-type:none;
+              list-style-position:inside;
+              counter-increment: cnt;
+        }
+        ol.list_parentheses li:before{
+              display: marker;
+              content: "(" counter(cnt) ") ";
+        }
+        .container {
+          margin: 0;
+        }
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = function() {
+        renderMathInElement(document.body, {delimiters: [
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false}
+        ]});
+        };
+    </script>
+
+<script>
+    let l_not = (p) => 1-p;
+    let l_and = (p,q) => p*q;
+    let l_or = (p,q) => p+q-p*q;
+    let l_imp = (p,q) => 1-p+p*q;
+    let l_diff = (p,q) => p-p*q;
+
+    let seed1_cof1 = Math.floor(Math.random()*5) + 2;
+    let seed1_cof0 = Math.floor(Math.random()*11) - 5;
+    let seed1_range_k = Math.floor(Math.random()*4) + 3;
+    let P_sol1 = Math.floor(Math.random()*13) - 6;
+    let P_sol2 = Math.floor(Math.random()*13) - 6;
+    let P_cof1 = (-1)*(P_sol1 + P_sol2);
+    let P_cof0 = P_sol1 * P_sol2;
+
+    let ans1_A = [];
+    for(let i=1; i<seed1_range_k+1; i++){
+        ans1_A.push(seed1_cof1*i+seed1_cof0);
+    }
+    let ans1_A_in_tex = Array_to_Set_in_Tex(ans1_A);
+
+    let ans1_B = [P_sol1, P_sol2];
+    let ans1_B_in_tex = Array_to_Set_in_Tex(ans1_B);
+
+
+    let seed_A_2 = [];
+    let seed_B_2 = [];
+    for(let i=0; i<10; i++){
+        seed_A_2.push(Math.floor(Math.random()*2))
+        seed_B_2.push(Math.floor(Math.random()*2))
+    }
+    let A_2 = seed_Array_to_Array(seed_A_2);
+    let B_2 = seed_Array_to_Array(seed_B_2);
+
+    let A_2_in_Tex = Array_to_Set_in_Tex(A_2);
+    let B_2_in_Tex = Array_to_Set_in_Tex(B_2);
+
+    let seed_barA = [];
+    let seed_AcapB = [];
+    let seed_AcupB = [];
+    let seed_AdiffB = [];
+    for(let i=0; i<seed_A_2.length; i++){
+        seed_barA[i] = l_not(seed_A_2[i]);
+        seed_AcapB[i] = l_and(seed_A_2[i], seed_B_2[i]);
+        seed_AcupB[i] = l_or(seed_A_2[i], seed_B_2[i]);
+        seed_AdiffB[i] = l_diff(seed_A_2[i], seed_B_2[i]);
+    }
+    let barA = seed_Array_to_Array(seed_barA);
+    let AcapB = seed_Array_to_Array(seed_AcapB);
+    let AcupB = seed_Array_to_Array(seed_AcupB);
+    let AdiffB = seed_Array_to_Array(seed_AdiffB);
+
+    let barA_in_Tex = Array_to_Set_in_Tex(barA);
+    let AcapB_in_Tex = Array_to_Set_in_Tex(AcapB);
+    let AcupB_in_Tex = Array_to_Set_in_Tex(AcupB);
+    let AdiffB_in_Tex = Array_to_Set_in_Tex(AdiffB);
+
+    function Array_to_Set_in_Tex(array){
+        if(array.length == 0){
+            return "$\\emptyset$"
+        }else{    
+            let string = "$ \\{";
+            for(let i = 0; i<array.length; i++){
+                string += array[i] + ",";
+            }
+            string = string.slice(0, -1);
+            string += " \\} $";
+            return string;
+        }
+    }
+
+    function seed_Array_to_Array(seed_Array){
+        array = [];
+        for(let i=0; i<seed_Array.length; i++){
+            if(seed_Array[i] == 1){array.push(i);}
+        }
+        return array;
+    }
+
+        let poly_k = "$ A = \\{" + seed1_cof1 + "k";
+        if(seed1_cof0 > 0){
+            poly_k += "+" + seed1_cof0;
+        } else if(seed1_cof0 < 0){
+            poly_k += seed1_cof0;
+        } 
+        poly_k += "\\mid k \\in \\{"
+        for(let i=1; i<seed1_range_k +1; i++){
+            poly_k += i + ","
+        }
+        poly_k = poly_k.slice(0, -1);
+        poly_k += "\\} \\} $";
+
+        let P = "$B = \\{ x \\in \\mathbb{R} \\mid x^2";
+        if(P_cof1 < -1){
+            P += P_cof1 + "x";
+        } else if(P_cof1 == -1) {
+            P += "-x";        
+        } else if(P_cof1 == 1){
+            P += "+x";            
+        } else if(P_cof1 > 1){
+            P += "+" + P_cof1 + "x";
+        }
+        if(P_cof0 < 0){
+            P += P_cof0;
+        } else if(P_cof0 > 0){
+            P += "+" + P_cof0;
+        }
+        P += " = 0 \\} $"
+
+    function show_answer31(){
+        document.getElementById("answer31_A_id").style.color = "black";
+        document.getElementById("answer31_B_id").style.color = "black";
+    }
+
+    function show_answer32(){
+        document.getElementById("answer_barA_id").style.color = "red";
+        document.getElementById("answer_AcapB_id").style.color = "red";
+        document.getElementById("answer_AcupB_id").style.color = "red";
+        document.getElementById("answer_AdiffB_id").style.color = "red";
+    }
+
+</script>
+</head>
+
+<body>
+    <div class="container">
+    <center>
+    <h1>集合演算</h1>
+    </center>
+    <p>
+    $U = \{0,1,2, \dots, 9\}$を全体集合とし、
+    <script>document.write("$A =$" + A_2_in_Tex);</script>,
+    <script>document.write("$B =$" + B_2_in_Tex);</script>
+    とする。以下の問に答えよ。
+    <ol class="list_parentheses">
+       <li>$\overline{A} = $　<span id="answer_barA_id" style="color:white"><script>document.write(barA_in_Tex);</script></span>　である。</li>
+       <li>$A \cap B = $　<span id="answer_AcapB_id" style="color:white"><script>document.write(AcapB_in_Tex);</script></span>　である。</li>
+       <li>$A \cup B = $　<span id="answer_AcupB_id" style="color:white"><script>document.write(AcupB_in_Tex);</script></span>　である。</li>
+       <li>$A \setminus B = $　<span id="answer_AdiffB_id" style="color:white"><script>document.write(AdiffB_in_Tex);</script></span>　である。</li>
+    </ol>
+    　　 <button id="11_id" onclick="show_answer32()">答え</button> 
+    </p>
+    </div>
+</body>
+    
+
+</html>
