@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SL-08</title>
+    <style>
+        .box {
+            border: blue 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box p {
+            margin:0;
+            padding:0;
+        }
+        .box_red {
+            border: red 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box_red p {
+            margin:0;
+            padding:0;
+        }
+        ol.list_parentheses{
+              padding:0 0 0 2em;
+              margin:0;
+        }
+        ol.list_parentheses li{
+              list-style-type:none;
+              list-style-position:inside;
+              counter-increment: cnt;
+        }
+        ol.list_parentheses li:before{
+              display: marker;
+              content: "(" counter(cnt) ") ";
+        }
+        .container {
+          margin: 0;
+        }
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = function() {
+        renderMathInElement(document.body, {delimiters: [
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false}
+        ]});
+        };
+    </script>
+
+<script>
+    function generate_quizzes9(){
+        document.getElementById("q911_id").textContent = q911;
+        document.getElementById("q92_id").textContent = q92;
+    }
+    function show_answer91(){document.getElementById("a911_id").textContent = ans91[2]; document.getElementById("a912_id").textContent = ans91[4];}
+
+    function show_answer921(){document.getElementById("a9211_id").textContent = ans92[1][1]; document.getElementById("a9212_id").textContent = ans92[1][5];}
+    function show_answer922(){document.getElementById("a9221_id").textContent = ans92[2][1]; document.getElementById("a9222_id").textContent = ans92[2][3];}
+    function show_answer923(){document.getElementById("a9231_id").textContent = ans92[3][1]; document.getElementById("a9232_id").textContent = ans92[3][2];}
+</script>
+
+<script>
+    let seed11 = Math.floor(Math.random()*11) + 2;
+    let seed12 = Math.floor(Math.random()*11) + 2;
+    while(seed11 == seed12){seed12 = Math.floor(Math.random()*11) + 2;}
+    let q1 = "$"+ seed11 + "x \\equiv " + seed12 + "\\pmod{13} $";
+    let seed21 = Math.floor(Math.random()*15) + 2;
+    let seed22 = Math.floor(Math.random()*15) + 2;
+    while(seed21 == seed22){seed22 = Math.floor(Math.random()*15) + 2;}
+    let q2 = "$"+ seed21 + "x \\equiv " + seed22 + "\\pmod{17} $";
+    let seed31 = Math.floor(Math.random()*17) + 2;
+    let seed32 = Math.floor(Math.random()*17) + 2;
+    while(seed31 == seed32){seed32 = Math.floor(Math.random()*17) + 2;}
+    let q3 = "$"+ seed31 + "x \\equiv " + seed32 + "\\pmod{19} $";
+    let seed41 = Math.floor(Math.random()*21) + 2;
+    let seed42 = Math.floor(Math.random()*21) + 2;
+    while(seed41 == seed42){seed42 = Math.floor(Math.random()*21) + 2;}
+    let q4 = "$"+ seed41 + "x \\equiv " + seed42 + "\\pmod{23} $";
+    let coprime_to_15 = [2,4,7,8,11,13,14]
+    let seed51 = coprime_to_15[Math.floor(Math.random()*7)];
+    let seed52 = Math.floor(Math.random()*13) + 2;
+    while(seed51 == seed52){seed52 = Math.floor(Math.random()*13) + 2;}
+    let q5 = "$"+ seed51 + "x \\equiv " + seed52 + "\\pmod{15} $";
+    let coprime_to_20 = [3,7,9,11,13,17,19];
+    let seed61 = coprime_to_20[Math.floor(Math.random()*7)];
+    let seed62 = Math.floor(Math.random()*18) + 2;
+    while(seed61 == seed62){seed62 = Math.floor(Math.random()*18) + 2;}
+    let q6 = "$"+ seed61 + "x \\equiv " + seed62 + "\\pmod{20} $";
+
+    let ans1 = 0;
+    for(let i=1; i<13; i++){
+        if((seed11*i)%13 == seed12){ans1 = i;}
+    }
+    let ans2 = 0;
+    for(let i=1; i<17; i++){
+        if((seed21*i)%17 == seed22){ans2 = i;}
+    }
+    let ans3 = 0;
+    for(let i=1; i<19; i++){
+        if((seed31*i)%19 == seed32){ans3 = i;}
+    }
+    let ans4 = 0;
+    for(let i=1; i<23; i++){
+        if((seed41*i)%23 == seed42){ans4 = i;}
+    }
+    let ans5 = 0;
+    for(let i=1; i<15; i++){
+        if((seed51*i)%15 == seed52){ans5 = i;}
+    }
+    let ans6 = 0;
+    for(let i=1; i<20; i++){
+        if((seed61*i)%20 == seed62){ans6 = i;}
+    }
+
+    function generate_quizzes(){
+        document.getElementById("q1_id").textContent = q1;
+        document.getElementById("q2_id").textContent = q2;
+        document.getElementById("q3_id").textContent = q3;
+        document.getElementById("q4_id").textContent = q4;
+        document.getElementById("q5_id").textContent = q5;
+        document.getElementById("q6_id").textContent = q6;
+    }
+
+    function show_answer1(){document.getElementById("a1_id").style.color = "red";}
+    function show_answer2(){document.getElementById("a2_id").style.color = "red";}
+    function show_answer3(){document.getElementById("a3_id").style.color = "red";}
+    function show_answer4(){document.getElementById("a4_id").style.color = "red";}
+    function show_answer5(){document.getElementById("a5_id").style.color = "red";}
+    function show_answer6(){document.getElementById("a6_id").style.color = "red";}
+</script>
+
+</head>
+
+<body>
+<div class="container">
+ <center>
+    <h1>1次合同方程式(1)</h1>
+    合同方程式 $ax \equiv b \pmod{m}$ は $a$ と $m$ が互いに素であるときただひとつの解をもつ。
+ </center> <br> <br>
+ [1] 合同方程式 <script>document.write(q1);</script> を解くと $x \equiv$ <span id="a1_id" style="color:white"><script>document.write("$"+ans1+"$");</script></span> $\pmod{13}$ である。　　<button onclick="show_answer1()">答え</button>
+ 　<br> <br>
+ [2] 合同方程式 <script>document.write(q2);</script> を解くと $x \equiv$ <span id="a2_id" style="color:white"><script>document.write("$"+ans2+"$");</script></span> $\pmod{17}$ である。　　<button onclick="show_answer2()">答え</button>
+ 　<br> <br>
+ [3] 合同方程式 <script>document.write(q3);</script> を解くと $x \equiv$ <span id="a3_id" style="color:white"><script>document.write("$"+ans3+"$");</script></span> $\pmod{19}$ である。　　<button onclick="show_answer3()">答え</button>
+ 　<br> <br>
+ [4] 合同方程式 <script>document.write(q4);</script> を解くと $x \equiv$ <span id="a4_id" style="color:white"><script>document.write("$"+ans4+"$");</script></span> $\pmod{23}$ である。　　<button onclick="show_answer4()">答え</button>
+ 　<br> <br>
+ [5] 合同方程式 <script>document.write(q5);</script> を解くと $x \equiv$ <span id="a5_id" style="color:white"><script>document.write("$"+ans5+"$");</script></span> $\pmod{15}$ である。　　<button onclick="show_answer5()">答え</button>
+ 　<br> <br>
+ [6] 合同方程式 <script>document.write(q6);</script> を解くと $x \equiv$ <span id="a6_id" style="color:white"><script>document.write("$"+ans6+"$");</script></span> $\pmod{20}$ である。　　<button onclick="show_answer6()">答え</button>
+ 　<br> <br>
+</div>
+</body>
+</html>

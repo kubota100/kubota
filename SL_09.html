@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SL-09</title>
+    <style>
+        .box {
+            border: blue 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box p {
+            margin:0;
+            padding:0;
+        }
+        .box_red {
+            border: red 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box_red p {
+            margin:0;
+            padding:0;
+        }
+        ol.list_parentheses{
+              padding:0 0 0 2em;
+              margin:0;
+        }
+        ol.list_parentheses li{
+              list-style-type:none;
+              list-style-position:inside;
+              counter-increment: cnt;
+        }
+        ol.list_parentheses li:before{
+              display: marker;
+              content: "(" counter(cnt) ") ";
+        }
+        .container {
+          margin: 0;
+        }
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = function() {
+        renderMathInElement(document.body, {delimiters: [
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false}
+        ]});
+        };
+    </script>
+
+<script>
+    let list_10 = [2, 4, 5, 6, 8];
+    let seed11 = list_10[Math.floor(Math.random()*5)];
+    let seed12 = Math.floor(Math.random()*8) + 2;
+    while(seed11 == seed12){seed12 = Math.floor(Math.random()*8) + 2;}
+    let q1 = "$"+ seed11 + "x \\equiv " + seed12 + "\\pmod{10} $";
+    let ans1 = [];
+    for(let i=1; i<10; i++){
+        if((seed11*i)%10 == seed12){ans1.push(i);}
+    }
+    let a1 = "";
+    if(ans1.length == 0){a1 = "ない。";}else{
+        a1 += "$x \\equiv ";
+        for(let i = 0; i<ans1.length; i++){a1 += ans1[i] + ",";}
+        a1 = a1.slice(0,-1);
+        a1 += "\\pmod{10}$ である。";
+    }
+    //
+    let list_12 = [2,3,4,6,8,9,10];
+    let list_12_2 = [2,4,6,8,10]
+    let seed21 = list_12[Math.floor(Math.random()*7)];
+    let seed22 = list_12_2[Math.floor(Math.random()*5)];
+    while(seed21 == seed22){seed22 = list_12_2[Math.floor(Math.random()*5)];}
+    let q2 = "$"+ seed21 + "x \\equiv " + seed22 + "\\pmod{12} $";
+    let ans2 = [];
+    for(let i=1; i<12; i++){
+        if((seed21*i)%12 == seed22){ans2.push(i);}
+    }
+    let a2 = "";
+    if(ans2.length == 0){a2 = "ない。";}else{
+        a2 += "$x \\equiv ";
+        for(let i = 0; i<ans2.length; i++){a2 += ans2[i] + ",";}
+        a2 = a2.slice(0,-1);
+        a2 += "\\pmod{12}$ である。";
+    }
+    //
+    let list_16 = [2,4,6,8,10,12,14];
+    let list_16_2 = [4,8,12];
+    let seed31 = list_16[Math.floor(Math.random()*7)];
+    let seed32 = list_16_2[Math.floor(Math.random()*3)];
+    while(seed31 == seed32){seed32 = list_16_2[Math.floor(Math.random()*3)];}
+    let q3 = "$"+ seed31 + "x \\equiv " + seed32 + "\\pmod{16} $";
+    let ans3 = [];
+    for(let i=1; i<16; i++){
+        if((seed31*i)%16 == seed32){ans3.push(i);}
+    }
+    let a3 = "";
+    if(ans3.length == 0){a3 = "ない。";}else{
+        a3 += "$x \\equiv ";
+        for(let i = 0; i<ans3.length; i++){a3 += ans3[i] + ",";}
+        a3 = a3.slice(0,-1);
+        a3 += "\\pmod{16}$ である。";
+    }
+    //
+    let list_18 = [2,3,4,6,8,9,10,12,14,15,16];
+    let seed41 = list_18[Math.floor(Math.random()*11)];
+    let seed42 = Math.floor(Math.random()*16) + 2;
+    while(seed41 == seed42){seed42 = Math.floor(Math.random()*16)+2;}
+    let q4 = "$"+ seed41 + "x \\equiv " + seed42 + "\\pmod{18} $";
+    let ans4 = [];
+    for(let i=1; i<18; i++){
+        if((seed41*i)%18 == seed42){ans4.push(i);}
+    }
+    let a4 = "";
+    if(ans4.length == 0){a4 = "ない。";}else{
+        a4 += "$x \\equiv ";
+        for(let i = 0; i<ans4.length; i++){a4 += ans4[i] + ",";}
+        a4 = a4.slice(0,-1);
+        a4 += "\\pmod{18}$ である。";
+    }
+    //
+    let list_24 = [2,3,4,6,8,9,10,12,14,15,16,18,20,21,22];
+    let list_24_2 = [6,12,18];
+    let seed51 = list_24[Math.floor(Math.random()*15)];
+    let seed52 = list_24_2[Math.floor(Math.random()*3)];
+    while(seed51 == seed52){seed52 = list_24_2[Math.floor(Math.random()*3)];}
+    let q5 = "$"+ seed51 + "x \\equiv " + seed52 + "\\pmod{24} $";
+    let ans5 = [];
+    for(let i=1; i<24; i++){
+        if((seed51*i)%24 == seed52){ans5.push(i);}
+    }
+    let a5 = "";
+    if(ans5.length == 0){a5 = "ない。";}else{
+        a5 += "$x \\equiv ";
+        for(let i = 0; i<ans5.length; i++){a5 += ans5[i] + ",";}
+        a5 = a5.slice(0,-1);
+        a5 += "\\pmod{24}$ である。";
+    }
+    //
+    let list_28 = [2,4,6,7,8,10,12,14,16,18,20,21,22,24,26];
+    let list_28_2 = [4,6,8,10,12,14,16,18,20,22,24,26];
+    let seed61 = list_28[Math.floor(Math.random()*15)];
+    let seed62 = list_28_2[Math.floor(Math.random()*12)];
+    while(seed61 == seed62){seed62 = list_28_2[Math.floor(Math.random()*12)];}
+    let q6 = "$"+ seed61 + "x \\equiv " + seed62 + "\\pmod{28} $";
+    let ans6 = [];
+    for(let i=1; i<28; i++){
+        if((seed61*i)%28 == seed62){ans6.push(i);}
+    }
+    let a6 = "";
+    if(ans6.length == 0){a6 = "ない。";}else{
+        a6 += "$x \\equiv ";
+        for(let i = 0; i<ans6.length; i++){a6 += ans6[i] + ",";}
+        a6 = a6.slice(0,-1);
+        a6 += "\\pmod{28}$ である。";
+    }
+
+    function generate_quizzes(){
+        document.getElementById("q1_id").textContent = q1; document.getElementById("a1_id").textContent = a1;
+        document.getElementById("q2_id").textContent = q2; document.getElementById("a2_id").textContent = a2;
+        document.getElementById("q3_id").textContent = q3; document.getElementById("a3_id").textContent = a3;
+        document.getElementById("q4_id").textContent = q4; document.getElementById("a4_id").textContent = a4;
+        document.getElementById("q5_id").textContent = q5; document.getElementById("a5_id").textContent = a5;
+        document.getElementById("q6_id").textContent = q6; document.getElementById("a6_id").textContent = a6;
+    }
+
+    function show_answer1(){document.getElementById("a1_id").style.color = "red";}
+    function show_answer2(){document.getElementById("a2_id").style.color = "red";}
+    function show_answer3(){document.getElementById("a3_id").style.color = "red";}
+    function show_answer4(){document.getElementById("a4_id").style.color = "red";}
+    function show_answer5(){document.getElementById("a5_id").style.color = "red";}
+    function show_answer6(){document.getElementById("a6_id").style.color = "red";}
+</script>
+
+</head>
+
+<body>
+<div class="container">
+ <center><h1>1次合同方程式(2)</h1></center> 
+ 合同方程式 $ax \equiv b \pmod{m}$ は $a$ と $m$ が互いに素でない場合、解を持たないか解を複数個もつ。
+ $d$ を $a$ と $m$ の最大公約数とするとき、この合同方程式は $d|b$ のときに限り $d$ 個の解を持つ。
+ <br> <br> <br>
+ [1] 合同方程式 <script>document.write(q1);</script> の解は <span id="a1_id" style="color:white"><script>document.write(a1);</script></span>
+ <br>　　<button onclick="show_answer1()">答え</button>
+ 　<br> <br>
+ [2] 合同方程式 <script>document.write(q2);</script> の解は <span id="a2_id" style="color:white"><script>document.write(a2);</script></span>
+ <br>　　<button onclick="show_answer2()">答え</button>
+ 　<br> <br>
+ [3] 合同方程式 <script>document.write(q3);</script> の解は <span id="a3_id" style="color:white"><script>document.write(a3);</script></span>
+ <br>　　<button onclick="show_answer3()">答え</button>
+ 　<br> <br>
+ [4] 合同方程式 <script>document.write(q4);</script> の解は <span id="a4_id" style="color:white"><script>document.write(a4);</script></span>
+ <br>　　<button onclick="show_answer4()">答え</button>
+ 　<br> <br>
+ [5] 合同方程式 <script>document.write(q5);</script> の解は <span id="a5_id" style="color:white"><script>document.write(a5);</script></span>
+ <br>　　<button onclick="show_answer5()">答え</button>
+ 　<br> <br>
+ [6] 合同方程式 <script>document.write(q6);</script> の解は <span id="a6_id" style="color:white"><script>document.write(a6);</script></span>
+ <br>　　<button onclick="show_answer6()">答え</button>
+ 　<br> <br>
+</div>
+</body>
+</html>
