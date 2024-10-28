@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SL-12</title>
+    <style>
+        .box {
+            border: blue 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box p {
+            margin:0;
+            padding:0;
+        }
+        .box_red {
+            border: red 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box_red p {
+            margin:0;
+            padding:0;
+        }
+        ol.list_parentheses{
+              padding:0 0 0 2em;
+              margin:0;
+        }
+        ol.list_parentheses li{
+              list-style-type:none;
+              list-style-position:inside;
+              counter-increment: cnt;
+        }
+        ol.list_parentheses li:before{
+              display: marker;
+              content: "(" counter(cnt) ") ";
+        }
+        .container {
+          margin: 0;
+        }
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = function() {
+        renderMathInElement(document.body, {delimiters: [
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false}
+        ]});
+        };
+    </script>
+
+<script> //mod 17, 19
+    let coefficients1 = [1];
+    let ans1;
+    while(true){
+        coefficients1.push(Math.floor(Math.random()*15 + 2));
+        coefficients1.push(Math.floor(Math.random()*15 + 2));
+        ans1 = findSolution(coefficients1, 17);
+        if(ans1.length != 0){
+            break;
+        } else{
+            coefficients1.pop();
+            coefficients1.pop();
+        }
+    }
+    let q1 = "$ x^2 + " + coefficients1[1] + "x +" + coefficients1[2] + " \\equiv 0 \\pmod{17} $";
+    let ans1_text = array_to_text(ans1);
+
+    let coefficients2 = [];
+    let ans2;
+    while(true){
+        coefficients2.push(Math.floor(Math.random()*7 + 2));
+        coefficients2.push(Math.floor(Math.random()*17 + 2));
+        coefficients2.push(Math.floor(Math.random()*17 + 2));
+        ans2 = findSolution(coefficients2, 19);
+        if(ans2.length != 0){
+            break;
+        } else{
+            coefficients2.pop();
+            coefficients2.pop();
+            coefficients2.pop();
+        }
+    }
+    let q2 = "$" + coefficients2[0] + "x^2 + " + coefficients2[1] + "x +" + coefficients2[2] + " \\equiv 0 \\pmod{19} $";
+    let ans2_text = array_to_text(ans2);
+
+    function array_to_text(array){
+        let text = "$";
+        for(let i=0; i<array.length; i++){
+            text += array[i] + ",";
+        }
+        text = text.slice(0, -1);
+        text += "$"
+        return text;
+    }
+
+    function findSolution(array, mod){
+        //入力 係数を表す長さ3の配列と法の数
+        //出力 解の配列
+        let solutions = [];
+        for(let i=0; i<mod; i++){
+            if((array[0]*(i**2) + array[1]*i + array[2]) %mod == 0 ){
+                solutions.push(i);
+            }
+        }
+        return solutions;
+    }
+
+    function show_answer1(){document.getElementById("a1_id").style.color = "red";}
+    function show_answer2(){document.getElementById("a2_id").style.color = "red";}
+    function show_answer3(){document.getElementById("a3_id").style.color = "red";}
+    function show_answer4(){document.getElementById("a4_id").style.color = "red";}
+    function show_answer5(){document.getElementById("a5_id").style.color = "red";}
+    function show_answer6(){document.getElementById("a6_id").style.color = "red";}
+</script>
+
+</head>
+
+<body>
+<div class="container">
+ <center>
+    <h1>2次合同方程式(2)</h1>
+ </center>
+ <div class="box">
+    [ 例題 ] 次の合同方程式を解け。
+    \[ x^2 + 5x + 2 \equiv 0 \pmod{13} \]
+    <span style="color: red;">[ 解法① ]</span> <br>
+    合同式の法を $13$ とする。
+    両辺を $4$ 倍すると
+    \[
+    \begin{aligned}
+        4x^2 + 20x + 8 &\equiv 0 \\
+        (2x+5)^2 - 25 + 8 &\equiv 0 \\
+        (2x+5)^2 &\equiv 17 \\
+        &\equiv 4
+    \end{aligned}
+    \]
+    そこで、$y = 2x+5$ とおくと与えられた合同方程式は
+    \[ y^2 \equiv 4 \]
+    となり、「2次合同方程式(1)」と同様の問題になる。
+    これを解くと $y \equiv 2, 11$ である。
+    $y$ を戻すと $2x+5 \equiv 2, 11$ であり、これは「1次合同方程式(1)」と同様の問題である。
+    解は $x \equiv 3, 5 \pmod{13}$ である。<br>
+    <span style="color: red;">[ 解法② ]</span> <br>
+    合同式の法を $13$ とする。1次の係数を調整して
+    \[
+    \begin{aligned}
+        x^2 + 5x + 2 &\equiv 0 \\
+        x^2 - 8x + 2 &\equiv 0 \\
+        (x-4)^2 - 16 + 2 &\equiv 0 \\
+        (x-4)^2 &\equiv 14 \\
+        &\equiv 1
+    \end{aligned}
+    \]
+    以下 [解法①] と同様だが、$x$ の係数が $1$ なのでこちらの方が簡単だろう。<br>
+    <span style="color: red;">[ 解法③ ]</span> <br>
+    合同式の法を $13$ とする。
+    解の候補は $x \equiv 0,1,2, \dots, 12$ である。
+    これらの候補のうち $x^2 + 5x + 2 \equiv 0$ を満たすものをしらみ潰しに探すと $x \equiv 3, 5$ のみが解であることが分かる。
+    以上より、解は $x \equiv 3, 5 \pmod{13}$ である。
+</div>
+ <p>
+ [1] 合同方程式 <script>document.write(q1);</script> を解くと $x \equiv$ <span id="a1_id" style="color:transparent"><script>document.write(ans1_text);</script></span> $\pmod{17}$ である。　　<button onclick="show_answer1()">答え</button>
+ 　<br> <br>
+ [2] 合同方程式 <script>document.write(q2);</script> を解くと $x \equiv$ <span id="a2_id" style="color:transparent"><script>document.write(ans2_text);</script></span> $\pmod{19}$ である。　　<button onclick="show_answer2()">答え</button>
+ 　<br> <br> <br>
+ <!--
+ [3] 合同方程式 <script>document.write(q3);</script> を解くと $x \equiv$ <span id="a3_id" style="color:white"><script>document.write(ans3_text);</script></span> $\pmod{29}$ である。　　<button onclick="show_answer3()">答え</button>
+ 　<br> <br>
+ [4] 合同方程式 <script>document.write(q4);</script> を解くと $x \equiv$ <span id="a4_id" style="color:white"><script>document.write(ans4_text);</script></span> $\pmod{31}$ である。　　<button onclick="show_answer4()">答え</button>
+ 　<br> <br>
+ -->
+ </p>
+</div>
+</body>
+</html>

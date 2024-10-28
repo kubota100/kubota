@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Prog_02-1c</title>
+    <script>
+        function copyToClipboard(){
+        let text = document.getElementById("tex_id").value;
+        navigator.clipboard.writeText(text);
+        document.getElementById("01_id").textContent = "コピーしました！"
+    }
+    </script>
+    </script>
+</head>
+
+<body>
+<center>
+    <p>
+        <h1>Prog_02-1</h1>
+    </p>
+    <p>
+<!-- ************************************ -->
+<textarea rows="20" cols="80" id="tex_id">
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Prog_02-1</title>
+</head>
+
+<body>
+    ここに今日の授業内容を入力します。
+</body>
+
+</html></textarea>
+<!-- ************************************ -->
+        <br>
+        <button onclick="copyToClipboard()">コピー</button>
+    </p>
+    <p>
+        <span id="01_id" style="color:red"></span>
+    </p>
+</center>
+</body>
+</html>

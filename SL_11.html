@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SL-11</title>
+    <style>
+        .box {
+            border: blue 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box p {
+            margin:0;
+            padding:0;
+        }
+        .box_red {
+            border: red 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box_red p {
+            margin:0;
+            padding:0;
+        }
+        ol.list_parentheses{
+              padding:0 0 0 2em;
+              margin:0;
+        }
+        ol.list_parentheses li{
+              list-style-type:none;
+              list-style-position:inside;
+              counter-increment: cnt;
+        }
+        ol.list_parentheses li:before{
+              display: marker;
+              content: "(" counter(cnt) ") ";
+        }
+        .container {
+          margin: 0;
+        }
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = function() {
+        renderMathInElement(document.body, {delimiters: [
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false}
+        ]});
+        };
+    </script>
+
+<script>
+    let seed11_array = [1, 4, 9, 16, 25];
+    let seed11 = seed11_array[Math.floor(Math.random()*5)];
+    let q1 = "$ x^2 \\equiv " + seed11 + "\\pmod{29} $";
+    let ans1 = [];
+    for(let i=1; i<29; i++){
+        if((i**2)%29 == seed11){ans1.push(i);}
+    }
+    let ans1_text = array_to_text(ans1);
+
+    let seed21_array = [2,3,6,8,12,13,18];
+    let seed21 = seed21_array[Math.floor(Math.random()*seed21_array.length)];
+    let q2 = "$ x^2 \\equiv " + seed21 + "\\pmod{23} $";
+    let ans2 = [];
+    for(let i=1; i<23; i++){
+        if((i**2)%23 == seed21){ans2.push(i);}
+    }
+    let ans2_text = array_to_text(ans2);
+
+    let seed31_array = [4,5,6,7,9,13,16,20,22,23,24,25,28];
+    let seed31 = seed31_array[Math.floor(Math.random()*seed31_array.length)];
+    let q3 = "$ x^2 \\equiv " + seed31 + "\\pmod{29} $";
+    let ans3 = [];
+    for(let i=1; i<29; i++){
+        if((i**2)%29 == seed31){ans3.push(i);}
+    }
+    let ans3_text = array_to_text(ans3);
+    //
+    let seed41_array = [2,4,5,7,8,9,10,14,16,18,19,20,25,28];
+    let seed41 = seed41_array[Math.floor(Math.random()*seed41_array.length)];
+    let q4 = "$ x^2 \\equiv " + seed41 + "\\pmod{31} $";
+    let ans4 = [];
+    for(let i=1; i<31; i++){
+        if((i**2)%31 == seed41){ans4.push(i);}
+    }
+    let ans4_text = array_to_text(ans4);
+
+    function array_to_text(array){
+        let text = "$";
+        for(let i=0; i<array.length; i++){
+            text += array[i] + ",";
+        }
+        text = text.slice(0, -1);
+        text += "$"
+        return text;
+    }
+
+    function generate_quizzes(){
+        document.getElementById("q1_id").textContent = q1;
+        document.getElementById("q2_id").textContent = q2;
+        document.getElementById("q3_id").textContent = q3;
+        document.getElementById("q4_id").textContent = q4;
+        document.getElementById("q5_id").textContent = q5;
+        document.getElementById("q6_id").textContent = q6;
+    }
+
+    function show_answer1(){document.getElementById("a1_id").style.color = "red";}
+    function show_answer2(){document.getElementById("a2_id").style.color = "red";}
+    function show_answer3(){document.getElementById("a3_id").style.color = "red";}
+    function show_answer4(){document.getElementById("a4_id").style.color = "red";}
+    function show_answer5(){document.getElementById("a5_id").style.color = "red";}
+    function show_answer6(){document.getElementById("a6_id").style.color = "red";}
+</script>
+
+</head>
+
+<body>
+<div class="container">
+ <center>
+    <h1>2次合同方程式(1)</h1>
+ </center>
+ <div class="box">
+    [ 例題 ] 次の合同方程式を解け。
+    \[ x^2 \equiv 2 \pmod{7} \]
+    <span style="color: red;">[ 解法① ]</span> <br>
+    合同式の法を $7$ とする。
+    $x \equiv 1,2,3, \dots $ と試していくと、$3^2 = 9 \equiv 2$ より、
+    $x \equiv 3$ が特殊解であると分かる。
+    そこで、$x^2 \equiv 2$ から $3^2 \equiv 2$ を引くと $x^2 - 3^2 \equiv 0$ が得られ、これを変形すると
+    \[ (x+3)(x-3) \equiv 0 \]
+    となる。法 $7$ は素数なので $x \equiv \pm 3$ である。
+    よって、解は $x \equiv 3, 4 \pmod{7}$ である。<br>
+    <span style="color: red;">[ 別解② ]</span> <br>
+    合同式の法を $7$ とする。
+    解の候補は $x \equiv 0,1,2, \dots, 6$ である。
+    これらの候補のうち $x^2 \equiv 2$ を満たすものをしらみ潰しに探すと $x \equiv 3, 4$ のみが解であることが分かる。
+    以上より、解は $x \equiv 3, 4 \pmod{7}$ である。
+</div>
+ <p>
+    数値をある程度意図的に選んでいるので最初の2問は再読込しても同じ問題が続いてしまうかも。
+ </p>
+ <p>
+ [1] 合同方程式 <script>document.write(q1);</script> を解くと $x \equiv$ <span id="a1_id" style="color:white"><script>document.write(ans1_text);</script></span> $\pmod{29}$ である。　　<button onclick="show_answer1()">答え</button>
+ 　<br> <br>
+ [2] 合同方程式 <script>document.write(q2);</script> を解くと $x \equiv$ <span id="a2_id" style="color:white"><script>document.write(ans2_text);</script></span> $\pmod{23}$ である。　　<button onclick="show_answer2()">答え</button>
+ 　<br> <br>
+ [3] 合同方程式 <script>document.write(q3);</script> を解くと $x \equiv$ <span id="a3_id" style="color:white"><script>document.write(ans3_text);</script></span> $\pmod{29}$ である。　　<button onclick="show_answer3()">答え</button>
+ 　<br> <br>
+ [4] 合同方程式 <script>document.write(q4);</script> を解くと $x \equiv$ <span id="a4_id" style="color:white"><script>document.write(ans4_text);</script></span> $\pmod{31}$ である。　　<button onclick="show_answer4()">答え</button>
+ 　<br> <br> <br>
+ </p>
+</div>
+</body>
+</html>
