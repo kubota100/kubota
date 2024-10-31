@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SL-16</title>
+    <style>
+        .box {
+            border: blue 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box p {
+            margin:0;
+            padding:0;
+        }
+        .box_red {
+            border: red 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box_red p {
+            margin:0;
+            padding:0;
+        }
+        ol.list_parentheses{
+              padding:0 0 0 2em;
+              margin:0;
+        }
+        ol.list_parentheses li{
+              list-style-type:none;
+              list-style-position:inside;
+              counter-increment: cnt;
+        }
+        ol.list_parentheses li:before{
+              display: marker;
+              content: "(" counter(cnt) ") ";
+        }
+        .container {
+          margin: 0;
+        }
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = function() {
+        renderMathInElement(document.body, {delimiters: [
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false}
+        ]});
+        };
+    </script>
+
+<script>
+    let numerator1 = Math.floor(Math.random()*17+12);
+    let q1 = "$ \\left( \\dfrac{"+ numerator1 +"}{29} \\right) =$";
+    let ans1_value = findLegendreSymbol(numerator1, 29);
+    let ans1;
+    if(ans1_value == 1){
+        ans1 = "$ \\quad \\! " + ans1_value + "$";
+    } else{
+        ans1 = "$" + ans1_value + "$";
+    }
+
+    let numerator2 = Math.floor(Math.random()*19+12);
+    let q2 = "$ \\left( \\dfrac{"+ numerator2 +"}{31} \\right) =$";
+    let ans2_value = findLegendreSymbol(numerator2, 31);
+    let ans2;
+    if(ans2_value == 1){
+        ans2 = "$ \\quad \\! " + ans2_value + "$";
+    } else{
+        ans2 = "$" + ans2_value + "$";
+    }
+
+    let numerator3 = Math.floor(Math.random()*25+12);
+    let q3 = "$ \\left( \\dfrac{"+ numerator3 +"}{37} \\right) =$";
+    let ans3_value = findLegendreSymbol(numerator3, 37);
+    let ans3;
+    if(ans3_value == 1){
+        ans3 = "$ \\quad \\! " + ans3_value + "$";
+    } else{
+        ans3 = "$" + ans3_value + "$";
+    }
+
+    let numerator4 = Math.floor(Math.random()*29+12);
+    let q4 = "$ \\left( \\dfrac{"+ numerator4 +"}{41} \\right) =$";
+    let ans4_value = findLegendreSymbol(numerator4, 41);
+    let ans4;
+    if(ans4_value == 1){
+        ans4 = "$ \\quad \\! " + ans4_value + "$";
+    } else{
+        ans4 = "$" + ans4_value + "$";
+    }
+    
+    function findLegendreSymbol(numerator, denominator){
+        let result = -1;
+        for(let i=1; i<denominator; i++){
+            if((i**2)%denominator == (numerator % denominator)){
+                result = 1;
+            }
+        }
+        return result;
+    }
+
+    function show_answer1(){document.getElementById("a1_id").style.color = "red";}
+    function show_answer2(){document.getElementById("a2_id").style.color = "red";}
+    function show_answer3(){document.getElementById("a3_id").style.color = "red";}
+    function show_answer4(){document.getElementById("a4_id").style.color = "red";}
+    function show_answer5(){document.getElementById("a5_id").style.color = "red";}
+    function show_answer6(){document.getElementById("a6_id").style.color = "red";}
+</script>
+
+</head>
+
+<body>
+<div class="container">
+ <center>
+    <h1>平方剰余の相互法則</h1>
+ </center>
+ <div class="box">
+    $p, q$ を奇素数とし、$a,b$ を $p$ の倍数でない整数とする。
+    このとき、次が成り立つ。<br>
+    　(1) （積はバラバラにできる）
+    \[ \left( \dfrac{ab}{p} \right) = \left( \dfrac{a}{p} \right)\left( \dfrac{b}{p} \right) \]
+    　(2) （平方剰余の相互法則）
+    \[ \left( \frac{p}{q} \right) = (-1)^{\frac{p-1}{2} \cdot \frac{q-1}{2}} \left( \frac{q}{p} \right) \]
+    　(3) （「分子」が $2$ のときの例外規則。第2補充法則ともいう）
+    \[ \left( \dfrac{2}{p} \right) = (-1)^{\frac{p^2-1}{8}} \]
+ </div>
+ <p>
+    次の値を計算せよ。<br> <br>
+    [1] <script>document.write(q1);</script> <span id="a1_id" style="color:transparent"><script>document.write(ans1);</script></span>　　<button style="position: relative; right: 0;" onclick="show_answer1()">答え</button>
+    　<br> <br>
+    [2] <script>document.write(q2);</script> <span id="a2_id" style="color:transparent"><script>document.write(ans2);</script></span>　　<button style="position: relative; right: 0;" onclick="show_answer2()">答え</button>
+    　<br> <br>
+    [3] <script>document.write(q3);</script> <span id="a3_id" style="color:transparent"><script>document.write(ans3);</script></span>　　<button style="position: relative; right: 0;" onclick="show_answer3()">答え</button>
+    　<br> <br>
+    [4] <script>document.write(q4);</script> <span id="a4_id" style="color:transparent"><script>document.write(ans4);</script></span>　　<button style="position: relative; right: 0;" onclick="show_answer4()">答え</button>
+    　<br> <br> <br>
+ </p>
+</div>
+</body>
+</html>

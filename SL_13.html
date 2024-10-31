@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SL-13</title>
+    <style>
+        .box {
+            border: blue 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box p {
+            margin:0;
+            padding:0;
+        }
+        .box_red {
+            border: red 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box_red p {
+            margin:0;
+            padding:0;
+        }
+        ol.list_parentheses{
+              padding:0 0 0 2em;
+              margin:0;
+        }
+        ol.list_parentheses li{
+              list-style-type:none;
+              list-style-position:inside;
+              counter-increment: cnt;
+        }
+        ol.list_parentheses li:before{
+              display: marker;
+              content: "(" counter(cnt) ") ";
+        }
+        .container {
+          margin: 0;
+        }
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = function() {
+        renderMathInElement(document.body, {delimiters: [
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false}
+        ]});
+        };
+    </script>
+
+<script> //mod 25, 25, 49, 49
+    let seed11_array = [6, 11, 14, 19, 21, 24];
+    let seed11 = seed11_array[Math.floor(Math.random()*6)];
+    let q1 = "$ x^2 \\equiv " + seed11 + "\\pmod{25} $";
+    let ans1 = [];
+    for(let i=1; i<25; i++){
+        if((i**2)%25 == seed11){ans1.push(i);}
+    }
+    let ans1_text = array_to_text(ans1);
+
+    let coefficients2 = [];
+    let ans2;
+    while(true){
+        coefficients2.push(Math.floor(Math.random()*3 + 2));
+        coefficients2.push(Math.floor(Math.random()*7 + 2));
+        coefficients2.push(Math.floor(Math.random()*7 + 2));
+        ans2 = findSolution(coefficients2, 25);
+        if(ans2.length == 1 || ans2.length == 2){
+            break;
+        } else{
+            coefficients2.pop();
+            coefficients2.pop();
+            coefficients2.pop();
+        }
+    }
+    let q2 = "$" + coefficients2[0] + "x^2 + " + coefficients2[1] + "x +" + coefficients2[2] + " \\equiv 0 \\pmod{25} $";
+    let ans2_text = array_to_text(ans2);
+
+    let seed3;
+    let ans3 = [];
+    while(true){
+        seed3 = Math.floor(Math.random()*47+2);
+        ans3 = findSolution([1,0,(-1)*seed3], 49);
+        if(ans3.length != 0){
+            break;
+        }
+    }
+    let q3 = "$ x^2 \\equiv " + seed3 + "\\pmod{49} $";
+    let ans3_text = array_to_text(ans3);
+
+    let coefficients4 = [];
+    let ans4;
+    while(true){
+        coefficients4.push(Math.floor(Math.random()*5 + 2));
+        coefficients4.push(Math.floor(Math.random()*7 + 2));
+        coefficients4.push(Math.floor(Math.random()*7 + 2));
+        ans4 = findSolution(coefficients4, 49);
+        if(ans4.length == 1 || ans4.length == 2){
+            break;
+        } else{
+            coefficients4.pop();
+            coefficients4.pop();
+            coefficients4.pop();
+        }
+    }
+    let q4 = "$" + coefficients4[0] + "x^2 + " + coefficients4[1] + "x +" + coefficients4[2] + " \\equiv 0 \\pmod{49} $";
+    let ans4_text = array_to_text(ans4);
+
+    function array_to_text(array){
+        let text = "$";
+        for(let i=0; i<array.length; i++){
+            text += array[i] + ",";
+        }
+        text = text.slice(0, -1);
+        text += "$"
+        return text;
+    }
+
+    function findSolution(array, mod){
+        //入力 係数を表す長さ3の配列と法の数
+        //出力 解の配列
+        let solutions = [];
+        for(let i=0; i<mod; i++){
+            if((array[0]*(i**2) + array[1]*i + array[2]) %mod == 0 ){
+                solutions.push(i);
+            }
+        }
+        return solutions;
+    }
+
+    function show_answer1(){document.getElementById("a1_id").style.color = "red";}
+    function show_answer2(){document.getElementById("a2_id").style.color = "red";}
+    function show_answer3(){document.getElementById("a3_id").style.color = "red";}
+    function show_answer4(){document.getElementById("a4_id").style.color = "red";}
+    function show_answer5(){document.getElementById("a5_id").style.color = "red";}
+    function show_answer6(){document.getElementById("a6_id").style.color = "red";}
+</script>
+
+</head>
+
+<body>
+<div class="container">
+ <center>
+    <h1>2次合同方程式(3)</h1>
+ </center>
+ <div class="box">
+    [ 例題 ] 次の合同方程式を解け。
+    \[ x^2 \equiv 4 \pmod{25} \]
+    <span style="color: red;">[ 解法① ]</span> <br>
+    与えられた方程式を変形すると $(x-2)(x+2) \equiv 0 \pmod{25}$ となる。
+    よって、次の3通りが考えられる。 <br>
+    　　(i) $x-2 \equiv 0 \pmod{25}$ <br>
+    　　(ii) $x+2 \equiv 0 \pmod{25}$ <br>
+    　　(iii) $x-2 \equiv 0 \pmod{5}$ かつ $x+2 \equiv 0 \pmod{5}$ <br>
+    (i), (ii)より $x \equiv 2, 23 \pmod{25}$ が得られる。
+    一方、(iii) を満たす $x$ は存在しない。
+    以上より解は $x \equiv 2, 23 \pmod{25}$ である。<br>
+    <span style="color: red;">[ 解法② ]</span> <br>
+    合同式の法を $25$ とする。
+    解の候補は $x \equiv 0,1,2, \dots, 24$ である。
+    これらの候補のうち $x^2 \equiv 4$ を満たすものをしらみ潰しに探すと $x \equiv 2, 23$ のみが解であることが分かる。
+    以上より解は $x \equiv 2, 23 \pmod{25}$ である。
+</div>
+ <p>
+ [1] 合同方程式 <script>document.write(q1);</script> を解くと $x \equiv$ <span id="a1_id" style="color:transparent"><script>document.write(ans1_text);</script></span> $\pmod{25}$ である。　　<button onclick="show_answer1()">答え</button>
+ 　<br> <br>
+ [2] 合同方程式 <script>document.write(q2);</script> を解くと $x \equiv$ <span id="a2_id" style="color:transparent"><script>document.write(ans2_text);</script></span> $\pmod{25}$ である。　　<button onclick="show_answer2()">答え</button>
+ 　<br> <br>
+ [3] 合同方程式 <script>document.write(q3);</script> を解くと $x \equiv$ <span id="a3_id" style="color:transparent"><script>document.write(ans3_text);</script></span> $\pmod{49}$ である。　　<button onclick="show_answer3()">答え</button>
+ 　<br> <br>
+ [4] 合同方程式 <script>document.write(q4);</script> を解くと $x \equiv$ <span id="a4_id" style="color:transparent"><script>document.write(ans4_text);</script></span> $\pmod{49}$ である。　　<button onclick="show_answer4()">答え</button>
+ 　<br> <br> <br>
+ </p>
+</div>
+</body>
+</html>

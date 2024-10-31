@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SL-14</title>
+    <style>
+        .box {
+            border: blue 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box p {
+            margin:0;
+            padding:0;
+        }
+        .box_red {
+            border: red 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box_red p {
+            margin:0;
+            padding:0;
+        }
+        ol.list_parentheses{
+              padding:0 0 0 2em;
+              margin:0;
+        }
+        ol.list_parentheses li{
+              list-style-type:none;
+              list-style-position:inside;
+              counter-increment: cnt;
+        }
+        ol.list_parentheses li:before{
+              display: marker;
+              content: "(" counter(cnt) ") ";
+        }
+        .container {
+          margin: 0;
+        }
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = function() {
+        renderMathInElement(document.body, {delimiters: [
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false}
+        ]});
+        };
+    </script>
+
+<script>
+    let seed11;
+    let ans1 = [];
+    while(true){
+        seed11 = Math.floor(Math.random()*32+1);
+        ans1 = findSolution([1,0,(-1)*seed11], 33);
+        if(ans1.length != 0){
+            break;
+        }
+    }
+    let q1 = "$ x^2 \\equiv " + seed11 + "\\pmod{33} $";
+    let ans1_text = array_to_text(ans1);
+
+    let coefficients2 = [];
+    let ans2;
+    while(true){
+        coefficients2.push(Math.floor(Math.random()*6 + 2));
+        if(coefficients2[0] == 3 || coefficients2[0] == 6){coefficients2[0] = 2;}
+        coefficients2.push(Math.floor(Math.random()*7 + 2));
+        coefficients2.push(Math.floor(Math.random()*7 + 2));
+        ans2 = findSolution(coefficients2, 33);
+        if(ans2.length != 0){
+            break;
+        } else{
+            coefficients2.pop();
+            coefficients2.pop();
+            coefficients2.pop();
+        }
+    }
+    let q2 = "$" + coefficients2[0] + "x^2 + " + coefficients2[1] + "x +" + coefficients2[2] + " \\equiv 0 \\pmod{33} $";
+    let ans2_text = array_to_text(ans2);
+
+    /* mod 35 は計算が少し大変なので mod 21 あたりに調整するか */
+
+    let seed3;
+    let ans3 = [];
+    while(true){
+        seed3 = Math.floor(Math.random()*20+1);
+        ans3 = findSolution([1,0,(-1)*seed3], 21);
+        if(ans3.length != 0){
+            break;
+        }
+    }
+    let q3 = "$ x^2 \\equiv " + seed3 + "\\pmod{21} $";
+    let ans3_text = array_to_text(ans3);
+
+    let coefficients4 = [];
+    let ans4;
+    while(true){
+        coefficients4.push([2,4,5][Math.floor(Math.random()*3)]);
+        coefficients4.push(Math.floor(Math.random()*7 + 2));
+        coefficients4.push(Math.floor(Math.random()*7 + 2));
+        ans4 = findSolution(coefficients4, 21);
+        if(ans4.length != 0){
+            break;
+        } else{
+            coefficients4.pop();
+            coefficients4.pop();
+            coefficients4.pop();
+        }
+    }
+    let q4 = "$" + coefficients4[0] + "x^2 + " + coefficients4[1] + "x +" + coefficients4[2] + " \\equiv 0 \\pmod{21} $";
+    let ans4_text = array_to_text(ans4);
+
+    /*
+    let seed3;
+    let ans3 = [];
+    while(true){
+        seed3 = Math.floor(Math.random()*33+2);
+        ans3 = findSolution([1,0,(-1)*seed3], 35);
+        if(ans3.length != 0 && seed3 != 4){
+            break;
+        }
+    }
+    let q3 = "$ x^2 \\equiv " + seed3 + "\\pmod{35} $";
+    let ans3_text = array_to_text(ans3);
+
+    let coefficients4 = [];
+    let ans4;
+    while(true){
+        coefficients4.push(Math.floor(Math.random()*3 + 2));
+        coefficients4.push(Math.floor(Math.random()*7 + 2));
+        coefficients4.push(Math.floor(Math.random()*7 + 2));
+        ans4 = findSolution(coefficients4, 35);
+        if(ans4.length != 0){
+            break;
+        } else{
+            coefficients4.pop();
+            coefficients4.pop();
+            coefficients4.pop();
+        }
+    }
+    let q4 = "$" + coefficients4[0] + "x^2 + " + coefficients4[1] + "x +" + coefficients4[2] + " \\equiv 0 \\pmod{35} $";
+    let ans4_text = array_to_text(ans4);
+    */
+
+    function array_to_text(array){
+        let text = "$";
+        for(let i=0; i<array.length; i++){
+            text += array[i] + ",";
+        }
+        text = text.slice(0, -1);
+        text += "$"
+        return text;
+    }
+
+    function findSolution(array, mod){
+        //入力 係数を表す長さ3の配列と法の数
+        //出力 解の配列
+        let solutions = [];
+        for(let i=0; i<mod; i++){
+            if((array[0]*(i**2) + array[1]*i + array[2]) %mod == 0 ){
+                solutions.push(i);
+            }
+        }
+        return solutions;
+    }
+
+    function show_answer1(){document.getElementById("a1_id").style.color = "red";}
+    function show_answer2(){document.getElementById("a2_id").style.color = "red";}
+    function show_answer3(){document.getElementById("a3_id").style.color = "red";}
+    function show_answer4(){document.getElementById("a4_id").style.color = "red";}
+    function show_answer5(){document.getElementById("a5_id").style.color = "red";}
+    function show_answer6(){document.getElementById("a6_id").style.color = "red";}
+</script>
+
+</head>
+
+<body>
+<div class="container">
+ <center>
+    <h1>2次合同方程式(4)</h1> <!-- mod の数を 35 から 21 にしてもよい -->
+ </center>
+ <div class="box">
+    [ 例題 ] 次の合同方程式を解け。
+    \[ x^2 \equiv 4 \pmod{35} \]
+    <span style="color: red;">[ 解法① ]</span> <br>
+    与えられた方程式を変形すると $(x-2)(x+2) \equiv 0 \pmod{35}$ となる。
+    $35$ はふたつの素数 $5, 7$ の積だから次の4通りが考えられる。 <br>
+    　　(i) $x-2 \equiv 0 \pmod{35}$ <br>
+    　　(ii) $x+2 \equiv 0 \pmod{35}$ <br>
+    　　(iii) $x-2 \equiv 0 \pmod{5}$ かつ $x+2 \equiv 0 \pmod{7}$ <br>
+    　　(iii) $x-2 \equiv 0 \pmod{7}$ かつ $x+2 \equiv 0 \pmod{5}$ <br>
+    (i), (ii)からは $x \equiv 2, 33 \pmod{35}$ が得られる。
+    一方、(iii), (iv) は「連立合同方程式」と同様の問題である。
+    それぞれのケースを解くと $x \equiv 12, 23 \pmod{35}$ である。
+    以上より解は $x \equiv 2, 12, 23, 33 \pmod{35}$ である。<br>
+    <span style="color: blue;">[ 注意 ]</span> <br>
+    与えられた合同方程式が $x^2 \equiv a^2$ のような形になっていない場合は「2次合同方程式(1)」の解法と同様に、
+    特殊解を見つけて辺々引き算することにより $x^2 - a^2 \equiv 0$ の形を作る。<br>
+    <span style="color: red;">[ 解法② ]</span> <br>
+    合同式の法を $35$ とする。
+    解の候補は $x \equiv 0,1,2, \dots, 34$ である。
+    これらの候補のうち $x^2 \equiv 4$ を満たすものをしらみ潰しに探すと $x \equiv 2, 12, 23, 33$ のみが解であることが分かる。
+    以上より解は $x \equiv 2, 12, 23, 33 \pmod{35}$ である。
+</div>
+ <p>
+    [1] 合同方程式 <script>document.write(q3);</script> を解くと $x \equiv$ <span id="a3_id" style="color:transparent"><script>document.write(ans3_text);</script></span> $\pmod{21}$ である。　　<button onclick="show_answer3()">答え</button>
+    　<br> <br>
+    [2] 合同方程式 <script>document.write(q4);</script> を解くと $x \equiv$ <span id="a4_id" style="color:transparent"><script>document.write(ans4_text);</script></span> $\pmod{21}$ である。　　<button onclick="show_answer4()">答え</button>
+    　<br> <br>
+    [3] 合同方程式 <script>document.write(q1);</script> を解くと $x \equiv$ <span id="a1_id" style="color:transparent"><script>document.write(ans1_text);</script></span> $\pmod{33}$ である。　　<button onclick="show_answer1()">答え</button>
+    　<br> <br>
+    [4] 合同方程式 <script>document.write(q2);</script> を解くと $x \equiv$ <span id="a2_id" style="color:transparent"><script>document.write(ans2_text);</script></span> $\pmod{33}$ である。　　<button onclick="show_answer2()">答え</button>
+    <br> <br> <br>
+ </p>
+</div>
+</body>
+</html>
