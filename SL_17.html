@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SL-16</title>
+    <title>SL-17</title>
     <style>
         .box {
             border: blue 1px solid; /*境界線の指定*/
@@ -60,44 +60,44 @@
     </script>
 
 <script>
-    let numerator1 = Math.floor(Math.random()*17+12);
-    let q1 = "$ \\left( \\dfrac{"+ numerator1 +"}{29} \\right) =$";
-    let ans1_value = findLegendreSymbol(numerator1, 29);
-    let ans1;
-    if(ans1_value == 1){
-        ans1 = "$ \\quad \\! " + ans1_value + "$";
-    } else{
-        ans1 = "$" + ans1_value + "$";
+    let seed11;
+    let ans1 = [];
+    while(true){
+        seed11 = Math.floor(Math.random()*29+2);
+        ans1 = findSolution([1,0,(-1)*seed11], 31);
+        if(ans1.length == 0){
+            break;
+        }
     }
+    let q1 = "$ x^2 \\equiv " + seed11 + "\\pmod{31} $";
 
-    let numerator2 = Math.floor(Math.random()*19+12);
-    let q2 = "$ \\left( \\dfrac{"+ numerator2 +"}{31} \\right) =$";
-    let ans2_value = findLegendreSymbol(numerator2, 31);
+    let coefficients2 = [];
     let ans2;
-    if(ans2_value == 1){
-        ans2 = "$ \\quad \\! " + ans2_value + "$";
-    } else{
-        ans2 = "$" + ans2_value + "$";
+    while(true){
+        coefficients2.push(Math.floor(Math.random()*6 + 2));
+        coefficients2.push(Math.floor(Math.random()*7 + 2));
+        coefficients2.push(Math.floor(Math.random()*7 + 2));
+        ans2 = findSolution(coefficients2, 37);
+        if(ans2.length == 0){
+            break;
+        } else{
+            coefficients2.pop();
+            coefficients2.pop();
+            coefficients2.pop();
+        }
     }
+    let q2 = "$" + coefficients2[0] + "x^2 + " + coefficients2[1] + "x +" + coefficients2[2] + " \\equiv 0 \\pmod{37} $";
 
-    let numerator3 = Math.floor(Math.random()*25+12);
-    let q3 = "$ \\left( \\dfrac{"+ numerator3 +"}{37} \\right) =$";
-    let ans3_value = findLegendreSymbol(numerator3, 37);
-    let ans3;
-    if(ans3_value == 1){
-        ans3 = "$ \\quad \\! " + ans3_value + "$";
-    } else{
-        ans3 = "$" + ans3_value + "$";
-    }
-
-    let numerator4 = Math.floor(Math.random()*29+12);
-    let q4 = "$ \\left( \\dfrac{"+ numerator4 +"}{41} \\right) =$";
-    let ans4_value = findLegendreSymbol(numerator4, 41);
-    let ans4;
-    if(ans4_value == 1){
-        ans4 = "$ \\quad \\! " + ans4_value + "$";
-    } else{
-        ans4 = "$" + ans4_value + "$";
+    function findSolution(array, mod){
+        //入力 係数を表す長さ3の配列と法の数
+        //出力 解の配列
+        let solutions = [];
+        for(let i=0; i<mod; i++){
+            if((array[0]*(i**2) + array[1]*i + array[2]) %mod == 0 ){
+                solutions.push(i);
+            }
+        }
+        return solutions;
     }
     
     function findLegendreSymbol(numerator, denominator){
@@ -123,27 +123,34 @@
 <body>
 <div class="container">
  <center>
-    <h1>平方剰余の相互法則</h1>
+    <h1>2次合同方程式(5)</h1>
  </center>
  <div class="box">
-    $p, q$ を奇素数とし、$a,b$ を $p$ の倍数でない整数とする。
-    このとき、次が成り立つ。<br>
-    　(1) （積はバラバラにできる）
-    \[ \left( \dfrac{ab}{p} \right) = \left( \dfrac{a}{p} \right)\left( \dfrac{b}{p} \right) \]
-    　(2) （平方剰余の相互法則）
-    \[ \left( \frac{p}{q} \right) = (-1)^{\frac{p-1}{2} \cdot \frac{q-1}{2}} \left( \frac{q}{p} \right) \]
-    　(3) （「上の数」が $2$ の場合に適用される規則。第2補充法則ともいう）
-    \[ \left( \dfrac{2}{p} \right) = (-1)^{\frac{p^2-1}{8}} \]
+    [ 例題 ] 次の合同方程式が解を持たないことを示せ。
+    \[ x^2 + 5x + 1 \equiv 0 \pmod{61} \]
+    <span style="color: red;">[ 証明 ]</span> <br>
+    合同式の法を $61$ とする。両辺を4倍して整理すると
+    \[ \begin{aligned}
+    4x^2 + 20x + 4 &\equiv 0 \\
+    (2x + 5)^2 - 25 + 4 &\equiv 0 \\
+    (2x + 5)^2 &\equiv 21
+    \end{aligned} \]
+    となる。そこで $y = 2x+5$ とおくと $y$ の合同方程式
+    \[ y^2 \equiv 21 \]
+    が得られる。しかし、ルジャンドル記号 $(\frac{21}{61})$ の値を計算すると
+    \[ \begin{aligned} \left( \frac{21}{61} \right) &= \left( \frac{3}{61} \right) \left( \frac{7}{61} \right) \\
+    &= (-1)^{\frac{3-1}{2} \cdot \frac{61-1}{2}} \left( \frac{61}{3} \right) \cdot (-1)^{\frac{7-1}{2} \cdot \frac{61-1}{2}} \left( \frac{61}{7} \right) \\
+    &= (-1)^{30} \left( \frac{1}{3} \right) \cdot (-1)^{3 \cdot 30} \left( \frac{5}{7} \right) \\
+    &= -1
+    \end{aligned}\]
+    となり、$y^2 \equiv 21$ は解をもたない。
+    よって、もとの合同方程式 $x^2 + 5x + 1 \equiv 0$ も解をもたない。
  </div>
  <p>
     次の値を計算せよ。<br> <br>
-    [1] <script>document.write(q1);</script> <span id="a1_id" style="color:transparent"><script>document.write(ans1);</script></span>　　<button style="position: relative; right: 0;" onclick="show_answer1()">答え</button>
+    [1] 合同方程式 <script>document.write(q1);</script> が解を持たないことを示せ。（証明略）
     　<br> <br>
-    [2] <script>document.write(q2);</script> <span id="a2_id" style="color:transparent"><script>document.write(ans2);</script></span>　　<button style="position: relative; right: 0;" onclick="show_answer2()">答え</button>
-    　<br> <br>
-    [3] <script>document.write(q3);</script> <span id="a3_id" style="color:transparent"><script>document.write(ans3);</script></span>　　<button style="position: relative; right: 0;" onclick="show_answer3()">答え</button>
-    　<br> <br>
-    [4] <script>document.write(q4);</script> <span id="a4_id" style="color:transparent"><script>document.write(ans4);</script></span>　　<button style="position: relative; right: 0;" onclick="show_answer4()">答え</button>
+    [2] 合同方程式 <script>document.write(q2);</script> が解を持たないことを示せ。（証明略）
     　<br> <br> <br>
  </p>
 </div>
