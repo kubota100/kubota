@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SL-18</title>
+    <title>SL-20</title>
     <style>
         .box {
             border: blue 1px solid; /*境界線の指定*/
@@ -27,8 +27,10 @@
         }
         ol.list_parentheses li{
               list-style-type:none;
-              list-style-position:inside;
+              list-style-position:outside;
               counter-increment: cnt;
+              text-indent: -1.7em;
+              padding-left: 1em;
         }
         ol.list_parentheses li:before{
               display: marker;
@@ -109,7 +111,10 @@
         }
     }
 
-    function show_answer1(){document.getElementById("a1_id").style.color = "red";}
+    function show_answer1(){
+        document.getElementById("a1_id").style.color = "red";
+        document.getElementById("a2_id").style.color = "red";
+    }
     function show_answer2(){document.getElementById("a2_id").style.color = "red";}
     function show_answer3(){document.getElementById("a3_id").style.color = "red";}
     function show_answer4(){document.getElementById("a4_id").style.color = "red";}
@@ -128,7 +133,7 @@
 <body>
 <div class="container">
  <center>
-    <h1>RSA暗号（送信者）</h1>
+    <h1>RSA暗号（盗聴者）</h1>
  <!--    <p>このページは再読み込みをしても新たな問題を生成しない。</p> -->
  </center>
  <div class="box_red">
@@ -154,21 +159,38 @@
  </div> <br>
  <div class="box">
     [ 例題 ] <br>
-    あなたは送信者である。平文 $x=12$ を受信者から受け取った公開鍵を使って暗号化したい。
-    いま、受信者から公開鍵として $n=15, e=3$ を受け取った。暗号文 $y$ を作れ。 <br>
+    あなたは盗聴者である。
+    あなたは受信者が送る公開鍵 $n = 35, e = 5$ と送信者が送った暗号文 $y = 4$ を盗んだ。
+    あなたは公開鍵に使われている整数 $n$ が十分小さい数であることに気付き、$35$ は $5 \times 7$ と素因数分解できることに気付いた。
+    次の問に答えよ。
+    <ol class="list_parentheses">
+       <li> 受信者の秘密鍵 $d$ を求めよ。ただし $d$ は秘密鍵として使える数のうち最小の自然数とする。</li>
+       <li> 送信者の暗号文 $y$ を復号し、送信者の平文 $x$ を求めよ。</li>
+    </ol>
     <span style="color:red">[ 解法 ] </span> <br>
-    送信者が暗号文を作るのは Step 3 である。Step 3 では $x^e$ を $n$ で割った余りを計算することで暗号文 $y$ を生成している。
-    したがって、合同式の法を $15$ として
-    \[ x^e = 12^3 \equiv (-3)^3 = -27 \equiv 3. \]
-    よって暗号文は $y=3$ である。（$x^e$ の計算は底をこまめに小さくしていくのがコツである。）
+    素因数分解に成功し素数 $p,q$ が得られ、かつ盗聴した情報から $e$ が得られているので盗聴者であるあなたは受信者と同じ情報を持っている。以下の解法は「RSA暗号（受信者）」と本質的に同じである。<br>
+    <ol class="list_parentheses">
+        <li>$35 = 5 \times 7$ と素因数分解できるので $p = 5, q = 7$ である。
+            そこで
+            \[ ed \equiv 1 \pmod{(p-1)(q-1)} \]
+            つまり $5d \equiv 1 \pmod{24}$ となる $d$ を求める。
+            これを満たす最小の自然数 $d$ は $d = 5$ である。</li>
+        <li>$4^5$ を $n = 35$ でわった余りは $9$ である。
+            よって送信者の平文は $x = 9$ である。
+            <!--
+            （余りの計算は $4^5$ が $1024$ であることを計算してから $n=35$ で割っても良いし $4^5 = 4^3 \cdot 4^2 = 64 \cdot 16 \equiv (-6) \cdot 16 = -96 \equiv 9$ のように計算してもよい。）
+            --></li>
+    </ol>
  </div>
 
  <p>
-    [問題] <br>
-    あなたは送信者である。
-    平文 $x=$ <script>document.write("$" + x + "$");</script> を受信者から受け取った公開鍵を使って暗号化したい。
-    いま、受信者から公開鍵として $n=$ <script>document.write("$" + n + "$");</script>, $e=$ <script>document.write("$" + e + "$");</script>を受け取った。
-    このとき、受信者に送る暗号文 $y$ は <span id="a1_id" style="color:transparent"><script>document.write("$" + y + "$");</script></span> である。　　<button id="1_id" onclick="show_answer1()">答え</button>
+    [問題] <br> <!--次の文章の空欄をうめよ。-->
+    あなたは盗聴者である。
+    あなたは受信者が送信者に送った公開鍵 $n=$ <script>document.write("$" + n + "$");</script>, $e=$ <script>document.write("$" + e + "$");</script>
+    と送信者が受信者に送った暗号文 $y=$ <script>document.write("$" + y + "$");</script> を盗んだ。
+    このとき、受信者の秘密鍵 $d$ は <span id="a1_id" style="color: transparent;"><script>document.write("$" + d + "$");</script></span> である。
+    ただし $d$ は秘密鍵として使える数のうち最小の自然数とする。
+    また、送信者の平文 $x$ は <span id="a2_id" style="color: transparent;"><script>document.write("$" + x + "$");</script></span> である。　　<button onclick="show_answer1()">答え</button>
     <br> <br> <br>
  </p>   
 
