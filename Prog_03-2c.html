@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Prog_03-2c</title>
+    <script>
+        function copyToClipboard(){
+        let text = document.getElementById("tex_id").value;
+        navigator.clipboard.writeText(text);
+        document.getElementById("01_id").textContent = "コピーしました！"
+    }
+    </script>
+    </script>
+</head>
+
+<body>
+<center>
+    <p>
+        <h1>Prog_03-2</h1>
+    </p>
+    <p>
+<!-- ************************************ -->
+<textarea rows="20" cols="80" id="tex_id">
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Prog_03-2</title>
+    <style>
+        ol.list_parentheses li{
+            list-style-type:none;
+            counter-increment: cnt;
+            text-indent: -1.7em;
+            padding-left: 1em;
+        }
+        ol.list_parentheses li:before{
+            content: "(" counter(cnt) ") ";
+        }
+    </style>
+</head>
+
+<body>
+    <h2>朝の準備</h2>
+    <ol class="list_parentheses">
+        <li>顔を洗う</li>
+        <li>朝ごはんを食べる</li>
+        <li>歯を磨く</li>
+    </ol>    
+</body>
+
+</html></textarea>
+<!-- ************************************ -->
+        <br>
+        <button onclick="copyToClipboard()">コピー</button>
+    </p>
+    <p>
+        <span id="01_id" style="color:red"></span>
+    </p>
+</center>
+</body>
+</html>
