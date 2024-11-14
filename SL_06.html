@@ -26,9 +26,10 @@
               margin:0;
         }
         ol.list_parentheses li{
-              list-style-type:none;
-              list-style-position:inside;
-              counter-increment: cnt;
+            list-style-type:none;
+            counter-increment: cnt;
+            text-indent: -1.7em;
+            padding-left: 1em;
         }
         ol.list_parentheses li:before{
               display: marker;
@@ -88,18 +89,18 @@
     このページは再読み込みをしても新たな問題を生成しない。
     <br> <br>
  </center>
- [1]集合 $A$ 上の二項関係 $\sim$ について、次の空欄を埋めよ。
- <ol class="list_parentheses">
-    <li> 二項関係 $\sim$ が反射的であるとは　<span id="1011_id" style="color:white">$\forall a \in A$ に対して $a \sim a$</span>　が成り立つことである。
-        　<button onclick="show_answer1011()">答え</button>　</li>
-    <li> 二項関係 $\sim$ が対称的であるとは　<span id="1012_id" style="color:white">$\forall a, b \in A$ に対して $a \sim b \, \Longrightarrow \, b \sim a$</span>　が成り立つことである。
-        　<button onclick="show_answer1012()">答え</button>　</li>
-    <li> 二項関係 $\sim$ が推移的であるとは <span id="1013_id" style="color:white">$\forall a, b, c \in A$ に対して $ a \sim b \text{ かつ } b \sim c \, \Longrightarrow \, a \sim c$</span>
-         が成り立つことである。　<button onclick="show_answer1013()">答え</button>　
- </ol>
+ <div class="box">
+    <span style="color: blue;">[定義]</span> 集合 $A$ 上の二項関係 $\sim$ は
+    <ol class="list_parentheses">
+        <li> 「任意の $a \in A$ に対して $a \sim a$」であるとき 反射的 という。</li>
+        <li> 「$a \sim b \, \Longrightarrow \, b \sim a$」であるとき 対称的 という。</li>
+        <li> 「$a \sim b \text{ かつ } b \sim c \, \Longrightarrow \, a \sim c$」であるとき 推移的 という。</li>
+    </ol>
+    二項関係 $\sim$ が反射的かつ対称的かつ推移的であるとき 同値関係 という。
+ </div>
  <br> <br>
 
- [2]以下の二項関係についての記述のうち適切なものを選べ。
+ [問題] 以下の二項関係についての記述のうち適切なものを選べ。
  <ol>
     <li>　反射的である。対称的である。推移的である。</li>
     <li>　反射的である。対称的である。推移的でない。</li>
