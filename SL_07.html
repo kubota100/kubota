@@ -26,9 +26,10 @@
               margin:0;
         }
         ol.list_parentheses li{
-              list-style-type:none;
-              list-style-position:inside;
-              counter-increment: cnt;
+            list-style-type:none;
+            counter-increment: cnt;
+            text-indent: -1.7em;
+            padding-left: 1em;
         }
         ol.list_parentheses li:before{
               display: marker;
@@ -90,34 +91,57 @@
     このページは再読み込みをしても新たな問題を生成しない。
     <br> <br>
  </center>
- [1] 集合 $A$ 上の同値関係 $\sim$ について、$a \in A$の同値類 $[a]$ とは $a$ と関係のある $A$ の要素全体の集合を言う。
- 集合の言葉で書くと <br>
- <center>$[a] =$ <span id="1011_id" style="color:white">$\{ x \in A \mid x \sim a \}$</span></center><br>
- である。　<button onclick="show_answer1011()">答え</button>　<br> <br> <br>
+ <div class="box">
+    <span style="color: blue;">[定義]</span> 集合 $A$ 上の同値関係 $\sim$ について、
+    $a \in A$の同値類 $[a]$ とは $a$ と関係のある $A$ の要素全体の集合を言う。集合の言葉で書くと
+    \[ [a] = \{ x \in A \mid x \sim a \} \]
+    である。同値類全体の集合を $A$ の $\sim$ による商集合といい $A / \!\! \sim$ とかく。
+    集合の言葉で書くと
+    \[ A / \!\! \sim \, = \{ [x] \mid x \in A \} \]
+    である。具体的な問題に対して商集合の表し方はひとつには決まらない（同値類の代表の選び方は複数通り考えられる）ので、
+    自分の解答が正しくても模範解答と見た目が一致しない可能性があるので注意すること。
+ </div>
+ <br> <br>
 
- [2] $\mathbb{R}$ 上の二項関係 $\sim$ を $a \sim b \iff a^2 = b^2$ と定めると、$\sim$ は同値関係となる。このとき
+ [1] $\mathbb{R}$ 上の二項関係 $\sim$ を $a \sim b \stackrel{\text{def}}{\iff} a^2 = b^2$ と定めると、$\sim$ は同値関係となる。
+ 次の空欄をうめよ。
  <ol class="list_parentheses">
-    <li> $3 \in \mathbb{R}$ の同値類 $[3]$ を外延的記法で表すと $[3] =$ <span id="1012_id" style="color:white">$\{ 3, -3 \}$</span> である。
+    <li> $3 \in \mathbb{R}$ の同値類 $[3]$ を外延的記法（要素を列挙する方法）で表すと $[3] =$ <span id="1012_id" style="color:transparent">$\{ 3, -3 \}$</span> である。
         　<button onclick="show_answer1012()">答え</button>　</li>
-    <li> $0 \in \mathbb{R}$ の同値類 $[0]$ を外延的記法で表すと $[0] =$　<span id="1013_id" style="color:white">$\{ 0 \}$</span>　である。
+    <li> $0 \in \mathbb{R}$ の同値類 $[0]$ を外延的記法で表すと $[0] =$　<span id="1013_id" style="color:transparent">$\{ 0 \}$</span>　である。
         　<button onclick="show_answer1013()">答え</button>　</li>
-    <li> $-\sqrt{2} \in \mathbb{R}$ の同値類 $[-\sqrt{2}]$ を外延的記法で表すと $[-\sqrt{2}] =$ <span id="1014_id" style="color:white">$\{ \sqrt{2}, -\sqrt{2} \}$</span> である。
+    <li> $-\sqrt{2} \in \mathbb{R}$ の同値類 $[-\sqrt{2}]$ を外延的記法で表すと $[-\sqrt{2}] =$ <span id="1014_id" style="color:transparent">$\{ \sqrt{2}, -\sqrt{2} \}$</span> である。
         　<button onclick="show_answer1014()">答え</button>　</li>
-    <li> $\mathbb{R}$ の同値関係 $\sim$ による商集合は $\mathbb{R} / \! \! \sim \, \, =$ <span id="1015_id" style="color:white">$\{ [x] \mid x \geqq 0 \}$</span> である。
+    <li> $\mathbb{R}$ の同値関係 $\sim$ による商集合は $\mathbb{R} / \! \! \sim \, \, =$ <span id="1015_id" style="color:transparent">$\{ [x] \mid x \geqq 0 \}$</span> である。
         　<button onclick="show_answer1015()">答え</button>　</li>    
  </ol>
  <br> <br>
 
- [3] $\mathbb{Z}$ 上の二項関係 $\equiv$ を $a \equiv b \iff \exists k \in \mathbb{Z}, a - b = 5k$ と定めると $\sim$ は同値関係となる。
- このことを高校では $a \equiv b \pmod{5}$と表記していた。
+ [2] $\mathbb{Z}$ 上の二項関係 $\equiv$ を $a \equiv b \stackrel{\text{def}}{\iff} \exists k \in \mathbb{Z} \text{ s.t. } a - b = 5k$ と定めると $\sim$ は同値関係となる。
+ このことを高校では $a \equiv b \pmod{5}$ と表記していた。次の空欄をうめよ。
  <ol class="list_parentheses">
-    <li> $1 \in \mathbb{Z}$ の同値類 $[1]$ を外延的記法で表すと $[1] =$ <span id="61_id" style="color:white">$\{ \ldots, -9, -4, 1, 6, 11, \dots, \}$</span> である。
+    <li> $1 \in \mathbb{Z}$ の同値類 $[1]$ を外延的記法で表すと $[1] =$ <span id="61_id" style="color:transparent">$\{ \ldots, -9, -4, 1, 6, 11, \dots, \}$</span> である。
         　<button onclick="show_answer61()">答え</button>　</li>
-    <li> $3 \in \mathbb{Z}$ の同値類 $[3]$ を内包的記法で表すと $[3] =$ <span id="62_id" style="color:white">$\{ 5k+3 \mid k \in \mathbb{Z} \}$</span> である。
+    <li> $3 \in \mathbb{Z}$ の同値類 $[3]$ を内包的記法（要素と要素が満たす条件を書く方法）で表すと $[3] =$ <span id="62_id" style="color:transparent">$\{ 5k+3 \mid k \in \mathbb{Z} \}$</span> である。
         　<button onclick="show_answer62()">答え</button>　</li>
-    <li> $\mathbb{Z}$ の同値関係 $\equiv$ による商集合は $\mathbb{Z} / \! \! \equiv \, \,  =$ <span id="63_id" style="color:white">$\{ [0], [1], [2], [3], [4] \}$</span> である。
+    <li> $\mathbb{Z}$ の同値関係 $\equiv$ による商集合は $\mathbb{Z} / \! \! \equiv \, \,  =$ <span id="63_id" style="color:transparent">$\{ [0], [1], [2], [3], [4] \}$</span> である。
         　<button onclick="show_answer63()">答え</button>　</li>    
  </ol>
+ <br> <br>
+ [3] $\mathbb{R}^2 \setminus \{(0,0)\}$ 上の二項関係 $\sim$ を
+ \[ (x_1, y_1) \sim (x_2, y_2) \stackrel{\text{def}}{\iff} \exists t \in \mathbb{R} \setminus \{0\} \text{ s.t. } (x_2, y_2) = (tx_1, ty_1) \]
+ と定めると $\sim$ は同値関係となる。次の空欄をうめよ。
+ <ol class="list_parentheses">
+    <li> 命題「$(1,2) \sim (3,6)$」は <span id="64_id" style="color:transparent">真</span> である（真偽を答えよ）。　<button onclick="show_answer64()">答え</button>　</li>
+    <li> 命題「$(1,1) \sim (1,3)$」は <span id="65_id" style="color:transparent">偽</span> である（真偽を答えよ）。　<button onclick="show_answer65()">答え</button>　</li>
+    <li> $(1,1)$ の同値類 $[(1,1)]$ を内包的記法で表すと <span id="66_id" style="color:transparent">$\{(s,s) \mid s \in \mathbb{R} \setminus \{0\} \}$</span> である。　<button onclick="show_answer66()">答え</button>　</li>
+    <li> $(1,-2)$ の同値類 $[(1,-2)]$ を内包的記法で表すと <span id="67_id" style="color:transparent">$\{(s,-2s) \mid s \in \mathbb{R} \setminus \{0\} \}$</span> である。　<button onclick="show_answer67()">答え</button>　</li>
+    <li> $(0,1)$ の同値類 $[(0,1)]$ を内包的記法で表すと <span id="68_id" style="color:transparent">$\{(0,s) \mid s \in \mathbb{R} \setminus \{0\} \}$</span> である。　<button onclick="show_answer68()">答え</button>　</li>
+    <li> $\mathbb{R}^2 \setminus \{(0,0)\}$ の同値関係 $\sim$ による商集合は<br>
+        <span style="line-height:350%;">　　　　</span>$(\mathbb{R}^2 \setminus \{(0,0)\}) / \! \! \sim \, \, =$ <span id="69_id" style="color:transparent">$\{ [(1,s)] \mid s \in \mathbb{R} \} \cup \{ [(0,1)] \}$</span><br>
+        である。　<button onclick="show_answer69()">答え</button>　</li>
+ </ol>
+ <br> <br> <br>
 </div>
 </body>
 </html>
