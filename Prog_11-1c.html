@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Prog_11-1c</title>
+    <script>
+        function copyToClipboard(){
+        let text = document.getElementById("tex_id").value;
+        navigator.clipboard.writeText(text);
+        document.getElementById("01_id").textContent = "コピーしました！"
+    }
+    </script>
+    </script>
+</head>
+
+<body>
+<center>
+    <p>
+        <h1>Prog_11-1</h1>
+    </p>
+    <p>
+<!-- ************************************ -->
+<textarea rows="20" cols="80" id="tex_id">
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Prog_11-1</title>
+</head>
+
+<body>
+    <!--
+    演習のときに使う配列（適宜コピペして使ってください）
+    let scores = [50, 70, 37, 90, 67];
+    let array = [6, 1, 10, -3, 5, 23, 0, -12, 8, 4];
+    -->
+</body>
+
+</html></textarea>
+<!-- ************************************ -->
+        <br>
+        <button onclick="copyToClipboard()">コピー</button>
+    </p>
+    <p>
+        <span id="01_id" style="color:red"></span>
+    </p>
+</center>
+</body>
+</html>
