@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>文字列の変換（行列）</title>
+    <style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+    </style>
+    <style>
+    .box {
+        border: blue 1px solid; /*境界線の指定*/
+        padding:10px;
+        }
+        .box p {
+        margin:0;
+        padding:0;
+        }
+    </style>
+    <style>
+    .container {
+            margin: 0;
+        }
+    
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <script>
+        function preprocess(){ // テキストボックスの入力を取得し、2次元配列に変換する。
+            // テキストボックスの入力を取得
+            let input = document.getElementById("input_id").value;
+            // 最初の文字が c の場合は例外的な処理を行う（ここは別の関数として書き直してもよい）
+            if(input.charAt(0) == "c"){
+                if(input.includes(";")){
+                    alert("入力に「c」を使う場合は途中にセミコロンは使用できません。");
+                    throw "不正な入力";
+                }
+                let tmp = input.slice(1);
+                tmp = tmp.replace("[", "").replace("]", "").replace(/\s+/g, "");
+                let elements = tmp.split(",");
+                let processedInput = "[";
+                for(let i=0; i<elements.length; i++){
+                    for(let j=0; j<elements.length; j++){
+                        processedInput += elements[(j-i+elements.length)%elements.length];
+                        j != elements.length-1 ? processedInput += "," : processedInput += ";";
+                    }
+                }
+                processedInput = processedInput.slice(0, -1);
+                input = processedInput + "]";
+                console.log(input);
+            }
+            // カッコ [ ] を削除（ついでに空白も整理）
+            input = input.replace("[", "").replace("]", "").replace(/\s+/g, "");
+            // セミコロンの箇所で各行を要素にもつ配列を作る
+            let rows = input.split(";");
+            // 各行について、コンマの箇所で分割して配列を作る
+            let matrix = [];
+            for(let i=0; i<rows.length; i++){
+                matrix.push(rows[i].split(","));
+            }
+            return matrix;
+        }
+
+        function showMatrixTex(){
+            matrix = preprocess();
+            // 出力の文字列を生成
+            let output = "\\begin{bmatrix} \n";
+            for(let i=0; i<matrix.length; i++){
+                output += matrix[i].join("&");
+                i != matrix.length -1 ? output += " \\\\ \n" : output += "\n\\end{bmatrix}";
+            }
+            //変換後の文字列を出力
+            document.getElementById("tex_id").textContent = output;
+        }
+
+        function showTableTex(){
+            matrix = preprocess();
+            let output = "\\begin{tabular}{|";
+            for(let i=0; i<matrix[0].length; i++){
+                output += "c|";
+            }
+            output += "} \\hline \n";
+            for(let i=0; i<matrix.length; i++){
+                output += "$";
+                output += matrix[i].join("$&$");
+                output += "$ \\\\ \\hline \n";
+                i == matrix.length -1 ? output += "\\end{tabular}" : null;
+            }
+            //変換後の文字列を出力
+            document.getElementById("tex_id").textContent = output;           
+        }
+
+        function showMagma(){
+            matrix = preprocess();
+            let output = "Matrix([ \n";
+            for(let i=0; i<matrix.length; i++){
+                output += "[";
+                output += matrix[i].join(",");
+                i != matrix.length -1 ? output += "], \n" : output += "]";
+            }
+            output += "]);";
+            document.getElementById("tex_id").textContent = output;
+        }
+
+        function copyToClipboard(){
+            let text = document.getElementById("tex_id").value;
+            navigator.clipboard.writeText(text);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+    <center>
+        <p>
+            <h1>文字列の変換（行列）</h1>
+        </p>
+        <p>
+            <input type="text" id="input_id" size="50" placeholder="[1,2; 3,4]"> <br>
+            <button id="matrix_id" onclick="showMatrixTex()">行列</button>　
+            <button id="table_id" onclick="showTableTex()"> 表 </button>　
+            <button id="table_id" onclick="showMagma()">Magma</button>
+            <br>
+        </p>
+    <p>
+        <textarea rows="10" cols="50" id="tex_id"></textarea> <br>
+        <button id="text_id" onclick="copyToClipboard()">コピー</button>
+    </p>
+    </center>
+    </div>
+</body>
+</html>
