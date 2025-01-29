@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Prog_14-1c</title>
+    <script>
+        function copyToClipboard(){
+        let text = document.getElementById("tex_id").value;
+        navigator.clipboard.writeText(text);
+        document.getElementById("01_id").textContent = "コピーしました！"
+    }
+    </script>
+    </script>
+</head>
+
+<body>
+<center>
+    <p>
+        <h1>Prog_14-1</h1>
+    </p>
+    <p>
+<!-- ************************************ -->
+<textarea rows="20" cols="80" id="tex_id">
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Prog_14-1</title>
+    <!-- HTML で TeX を使えるようにするための呪文（ここから） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+        window.onload = function() {
+	    renderMathInElement(document.body, {delimiters: [
+	    	{left: "\\[", right: "\\]", display: true},
+		    {left: "$", right: "$", display: false}
+    	]});
+	    };
+    </script>
+    <!-- HTML で TeX を使えるようにするための呪文（ここまで） -->
+</head>
+
+<body>
+    <p>$a = -2$ のとき $a^2 = 4$ である。</p>
+</body>
+
+</html></textarea>
+<!-- ************************************ -->
+        <br>
+        <button onclick="copyToClipboard()">コピー</button>
+    </p>
+    <p>
+        <span id="01_id" style="color:red"></span>
+    </p>
+</center>
+</body>
+</html>

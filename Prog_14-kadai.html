@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>Prog_14-kadai</title>
+ <style>
+    .box {
+        border: blue 1px solid; /*境界線の指定*/
+        padding:10px;
+    }
+    .box p {
+        margin:0;
+        padding:0;
+    }
+    .box_red {
+        border: red 1px solid; /*境界線の指定*/
+        padding:10px;
+    }
+    .box_red p {
+        margin:0;
+        padding:0;
+    }
+    ol.list_parentheses{
+          padding:0 0 0 2em;
+          margin:0;
+    }
+    ol.list_parentheses li{
+          list-style-type:none;
+          list-style-position:inside;
+          counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+          display: marker;
+          content: "(" counter(cnt) ") ";
+    }
+    .container {
+      margin: 0;
+    }
+    /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+    @media screen and (min-width: 680px) {
+        .container {
+            width: 700px;
+            margin-left: auto; /* 左右中央に配置 */
+            margin-right: auto;
+        }
+    }
+</style>
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+      ]});
+    });
+    </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(function() { 
+            renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+      ]});
+            },100)
+    });
+    </script>
+ <style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+</style>
+
+<script>
+    let A_row_num = 3;
+    let A_column_num = 3; // A は拡大係数行列の最終形、のつもりだが今回は不要かな
+    // P,Qはそれぞれ適当な上三角、下三角行列
+    let P_row_num = 3;
+    let P_column_num = 3;
+    let Q_row_num = 3;
+    let Q_column_num = 3;
+
+    let A = [[1,0,0], [0,1,0], [0,0,1]];
+
+    let P = [[1,0,0], [0,1,0], [0,0,1]];
+    for(let i=0; i<3; i++){
+        for(let j=0; j<3; j++){
+            if(j>i){
+                P[i][j] = Math.floor(Math.random()*2) + 1;
+                if(Math.floor(Math.random()*2) == 0){P[i][j] = (-1)*P[i][j];}
+            }
+        }
+    }
+
+    let Q = [[1,0,0], [0,1,0], [0,0,1]];
+    for(let i=0; i<3; i++){
+        for(let j=0; j<3; j++){
+            if(j<i){
+                Q[i][j] = Math.floor(Math.random()*2) + 1;
+                if(Math.floor(Math.random()*2) == 0){Q[i][j] = (-1)*Q[i][j];}
+            }
+        }
+    }
+
+    console.log(P);
+    console.log(Q);
+
+    A = matrix_times(P,Q);
+    console.log(A);
+
+    let P_inv = [[1,0,0], [0,1,0], [0,0,1]];
+    P_inv[0][1] = (-1)*P[0][1];
+    P_inv[1][2] = (-1)*P[1][2];
+    P_inv[0][2] = P[0][1]*P[1][2] - P[0][2];
+
+    let Q_inv = [[1,0,0], [0,1,0], [0,0,1]];
+    Q_inv[1][0] = (-1)*Q[1][0];
+    Q_inv[2][1] = (-1)*Q[2][1];
+    Q_inv[2][0] = Q[1][0]*Q[2][1] - Q[2][0];
+
+    let A_inv = matrix_times(Q_inv, P_inv);
+    console.log(A_inv);
+
+    function matrix_sum(X, Y){ //任意のサイズで定義
+        let result = [];
+        let row_num = X.length;
+        for (let i=0; i<row_num; i++){
+            result.push([]);
+        }
+        let column_num = X[0].length;
+        for(let i=0; i<row_num; i++){
+            for(let j=0; j<column_num; j++){
+                result[i].push(X[i][j] + Y[i][j]);
+            }
+        }
+        return result;
+    }
+
+    function matrix_scalar_multiple(k, X){ //任意のサイズで定義
+        let result = [];
+        let row_num = X.length;
+        for (let i=0; i<row_num; i++){
+            result.push([]);
+        }
+        let column_num = X[0].length;
+        for(let i=0; i<row_num; i++){
+            for(let j=0; j<column_num; j++){
+                result[i].push(k*X[i][j]);
+            }
+        }
+        return result;
+    }
+
+    function matrix_times(X, Y){ //任意のサイズで定義、ただし、積が定義できることを前提とする
+        let result = [];
+        let row_num = X.length;
+        for (let i=0; i<row_num; i++){
+            result.push([]);
+        }
+        let column_num = Y[0].length;
+        let X_column = X[0].length;
+        for(let i=0; i<row_num; i++){
+            for(let j=0; j<column_num; j++){
+                let tmp = 0;
+                for(let k=0; k<X_column; k++){
+                    tmp += X[i][k]*Y[k][j];
+                }
+                result[i].push(tmp);
+            }
+        }
+        return result;
+    }
+
+    //行列を tex 形式の文字列として表示させる（任意のサイズで）
+    function matrix_rep(X){
+        let row_num = X.length;
+        let column_num = X[0].length;
+        let result = "$\\begin{bmatrix}";
+        for(let i=0; i<row_num; i++){
+            for(let j=0; j<column_num; j++){
+                result += X[i][j] + "&"
+            }
+            result.slice(0, -1);
+            result += "\\\\";
+        }
+        result.slice(0, -2);
+        result += "\\end{bmatrix}$";
+        return result;
+    }
+
+    //係数がプラマイ1のときに文字列を微調整する関数が必要。任意の文字に対して処理する。変数 variable は文字列型を想定。
+    function modify(value, variable){
+        if(value == 1){
+            return "+" + variable;
+        } else if(value == 0){
+            return "";
+        } else if(value == -1){
+            return "-" + variable;
+        } else if(value > 1){
+            return "+" + value + variable;
+        } else if(value < -1){
+            return value + variable;
+        }
+    }
+
+    //連立方程式を tex 形式の文字列として表示させる。4文字を想定。
+    function equation_rep(AA, bb){
+        let row_num = AA.length;
+        let column_num = AA[0].length;
+        let result_first = "\\[ \\begin{cases}";
+        let result_last = "\\end{cases} \\]";
+        let result = ["", "", "", ""];
+        for(let i=0; i<row_num; i++){
+            result[i] += modify(AA[i][0], "x") + modify(AA[i][1], "y") + modify(AA[i][2], "z") + modify(AA[i][3], "w")  + "&=" + bb[i][0] + "\\\\"
+            console.log(result[i]);
+            if(result[i][0] == '+'){result[i] = result[i].slice(1);}
+        }
+        return result_first + result[0] + result[1] + result[2] + result[3] + result_last;
+    }
+    
+    function generate_quizzes(){
+        document.getElementById("q1_id").textContent = matrix_rep(A);
+        document.getElementById("a1_id").textContent = matrix_rep(A_inv);
+    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        console.log(identifier);
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body onload="generate_quizzes()">
+<div class="container">
+ <center>
+    <h1>2230999 久保田匠</h1>
+    <h2>逆行列</h2>
+ </center>
+ <p>
+    行列　<span id="q1_id">　　</span>　の逆行列は　<span id="a1_id" style="color:transparent">　　</span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+ </p>
+ <hr>
+ <center><h2>自由記述欄</h2></center>
+ <p>
+    　私がこのページを作るにあたり、工夫した点は〇〇である。
+    プログラムの作成にあたり、△△という困難にあたったが、while文の条件を〇〇のように書き換えることで△△をうまく乗り越えることができた。←もちろんこれは少なすぎるのでもっとたくさん書く。
+ </p>
+</div>
+</body>
+</html>
