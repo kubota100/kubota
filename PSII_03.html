@@ -5,42 +5,19 @@
  <meta charset="utf-8">
  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
  <title>PSII_03</title>
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
  <script>
-   document.addEventListener("DOMContentLoaded", function() {
+     window.onload = function() {
      renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
+         {left: "\\[", right: "\\]", display: true},
+         {left: "$", right: "$", display: false}
      ]});
-   });
-   </script>
- <script>
-   document.addEventListener("DOMContentLoaded", function() {
-       setTimeout(function() { 
-           renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-           },100)
-   });
-   </script>
- <style>
-    ol.list_parentheses{
-        padding:0 0 0 2em;
-        margin:0;
-    }
-    ol.list_parentheses li{
-        list-style-type:none;
-        list-style-position:inside;
-        counter-increment: cnt;
-    }
-    ol.list_parentheses li:before{
-        display: marker;
-        content: "(" counter(cnt) ") ";
-    }
-</style>
+     };
+ </script>
 
 <script>
     let freq = []; //freq[0]は50~60の階級、freq[4]は90~100の階級
@@ -123,17 +100,14 @@
 
     function show_answer(e){
         let identifier = e.id;
-        document.getElementById("a"+identifier).style.color = "black";
+        document.getElementById("a"+identifier).style.color = "red";
     }
 </script>
 </head>
 
-<body onload="generate_quizzes()">
- <center>
+<body class="container" onload="generate_quizzes()">
     <h1>度数分布表から代表値</h1>
-    必要であれば一般電卓を使用してよい。<br>　<br>
- </center>
- 次はある試験の結果（100点満点）を度数分布表にまとめたものである。<br>　<br>
+    <p>次はある試験の結果（100点満点）を度数分布表にまとめたものである。</p>
  <p>
     <table border = "1">
         <tr>
@@ -165,11 +139,12 @@
         </tr>
       </table>
   </p>
-  <br>
- 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
+<p>以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。</p>
+<p>
  [1] 平均値は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
  [2] 最頻値は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
  [3] 中央値は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+</p>
  
  <!--
  $A = $ <span id="q1_id"></span> とする。<br>

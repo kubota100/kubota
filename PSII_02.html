@@ -5,42 +5,19 @@
  <meta charset="utf-8">
  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
  <title>PSII_02</title>
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
  <script>
-   document.addEventListener("DOMContentLoaded", function() {
+     window.onload = function() {
      renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
+         {left: "\\[", right: "\\]", display: true},
+         {left: "$", right: "$", display: false}
      ]});
-   });
-   </script>
- <script>
-   document.addEventListener("DOMContentLoaded", function() {
-       setTimeout(function() { 
-           renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-           },100)
-   });
-   </script>
- <style>
-    ol.list_parentheses{
-        padding:0 0 0 2em;
-        margin:0;
-    }
-    ol.list_parentheses li{
-        list-style-type:none;
-        list-style-position:inside;
-        counter-increment: cnt;
-    }
-    ol.list_parentheses li:before{
-        display: marker;
-        content: "(" counter(cnt) ") ";
-    }
-</style>
+     };
+ </script>
 
 <script>
     let num_of_data = Math.floor(Math.random()*3 + 4);
@@ -125,33 +102,22 @@
 
     function show_answer(e){
         let identifier = e.id;
-        document.getElementById("a"+identifier).style.color = "black";
+        document.getElementById("a"+identifier).style.color = "red";
     }
 </script>
 </head>
 
-<body onload="generate_quizzes()">
- <center>
+<body class="container" onload="generate_quizzes()">
     <h1>代表値など</h1>
-    必要であれば一般電卓を使用してよい。<br>　<br>
- </center>
- 次はある試験の結果（30点満点）のローデータである。<br>　<br>
- 　　<span id="q1_id"></span> <br>　<br>
- 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
+    <p>次はある試験の結果（30点満点）のローデータである。</p>
+    <p>　　<span id="q1_id"></span></p>
+    <p>以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。</p>
+    <p>
  [1] 平均値は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
  [2] 中央値は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
  [3] 分散は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
  [4] 標準偏差は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
  [5] 不偏分散は　<span id="a5_id" style="color:white"></span>　である。　　<button id="5_id" onclick="show_answer(this)">答え</button> <br>
- 
- <!--
- $A = $ <span id="q1_id"></span> とする。<br>
- <ol class="list_parentheses">
-    <li> 行列$A$は正則か。正則であれば「正則である」と答え、正則でなければ「正則でない」と答えよ。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
-        　　　<span id="a1_id" style="color:white">　　</span> </li>
-    <li> 行列$A$が正則であるならば$A$の逆行列$A^{-1}$を求めよ。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
-        　　　<span id="a2_id" style="color:white">　　</span> </li>
- </ol>
- -->
+    </p>
 </body>
 </html>

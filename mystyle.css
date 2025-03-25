@@ -1,0 +1,48 @@
+        .box {
+            border: blue 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box p {
+            margin:0;
+            padding:0;
+        }
+        .box_red {
+            border: red 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box_red p {
+            margin:0;
+            padding:0;
+        }
+        ol.list_parentheses{
+              padding:0 0 0 2em;
+              margin:0;
+        }
+        ol.list_parentheses li{
+              list-style-type:none;
+              list-style-position:inside;
+              counter-increment: cnt;
+        }
+        ol.list_parentheses li:before{
+              display: marker;
+              content: "(" counter(cnt) ") ";
+        }
+        .container {
+          margin: 0;
+        }
+        table {
+            margin: auto; 
+            margin-top: -10px;
+            border-collapse: collapse;
+        }
+        td {
+              text-align: center; /* テキストを水平方向に中央揃え */
+        }
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
