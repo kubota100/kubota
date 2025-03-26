@@ -5,43 +5,18 @@
  <meta charset="utf-8">
  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
  <title>PSII_06</title>
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
  <script>
-   document.addEventListener("DOMContentLoaded", function() {
-     renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-   });
-   </script>
- <script>
-   document.addEventListener("DOMContentLoaded", function() {
-       setTimeout(function() { 
-           renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-           },100)
-   });
-   </script>
- <style>
-    ol.list_parentheses{
-        padding:0 0 0 2em;
-        margin:0;
-    }
-    ol.list_parentheses li{
-        list-style-type:none;
-        list-style-position:inside;
-        counter-increment: cnt;
-    }
-    ol.list_parentheses li:before{
-        display: marker;
-        content: "(" counter(cnt) ") ";
-    }
-</style>
-
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>
 <script>
     let num_of_data = 4; //Math.floor(Math.random()*3 + 3);
     let variable = [];
@@ -127,11 +102,11 @@
         return result;
     }
 
-    function generate_quizzes(){
-        document.getElementById("q1_id").textContent = variable[0];
-        document.getElementById("q2_id").textContent = variable[1];
-        document.getElementById("q3_id").textContent = variable[2];
-        document.getElementById("q4_id").textContent = variable[3];
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = "$" + variable[0] + "$";
+        document.getElementById("q2_id").textContent = "$" + variable[1] + "$";
+        document.getElementById("q3_id").textContent = "$" + variable[2] + "$";
+        document.getElementById("q4_id").textContent = "$" + variable[3] + "$";
         document.getElementById("q5_id").textContent = "$ \\dfrac{" + Math.round(100*probability[0]) + "}{100}$";
         document.getElementById("q6_id").textContent = "$ \\dfrac{" + Math.round(100*probability[1]) + "}{100}$";
         document.getElementById("q7_id").textContent = "$ \\dfrac{" + Math.round(100*probability[2]) + "}{100}$";
@@ -139,28 +114,24 @@
         document.getElementById("q9_id").textContent = q4_in_text;
         document.getElementById("q10_id").textContent = q5_in_text;
 
-        document.getElementById("a1_id").textContent = E_X_app;
-        document.getElementById("a2_id").textContent = E_X2_app;
-        document.getElementById("a3_id").textContent = V_X_app;
-        document.getElementById("a4_id").textContent = E_axb_app;
-        document.getElementById("a5_id").textContent = V_axb_app;
-
-    }
+        document.getElementById("a1_id").textContent = "$" + E_X_app + "$";
+        document.getElementById("a2_id").textContent = "$" + E_X2_app + "$";
+        document.getElementById("a3_id").textContent = "$" + V_X_app + "$";
+        document.getElementById("a4_id").textContent = "$" + E_axb_app + "$";
+        document.getElementById("a5_id").textContent = "$" + V_axb_app + "$";
+    })
 
     function show_answer(e){
         let identifier = e.id;
-        document.getElementById("a"+identifier).style.color = "black";
+        document.getElementById("a"+identifier).style.color = "red";
     }
 </script>
 </head>
 
-<body onload="generate_quizzes()">
- <center>
+<body class="container">
     <h1>確率変数の平均値と分散</h1>
-    必要であれば一般電卓を使用してよい。<br>
-    確率変数の平均値は「期待値」と呼ぶこともある。<br>　<br>
- </center>
- 確率変数 $X$ は次の確率分布に従う。
+    <div class="box"> <span style="color: blue;">[Tips]</span> 確率変数の平均値は「期待値」と呼ぶことも多い。</div>
+    <p>確率変数 $X$ は次の確率分布に従う。</p>
  <p>
     <table border = "1">
         <tr>
@@ -179,24 +150,14 @@
             </tr>
       </table>
   </p>
- 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
+  <p>以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。</p>
+  <p>
  [1] $X$ の平均値 $E[X]$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
  [2] $X^2$ の平均値 $E[X^2]$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
  [3] $X$ の分散 $V[X]$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
  [4] <span id="q9_id"></span> は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
  [5] <span id="q10_id"></span> は　<span id="a5_id" style="color:white"></span>　である。　　<button id="5_id" onclick="show_answer(this)">答え</button> <br>
-
-
- <!--
- 次はある教科の中間試験の点数 $x$ と期末試験の点数 $y$（それぞれ30点満点）をペアにしてまとめたものである。<br>　<br>
- 　　<span id="q1_id"></span> <br>　<br>
- 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
- [1] $x$ の分散 $s_x^2$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button><br>
- [2] $y$ の分散 $s_y^2$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button><br>
- [3] $x$ と $y$ の共分散 $s_{xy}$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
- [4] $x$ と $y$ の相関係数 $r_{xy}$ は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
- -->
-
+ </p>
  
 </body>
 </html>

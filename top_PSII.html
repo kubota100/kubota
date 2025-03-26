@@ -4,46 +4,20 @@
 <head>
 <meta charset="utf-8">
 <title>確率統計II</title>
-<style>
-    .box {
-        border: blue 1px solid; /*境界線の指定*/
-        padding:10px;
-        }
-        .box p {
-        margin:0;
-        padding:0;
-        }
-    .box_red {
-        border: red 1px solid; /*境界線の指定*/
-        padding:10px;
-        }
-    .box_red p {
-        margin:0;
-        padding:0;
-        }
-    .container {
-          margin: 0;
-        }
-        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
-      @media screen and (min-width: 680px) {
-          .container {
-              width: 700px;
-              margin-left: auto; /* 左右中央に配置 */
-              margin-right: auto;
-          }
-        }
-</style>
+<link rel="stylesheet" href="mystyle.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
 </head>
 
-<body>
-<div class="container">
-<h1>確率統計II</h1>
+<body class="container">
+<center><h1>確率統計II</h1></center>
 
 <p>
-背景色を変更している（黒に設定しているなど）とうまく動作しない可能性があります。
-表示がうまくいかないときはページを再読み込みしてください。
-何度も再読み込みしてもうまくいかない場合は久保田まで連絡ください。
-なお、すべての演習問題は必要であれば一般電卓を使用しても構いません（むしろ積極的に使ってください）。
+演習問題については、背景色を変更している（黒に設定しているなど）とうまく動作しない可能性があります。
+表示がうまくいかないときはページを再読み込みしてください。何度も再読み込みしてもうまくいかない場合は久保田まで連絡ください。
+それ以外にも不具合などを発見しましたら報告して頂けますと助かります。
+なお、すべての演習問題は必要であれば一般電卓を使用して構いません（むしろ積極的に使ってください）。
 </p>
 <br>
 <!--
@@ -72,11 +46,129 @@
   <a href="PSII_rep.html">不偏推定量についての実験</a>
 </div> <br> <br>
 -->
+<p>
+    <table border = "1">
+        <tr>
+          <td bgcolor="lightgrey" align="center"></td>
+          <td bgcolor="lightgrey" align="center">内容</td>
+          <td bgcolor="lightgrey" align="center">演習問題</td>
+          <td bgcolor="lightgrey" align="center">補足事項</td>
+        </tr>
+        <tr>
+            <td>第1回</td>
+            <td>1変量データの整理</td>
+            <td><a href="PSII_01.html">度数分布表</a><br>
+                <a href="PSII_02.html">代表値など</a><br>
+                <a href="PSII_03.html">度数分布表から代表値</a><br>
+                <a href="PSII_04.html">標準化</a></td>
+            <td>スライド</td>
+        </tr>
+        <tr>
+            <td>第2回</td>
+            <td>2変量データ（相関係数）</td>
+            <td><a href="PSII_05.html">相関係数</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第3回</td>
+            <td>2変量データ（回帰直線）</td>
+            <td>回帰直線</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第4回</td>
+            <td>確率変数の復習</td>
+            <td><a href="PSII_06.html">確率変数の平均値と分散</a><br>
+                <a href="PSII_07.html">ふたつの確率変数</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第5回</td>
+            <td>標本抽出・不偏推定量</td>
+            <td>ドイツ戦車の問題<br>（教科書p97, 問7.3）</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第6回</td>
+            <td>大数の法則</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第7回</td>
+            <td>正規分布の復習<br>標準正規分布表の使い方</td>
+            <td><a href="PSII_08.html">標準正規分布表の読み取り（１）</a><br>
+                <a href="PSII_09.html">標準正規分布表の読み取り（２）</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第8回</td>
+            <td>母平均の区間推定（母分散既知）</td>
+            <td><a href="PSII_10.html">母平均の区間推定（母分散既知）</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第9回</td>
+            <td>母平均の区間推定（母分散未知）</td>
+            <td><a href="PSII_11.html">母平均の区間推定（母分散未知）</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第10回</td>
+            <td>中心極限定理</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第11回</td>
+            <td>母比率の区間推定</td>
+            <td><a href="PSII_13.html">母比率の区間推定</a> <br>
+                <a href="PSII_14.html">統計量の思い出し方</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第12回</td>
+            <td>仮説検定・2種類の過誤</td>
+            <td>2種類の過誤</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第13回</td>
+            <td>母平均の検定</td>
+            <td><a href="PSII_15.html">母平均の検定（母分散既知）</a> <br>
+                <a href="PSII_19.html">P-値</a> <br>
+                <a href="PSII_16.html">母平均の検定（母分散未知）</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第14回</td>
+            <td>母分散の検定<br>母比率の検定</td>
+            <td><a href="PSII_17.html">母分散の検定</a> <br>
+                <a href="PSII_18.html">母比率の検定</a></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第15回</td>
+            <td>母平均の差の検定</td>
+            <td>母平均の差の検定（対応のない2標本）<br>
+                母平均の差の検定（対応のある2標本）</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>第16回</td>
+            <td>（期末試験）</td>
+            <td></td>
+            <td>過去問</td>
+        </tr>
+      </table>
+    </p>
 
+<!--
 <div class="box">
     <font color="blue">3/XX追加</font>　第1回の授業のスライドは <a href="XXX">こちら</a> （予定）
 </div>
-
+-->
+<!--
 <p>
 《記述統計》<br>
 <a href="PSII_01.html">度数分布表</a> <br>
@@ -115,9 +207,8 @@
 母平均の差の検定（対応のない2標本）<br>
 母平均の差の検定（対応のある2標本）
 </p>
-
+-->
 <br> <br>
-</div>
 </body>
 
 </html>
