@@ -5,42 +5,18 @@
  <meta charset="utf-8">
  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
  <title>PSII_08</title>
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
  <script>
-   document.addEventListener("DOMContentLoaded", function() {
-     renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-   });
-   </script>
- <script>
-   document.addEventListener("DOMContentLoaded", function() {
-       setTimeout(function() { 
-           renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-           },100)
-   });
-   </script>
- <style>
-    ol.list_parentheses{
-        padding:0 0 0 2em;
-        margin:0;
-    }
-    ol.list_parentheses li{
-        list-style-type:none;
-        list-style-position:inside;
-        counter-increment: cnt;
-    }
-    ol.list_parentheses li:before{
-        display: marker;
-        content: "(" counter(cnt) ") ";
-    }
-</style>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>
 
 <script>
     let list = [];
@@ -105,45 +81,40 @@
         return (x > 0) ? y : 1 - y;
     }
 
-    function generate_quizzes(){
+    document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("q1_id").textContent = "$P(Z \\leq" + q1 + ")$";
         document.getElementById("q2_id").textContent = "$P(|Z| \\geq" + q2 + ")$";
         document.getElementById("q3_id").textContent = "$P(Z \\geq a) = " + q3 + "$";
         document.getElementById("q4_id").textContent = "$P(Z \\geq a) = " + q4 + "$";
 
-        document.getElementById("a1_id").textContent = a1;
-        document.getElementById("a2_id").textContent = a2;
-        document.getElementById("a3_id").textContent = a3;
-        document.getElementById("a4_id").textContent = a4;
-    }
+        document.getElementById("a1_id").textContent = "$" + a1 + "$";
+        document.getElementById("a2_id").textContent = "$" + a2 + "$";
+        document.getElementById("a3_id").textContent = "$" + a3 + "$";
+        document.getElementById("a4_id").textContent = "$" + a4 + "$";
+    })
 
     function show_answer(e){
         let identifier = e.id;
-        document.getElementById("a"+identifier).style.color = "black";
+        document.getElementById("a"+identifier).style.color = "red";
     }
 </script>
 </head>
 
-<body onload="generate_quizzes()">
- <center>
+<body class="container">
     <h1>標準正規分布表の読み取り(1)</h1>
-    必要であれば一般電卓を使用してよい。<br>
+    <!--
+    <div class="box"> <span style="color: blue;">[Tips]</span> </div>
     教科書 p.86 問題 6.8 にも目を通しておくこと。<br>　<br>
- </center>
- 確率変数 $Z$ が標準正規分布 $ N(0,1)$ に従うとする。<br>
- 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
+    -->
+    <p>確率変数 $Z$ が標準正規分布 $N(0,1)$ に従うとする。
+        以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。
+    </p>
+    <p>
  [1] <span id="q1_id"></span> は　<span id="a1_id" style="color:white"></span>　% である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
  [2] <span id="q2_id"></span> は　<span id="a2_id" style="color:white"></span>　% である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
  [3] <span id="q3_id"></span> が成り立つ $a$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
  [4] <span id="q4_id"></span> が成り立つ $a$ は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
- 
- <!--
- [1] $X$ の平均値 $E[X]$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
- [2] $X^2$ の平均値 $E[X^2]$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
- [3] $X$ の分散 $V[X]$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
- [4] <span id="q9_id"></span> は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
- [5] <span id="q10_id"></span> は　<span id="a5_id" style="color:white"></span>　である。　　<button id="5_id" onclick="show_answer(this)">答え</button> <br>
- -->
- 
+</p>
+  
 </body>
 </html>

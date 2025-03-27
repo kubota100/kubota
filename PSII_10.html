@@ -5,39 +5,18 @@
  <meta charset="utf-8">
  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
  <title>PSII_10</title>
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
  <script>
-   document.addEventListener("DOMContentLoaded", function() {
-     renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-   });
-   </script>
- <script>
-   document.addEventListener("DOMContentLoaded", function() {
-       setTimeout(function() { 
-           renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-           },100)
-   });
-   </script>
-   
-<style>
-    .box {
-        border: blue 1px solid; /*境界線の指定*/
-        padding:10px;
-        }
-        .box p {
-        margin:0;
-        padding:0;
-        }
-    </style>
-    
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
 
 <script>
     let pop_variance = Math.floor(Math.random()*110 + 40)/10;
@@ -92,35 +71,20 @@
         return (x > 0) ? y : 1 - y;
     }
 
-    function generate_quizzes(){
+    document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("q1_id").textContent = "$ \\sigma^2 =" + pop_variance + "^2$";
         document.getElementById("q2_id").textContent = "$" + num_of_samples + "$";
         document.getElementById("q3_id").textContent = "$ \\bar{x} =" + sample_mean + "$";
         document.getElementById("q4_id").textContent = "$" + conf_coef + "\\% $";
-        //
-        /*
-        document.getElementById("q5_id").textContent = "$ \\frac{\\overline{X} - \\mu}{" + pop_variance + "/ \\sqrt{" + num_of_samples + "}}$";
-        document.getElementById("q6_id").textContent = "$" + both_sides + "\\% $";
-        document.getElementById("q7_id").textContent = "$" + both_sides + "\\% $";
-        document.getElementById("q8_id").textContent = "$-" + alpha_point + ", " + alpha_point + "$";
-        document.getElementById("q9_id").textContent = "$ \\bar{x} =" + sample_mean + "$";
-        document.getElementById("q10_id").textContent = "\\[ -" + alpha_point + "\\leq \\frac{" + sample_mean + "- \\mu}{" + pop_variance + "/ \\sqrt{" + num_of_samples + "}} \\leq" + alpha_point + "\\]";
-        document.getElementById("q11_id").textContent = "$" + conf_coef + "\\% $";
-        document.getElementById("q12_id").textContent = "\\[" + pop_mean_lower_app + "\\leq \\mu \\leq" + pop_mean_upper_app + "\\]";
-        */
-        document.getElementById("q13_id").textContent = "\\[ \\overline{X} - z_{\\alpha / 2} \\frac{\\sigma}{\\sqrt{n}} \\leq \\mu \\leq \\overline{X} + z_{\\alpha / 2} \\frac{\\sigma}{\\sqrt{n}} \\]";
+        document.getElementById("q13_id").textContent = "\\[ \\left[ \\overline{X} - z_{\\alpha / 2} \\frac{\\sigma}{\\sqrt{n}}, \\, \\overline{X} + z_{\\alpha / 2} \\frac{\\sigma}{\\sqrt{n}} \\right] \\]";
         //
         document.getElementById("q14_id").textContent = "$ n=" + num_of_samples +",$";
         document.getElementById("q15_id").textContent = "$ \\sigma=" + pop_variance +"$";
         document.getElementById("q15-2_id").textContent = "$" + both_sides + "\\% $";
         document.getElementById("q16_id").textContent = "$ z_{"+ both_sides/100 +"} =" + alpha_point +"$";
         document.getElementById("q17_id").textContent = "$ \\bar{x} =" + sample_mean + "$";
-        document.getElementById("q18_id").textContent = "\\[" + pop_mean_lower_app + "\\leq \\mu \\leq" + pop_mean_upper_app + "\\]";
-        /*
-        document.getElementById("a1_id").textContent = a1;
-        document.getElementById("a2_id").textContent = a2;
-        */
-    }
+        document.getElementById("q18_id").textContent = "\\[ \\left["  + pop_mean_lower_app + ", \\, " + pop_mean_upper_app + "\\right] \\]";
+    })
 
     function show_answer(e){
         let identifier = e.id;
@@ -129,58 +93,31 @@
 </script>
 </head>
 
-<body onload="generate_quizzes()">
- <center>
+<body class="container">
     <h1>母平均の区間推定（母分散既知）</h1>
-    必要であれば一般電卓を使用してよい。
- <!--
- <div class="box">
- [例題] <br>
- $X$ が $N(16, 3^2)$ に従うとする。このとき $P(X < 18.46)$ を求めよ。
- <br>　<br>
- [解説] <br>
- $X \sim N(16, 3^2)$ より $\frac{X-16}{3} \sim N(0,1)$である。<br>
- また、 $P(X < 18.46) = P(\frac{X-16}{3} < 0.82)$であり、右辺は標準正規分布表からその値を捉えることができる。<br>
- $P(\frac{X-16}{3} < 0.82) = 0.5 + 0.29389$ だから $P(X < 18.46) = 0.7939$ (適当な位で四捨五入した)。
- </div>
- -->
- </center>
- <br>　<br>
- 母分散が <span id="q1_id"></span> である正規母集団からサイズ <span id="q2_id"></span> の標本を抽出して標本平均 <span id="q3_id"></span> を得た。<br>
- 母平均 $\mu$ の <span id="q4_id"></span> 信頼区間を求めよ。<br>
- 区間の両端の数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。　　<button id="1_id" onclick="show_answer(this)">答え</button>
- <br> <br>
-
- <sapn id="a1_id" style="color:white">
- [解答] <br>
- <!--
- 問題文から <span id="q5_id"></span> が標準正規分布 $N(0,1)$ に従う。 <br>
- 標準正規分布の下側 <span id="q6_id"></span> 点と上側 <span id="q7_id"></span> 点はそれぞれ <span id="q8_id"></span> であり、
- 標本平均が <span id="q9_id"></span> だから
- <span id="q10_id"></span>
- である。これを $\mu$ について解いて母平均の <span id="q11_id"></span> 信頼区間
- <span id="q12_id"></span>
- を得る。
- <br>　<br>
- [別解] <br>
- -->
+    <p> 母分散が <span id="q1_id"></span> である正規母集団からサイズ <span id="q2_id"></span> の標本を抽出して標本平均 <span id="q3_id"></span> を得た。
+        母平均 $\mu$ の <span id="q4_id"></span> 信頼区間を求めよ。
+        区間の両端の数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+ <sapn id="a1_id" style="color:transparent">
+    <p>[解答] <br>
  教科書の定理 8.2 や授業で導いた、母平均 $\mu$ に対する信頼係数 $1-\alpha$ の信頼区間
  <span id="q13_id"></span>
  に問題文の条件 <span id="q14_id"></span> <span id="q15_id"></span> や標準正規分布の上側 <span id="q15-2_id"></span> 点 <span id="q16_id"></span>、実現値 <span id="q17_id"></span> を代入して
  <span id="q18_id"></span>
  を得る。
- <br>　<br>　<br>
+</p> <br>
+<p>
  [補足] <br>
- 信頼区間は暗記するのではなく導出できることが望ましい。導出は次のように行う。<br>
+ 信頼区間は導出できることが望ましい。導出は次のように行う。
  $\frac{\overline{X} - \mu}{\sigma / \sqrt{n}}$ が標準正規分布 $N(0,1)$ に従うので
  \[ P \left( -z_{\alpha/2} \leq \frac{\overline{X} - \mu}{\sigma / \sqrt{n}} \leq z_{\alpha/2} \right) = 1 - \alpha \]
- である。上の式の意味がつかめなかったら $\alpha = 0.05$ のつもりで絵も書いてみよう。<br>
- 左辺のカッコの中を $\mu$ について解いた
+ である。上の式の意味がつかめなかったら $\alpha = 0.05$ のつもりで絵も書いてみよう。
+ 左辺のカッコの中を $\mu$ について解くと
  \[ \overline{X} - z_{\alpha / 2} \frac{\sigma}{\sqrt{n}} \leq \mu \leq \overline{X} + z_{\alpha / 2} \frac{\sigma}{\sqrt{n}} \]
- が母平均 $\mu$ に対する信頼係数 $1-\alpha$ の信頼区間である。
+ となる。この不等式から母平均 $\mu$ に対する信頼係数 $1-\alpha$ の信頼区間を得る。
+ <br>　<br>
  </sapn>
- <br>　<br>
- <br>　<br>
- 
+</p>
 </body>
 </html>
