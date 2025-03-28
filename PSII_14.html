@@ -5,83 +5,33 @@
  <meta charset="utf-8">
  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
  <title>PSII_14</title>
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
  <script>
-   document.addEventListener("DOMContentLoaded", function() {
-     renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-   });
-   </script>
- <script>
-   document.addEventListener("DOMContentLoaded", function() {
-       setTimeout(function() { 
-           renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-           },100)
-   });
-   </script>
- <style>
-    ol.list_parentheses{
-        padding:0 0 0 2em;
-        margin:0;
-    }
-    ol.list_parentheses li{
-        list-style-type:none;
-        list-style-position:inside;
-        counter-increment: cnt;
-    }
-    ol.list_parentheses li:before{
-        display: marker;
-        content: "(" counter(cnt) ") ";
-    }
-</style>
-<style>
-    .box {
-        border: blue 1px solid; /*境界線の指定*/
-        padding:10px;
-        }
-        .box p {
-        margin:0;
-        padding:0;
-        }
-</style>
-<style>
-.container {
-        margin: 0;
-    }
-
-    /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
-    @media screen and (min-width: 680px) {
-        .container {
-            width: 700px;
-            margin-left: auto; /* 左右中央に配置 */
-            margin-right: auto;
-        }
-    }
-    </style>
-
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>
 </head>
 
-<body onload="generate_quizzes()">
- <center>
-  <div class="container">
+<body class="container">
     <h1>統計量の思い出し方</h1>
-    このページは区間推定で用いる統計量の簡単なまとめである。
+    <p>
+    このページは区間推定で用いる統計量を簡単にまとめたものである。
+    これらの統計量は後に学ぶ仮説検定でもそのまま用いられるため、必要に応じて自力で導出できるようにしておくこと。
+    </p>
     <!--
     <br>
     「自由度」について確率統計IIでは説明しないため暗記事項とする箇所があるが、<br>
     基本的には「文字を機械的に置き換えたら自由度がひとつ下がる」と覚えておくとよい。
     -->
-    <br>　<br>
-    <div class="box">
-        [ 基本事項 ] <br>
-        $a$ を実数とし、$X, Y$ を確率変数とすると以下が成り立つ。 <br>
+    <div class="box"> <span style="color:blue;">[基本事項]</span>
+        $a$ を実数とし、$X, Y$ を確率変数とすると以下が成り立つ。 
         \[ \begin{aligned}
         E[X+Y] &= E[X] + E[Y] \\
         E[aX] &= aE[X] \\
@@ -91,9 +41,10 @@
         \[ V[X+Y] = V[X] + V[Y] \]
         も成り立つ。
         </div>
- </center> <br>
- <div class="container">
- <center><u>母分散 $\sigma^2$ が既知の場合に母平均 $\mu$ を推定する</u></center> <br>
+        <hr>
+
+<h3>母分散 $\sigma^2$ が既知の場合に母平均 $\mu$ を推定する</h3>
+<p>
  $X_1, \dots, X_n$ を正規分布 $N(\mu, \sigma^2)$ に従う独立な確率変数とする。
  このとき、和 $\sum_{i=1}^n X_i$ は $N(n\mu, n\sigma^2)$ に従う。
  したがって標本平均
@@ -101,15 +52,21 @@
  は $N(\mu, \frac{\sigma^2}{n})$ に従う。
  母分散既知の場合の母平均の区間推定は、これを標準化した
  \[ \frac{\overline{X} - \mu}{ \sigma / \sqrt{n} } \]
- が標準正規分布 $N(0,1)$ に従うことを使う。<br>　<br>　<br>
+ が標準正規分布 $N(0,1)$ に従うことを使う。</p>
+ <hr>
 
- <center><u>母分散 $\sigma^2$ が未知の場合に母平均 $\mu$ を推定する</u></center> <br>
+ <h3>母分散 $\sigma^2$ が未知の場合に母平均 $\mu$ を推定する</h3>
+ <p>
  母分散が未知の場合、先の式で $\sigma$ が使えないので、$\sigma$ を不偏分散 $U^2$ の正の平方根 $U$ で置き換えて
  \[ \frac{\overline{X} - \mu}{ U / \sqrt{n} } \]
- が自由度 $n-1$ の $t$ 分布 $t_{n-1}$ に従うことを使う。<br>　<br>　<br> <hr>
+ が自由度 $n-1$ の $t$ 分布 $t_{n-1}$ に従うことを使う。</p>
+ <hr>
 
- <center><u>母比率 $p$ を推定する</u></center> <br>
- $0 \leq p \leq 1$ とする。確率変数 $X$ が成功確率 $p$ のベルヌーイ型確率変数であるとは $P(X=1) = p, P(X=0) = 1-p$ を満たすことをいう。 
+ <h3>母比率 $p$ を推定する</h3>
+ <p>
+ $0 \leq p \leq 1$ とする。確率変数 $X$ が成功確率 $p$ のベルヌーイ型確率変数であるとは
+ \[ P(X=1) = p, \quad P(X=0) = 1-p \]
+ を満たすことをいう。 
  成功確率（母比率）$p$ を推定したい。ベルヌーイ型確率変数 $X$ の平均値と分散はそれぞれ
  \[ \begin{aligned} E[X] &= 1 \cdot p + 0 \cdot (1-p) = p, \\ V[X] &= E[X^2] - E[X]^2 = p - p^2 = p(1-p) \end{aligned} \]
  と計算できる。
@@ -119,56 +76,31 @@
  は平均値が $p$ で分散が $\frac{p(1-p)}{n}$ である。
  一方、$\overline{X}$ は成功回数の割合（標本比率）を表している。以下、$\overline{X}$ を $\hat{p}$ と表記する。
  $\hat{p}$ は標本平均であるから、$n$ が十分大きい場合は中心極限定理により近似的に正規分布に従う。
- 実践的には $n$ が十分大きいという条件のもとで
+ よって、$n$ が十分大きいという条件のもとで
  \[ \hat{p} \sim N \left(p, \frac{p(1-p)}{n} \right) \]
  と考えてよい。母比率の区間推定は、これを標準化した
  \[ \frac{\hat{p} - p}{\sqrt{ \frac{p(1-p)}{n} }} \]
  が標準正規分布に（近似的に）従うことを使って計算する…が、実践的には大数の法則を根拠に、分母に登場する $p$ も $\hat{p}$ に置き換えて
  \[ \frac{\hat{p} - p}{\sqrt{ \frac{\hat{p}(1-\hat{p})}{n}}} \]
  が標準正規分布に従うとみなして計算する。
- <br>　<br>　<br> <hr>
+ </p>
+ <hr>
 
- <center><u>カイ2乗分布について</u></center> <br>
+ <h3>カイ2乗分布について</h3>
+ <p>
  $Z_1, \dots, Z_n$ を標準正規分布 $N(0, 1)$ に従う独立な確率変数とする。
  このとき、2乗和 $Z_1^2 + \cdots + Z_n^2$ が従う分布を自由度 $n$ のカイ2乗分布 $\chi_{n}^2$ という。
  したがって、正規分布 $N(\mu, \sigma^2)$ に従う独立な確率変数 $X_1, \dots, X_n$ について、それらの標準化の2乗和
  \[ \sum_{i=1}^n \left( \frac{X_i - \mu}{\sigma} \right)^2 \]
- は自由度 $n$ のカイ2乗分布 $\chi_{n}^2$ に従う。<br>　<br>　<br>
+ は自由度 $n$ のカイ2乗分布 $\chi_{n}^2$ に従う。</p>
+ <hr>
 
- <center><u>（母平均が未知の場合に）母分散を推定する</u></center> <br>
+ <h3>（母平均が未知の場合に）母分散を推定する</h3>
+ <p>
  母平均が未知の場合、先の式で $\mu$ を標本平均 $\overline{X}$ で置き換えて
  \[ \sum_{i=1}^n \left( \frac{X_i - \overline{X}}{\sigma} \right)^2
-\quad \left( \, = \frac{1}{\sigma^2} \sum_{i=1}^n (X_i - \overline{X})^2 = \frac{nS^2}{\sigma^2} \, \right)\]
- が自由度 $n-1$ のカイ2乗分布 $\chi_{n-1}^2$ に従うことを用いて母分散を推定する。<br>　<br>　<br>
- </div>
- <!--
- 確率変数 $X$ は次の確率分布に従う。
- <p>
-    <table border = "1">
-        <tr>
-          <td align="center" bgcolor="lightgrey">$x$</td>
-          <td align="center"> <span id="q1_id"></span> </td>
-          <td align="center"> <span id="q2_id"></span> </td>
-          <td align="center"> <span id="q3_id"></span> </td>
-          <td align="center"> <span id="q4_id"></span> </td>
-        </tr>
-          <tr>
-            <td align="center" bgcolor="lightgrey">$P(X=x)$</td>
-            <td> <span id="q5_id"></span> </td>
-            <td> <span id="q6_id"></span> </td>
-            <td> <span id="q7_id"></span> </td>
-            <td> <span id="q8_id"></span> </td>
-            </tr>
-      </table>
-  </p>
- 以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。<br> <br>
- [1] $X$ の平均値 $E[X]$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
- [2] $X^2$ の平均値 $E[X^2]$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
- [3] $X$ の分散 $V[X]$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
- [4] <span id="q9_id"></span> は　<span id="a4_id" style="color:white"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button> <br>
- [5] <span id="q10_id"></span> は　<span id="a5_id" style="color:white"></span>　である。　　<button id="5_id" onclick="show_answer(this)">答え</button> <br>
--->
-
- 
+ \quad \left( \, = \frac{1}{\sigma^2} \sum_{i=1}^n (X_i - \overline{X})^2 = \frac{nS^2}{\sigma^2} \, \right)\]
+ が自由度 $n-1$ のカイ2乗分布 $\chi_{n-1}^2$ に従うことを用いて母分散を推定する。</p>
+ <br>　<br>　<br> 
 </body>
 </html>

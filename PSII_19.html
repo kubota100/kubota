@@ -5,39 +5,18 @@
  <meta charset="utf-8">
  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
  <title>PSII_19</title>
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
  <script>
-   document.addEventListener("DOMContentLoaded", function() {
-     renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-   });
-   </script>
- <script>
-   document.addEventListener("DOMContentLoaded", function() {
-       setTimeout(function() { 
-           renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-           },100)
-   });
-   </script>
-   
-<style>
-    .box {
-        border: blue 1px solid; /*境界線の指定*/
-        padding:10px;
-        }
-        .box p {
-        margin:0;
-        padding:0;
-        }
-    </style>
-    
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+ </script>
 
 <script>
     let num_of_data = Math.floor(Math.random()*3 + 5);
@@ -81,12 +60,12 @@
 
     //let both_sides = Math.round((100 - conf_coef)*5)/10;
 
-    //
-
+    /*
     let pop_mean_lower = (-1)*alpha_point*Math.sqrt(sample_proportion*(1-sample_proportion)/num_of_samples) + sample_proportion;
     let pop_mean_lower_app = Math.round(pop_mean_lower*10000)/10000;
     let pop_mean_upper = alpha_point*Math.sqrt(sample_proportion*(1-sample_proportion)/num_of_samples) + sample_proportion;
     let pop_mean_upper_app = Math.round(pop_mean_upper*10000)/10000;
+    */
 
     /////////////////////////////////////////
 
@@ -126,7 +105,7 @@
         return (x > 0) ? y : 1 - y;
     }
 
-    function generate_quizzes(){
+    document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("q1_id").textContent = "$" + num_of_data + "$";
         document.getElementById("q2_id").textContent = data_in_text;
         document.getElementById("q3_id").textContent = "$ \\mu = " + pop_mean + "$";
@@ -138,7 +117,7 @@
         //
         document.getElementById("a1_id").textContent = "$" + z_value + "$";
         document.getElementById("a2_id").textContent = "$" + p_value + "$";
-    }
+    })
 
     function show_answer(e){
         let identifier = e.id;
@@ -151,40 +130,20 @@
 </script>
 </head>
 
-<body onload="generate_quizzes()">
- <center>
+<body class="container">
     <h1>P-値</h1>
-    必要であれば一般電卓を使用してよい。
- </center>
- <br>　<br>
- 次の <span id="q1_id"></span> 個の数は正規母集団 $N(\mu, \sigma^2)$ から取り出された無作為標本である。<br>
- 　　 <span id="q2_id"></span> <br>
- 母分散 <span id="q5_id"></span> が既知であるとき、この標本が平均値 <span id="q3_id"></span> の正規母集団から取り出された無作為標本といえるかどうかを調べたい。<br>
+    <p>次の <span id="q1_id"></span> 個の数は正規母集団 $N(\mu, \sigma^2)$ から取り出された無作為標本である。</p>
+ <p>　　 <span id="q2_id"></span></p>
+ <p>母分散 <span id="q5_id"></span> が既知であるとき、この標本が平均値 <span id="q3_id"></span> の正規母集団から取り出された無作為標本といえるかどうかを調べたい。
  そこで帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定した：<br>
  　　<span id="q6_id"></span> <br>
  　　<span id="q7_id"></span> <br>
- 以下、$H_0$ のもとで次の問に答えよ。<br> <br>
- [1] 検定統計量 $Z$ の実現値を小数第2位まで求めると　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+ 以下、$H_0$ のもとで次の問に答えよ。</p>
+ <p>
+ [1] 標本平均を用いて計算される検定統計量 $Z$ の実現値を小数第2位まで求めると　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
  [2] [1]のときのP-値を小数第4位まで求めると　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
- <!--
- 検定統計量 $Z$ の実現値を小数第2位まで求めると <span id="a1_id" style="color:white"></span> であり、<br>
- このときのP-値を小数第4位まで求めると <span id="a2_id" style="color:white"></span> である。　　<button id="1_id" onclick="show_answer(this)">答え</button>
- -->
- <br> <br>
- <!--
- <sapn id="a1_id" style="color:white">
- [解答] <br>
- 帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
- 　　<span id="q6_id"></span> <br>
- 　　<span id="q7_id"></span> <br>
- 標本平均 $\overline{X}$ の標準化
- \[ Z = \frac{\overline{X} - \mu}{\sigma / \sqrt{n}} \]
- が標準正規分布 $N(0,1)$ に従うことを利用して検定を行う。<br>
- 有意水準 <span id="q8_id"></span> より、棄却域は <span id="q9_id"></span> である。（←余白に絵もかくこと）<br>
- 帰無仮説 $H_0$ のもとで実現値は
- <span id="q10_id"></span>
- となり、<span id="q11_id"></span>
- -->
+ </p>
+ <br>　<br>
  </sapn>
 
 <br>　<br>

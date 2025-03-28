@@ -5,52 +5,18 @@
  <meta charset="utf-8">
  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
  <title>PSII_18</title>
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.css" integrity="sha384-6LkG2wmY8FK9E0vU9OOr8UvLwsaqUg9SETfpq4uTCN1agNe8HRdE9ABlk+fVx6gZ" crossorigin="anonymous">
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/katex.min.js" integrity="sha384-31El76TwmbHj4rF9DyLsygbq6xoIobG0W+jqXim+a3dU9W53tdH3A/ngRPxOzzaB" crossorigin="anonymous"></script>
- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.16/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
  <script>
-   document.addEventListener("DOMContentLoaded", function() {
-     renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-   });
-   </script>
- <script>
-   document.addEventListener("DOMContentLoaded", function() {
-       setTimeout(function() { 
-           renderMathInElement(document.body, {delimiters: [
-       {left: "\\[", right: "\\]", display: true},
-       {left: "$", right: "$", display: false}
-     ]});
-           },100)
-   });
-   </script>
-   
- <style>
-    .box {
-        border: blue 1px solid; /*境界線の指定*/
-        padding:10px;
-        }
-        .box p {
-        margin:0;
-        padding:0;
-        }
- </style>
- <style>
-    .container {
-            margin: 0;
-        }
-    
-        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
-        @media screen and (min-width: 680px) {
-            .container {
-                width: 700px;
-                margin-left: auto; /* 左右中央に配置 */
-                margin-right: auto;
-            }
-        }
-</style>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+ </script>
     
 <script>
     let num_of_kinoko = Math.floor(Math.random()*100 + 100);
@@ -70,10 +36,10 @@
     let judge2 = "";    
     if(Math.abs(z_value) > alpha_point){
         judge = "$z$ は棄却域に落ちるので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却される。"
-        judge2 = "できる。"
+        judge2 = "統計的根拠になる。"
     } else {
         judge = "$z$ は棄却域に落ちていないので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却されない。"
-        judge2 = "できない。"
+        judge2 = "統計的根拠にはならない。"
     }
 
     //let both_sides = Math.round((100 - conf_coef)*5)/10;
@@ -116,7 +82,7 @@
         return (x > 0) ? y : 1 - y;
     }
 
-    function generate_quizzes(){
+    document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("q0_id").textContent = "$" + (num_of_kinoko + num_of_takenoko) + "$";
         document.getElementById("q1_id").textContent = "$" + num_of_kinoko + "$";
 //        document.getElementById("q2_id").textContent = data_in_text;
@@ -133,7 +99,7 @@
         document.getElementById("q10_id").textContent = "\\[ z = \\frac{ \\frac{"+ num_of_kinoko +"}{"+num_of_samples+"} - \\frac{1}{3}}{ \\sqrt{ \\left( \\frac{1}{3} \\cdot \\frac{2}{3} \\right) / "+ num_of_samples +"}} = "+ z_value +" \\]";
         document.getElementById("q11_id").textContent = judge;
         document.getElementById("q12_id").textContent = judge2;
-    }
+    })
 
     function show_answer(e){
         let identifier = e.id;
@@ -142,28 +108,25 @@
 </script>
 </head>
 
-<body onload="generate_quizzes()">
- <div class="container">
- <center>
+<body class="container">
     <h1>母比率の検定</h1>
-    必要であれば一般電卓を使用してよい。<br>
-    教科書 p.136 問題 9.2 にも目を通しておくこと。<br> <br>
-    <font color = "red">(7/26修正)<br>定説の支持・不支持の問題は表現の仕方が <br> 誤解を招きやすそうなので問題を少し変更しました。</font> <br>
- </center>
- <br>　<br>
+    <div class="box"><span style="color: blue;">[Tips]</span> 教科書 p.136 問題 9.2 にも目を通しておくこと。</div>
+    <p>
  あなたは明治のチョコスナック「きのこの山」と「たけのこの里」、どちらがお好きだろうか？
  複数の調査で「きのこの山」派と「たけのこの里」派の割合はおおよそ $1:2$ であることが分かっている
  （<a href="https://macaro-ni.jp/104842">[1]</a>, <a href="https://www.itmedia.co.jp/news/articles/1402/04/news016.html">[2]</a>, <a href="https://netatopi.jp/article/1171674.html">[3]</a>）。
  ただし[3]は「どちらも好き」「食べたことない」「無回答」を除いた割合で計上した（$1:1.8$ くらい）。
- なお、調査によっては「きのこの山」派が優勢であるものもある<a href="https://www.itmedia.co.jp/makoto/articles/1304/12/news112.html">[4]</a>。<br>　<br>
+ なお、調査によっては「きのこの山」派が優勢であるものもある<a href="https://www.itmedia.co.jp/makoto/articles/1304/12/news112.html">[4]</a>。</p>
+<p>
  [問題] <br>
  「きのこの山」派であるA君は[1][2][3]の調査結果の真偽を確かめるべく <span id="q0_id"></span> 人を無作為抽出し「きのこの山」と「たけのこの里」どちらが好きか？を尋ねた。
  その結果「きのこの山」派が <span id="q1_id"></span> 人、「たけのこの里」派が <span id="q3_id"></span> 人であることが分かった。
- A君の調査は[1][2][3]の調査結果「『きのこの山』派と『たけのこの里』派の割合は $1:2$ である」を否定できるか。
+ A君の調査は仮説「『きのこの山』派と『たけのこの里』派の割合は $1:2$ である」を否定するに足る統計的根拠を与えるか。
  有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
- <br> <br>
+</p>
 
  <sapn id="a1_id" style="color:white">
+<p>
  [解答] <br>
  「きのこの山」派の割合（母比率）を $p$ とする。
  帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
@@ -177,7 +140,8 @@
  帰無仮説 $H_0$ のもとで実現値は
  <span id="q10_id"></span>
  となり、<span id="q11_id"></span>
- つまり、[1][2][3]の調査結果を否定<span id="q12_id"></span>
+ つまり、A君の調査は仮説「『きのこの山』派と『たけのこの里』派の割合は $1:2$ である」を否定する<span id="q12_id"></span>
+ </p>
  </sapn>
 
 <br>　<br>
