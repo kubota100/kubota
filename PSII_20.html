@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_20</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+ <script>
+     window.onload = function() {
+     renderMathInElement(document.body, {delimiters: [
+         {left: "\\[", right: "\\]", display: true},
+         {left: "$", right: "$", display: false}
+     ]});
+     };
+ </script>
+
+<script>
+    let x_average = Math.floor(Math.random()*60 + 150);
+    let y_average = Math.floor(Math.random()*10 + 60);
+    let x_variance = Math.floor(Math.random()*200 + 800);
+    let y_variance = Math.floor(Math.random()*50 + 50);
+    let xy_corr = (-1)*Math.floor(Math.random()*50 + 30)/100;
+    let xy_covariance = Math.floor((xy_corr * Math.sqrt(x_variance) * Math.sqrt(y_variance))*100)/100;
+    console.log([xy_corr, xy_covariance]);
+
+    let xy_corr_ans = Math.floor(xy_covariance /(Math.sqrt(x_variance) * Math.sqrt(y_variance)) *100) /100;
+    let xy_line_a = Math.floor((xy_covariance / x_variance)*100)/100;
+    let xy_line_b = Math.floor(((-1)* xy_covariance / x_variance * x_average + y_average)*100)/100;
+    let yx_line_a = Math.floor((xy_covariance / y_variance)*100)/100;
+    let yx_line_b = Math.floor(((-1)* xy_covariance / y_variance * y_average + x_average)*100)/100;
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+//    function generate_quizzes(){
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `\\[ \\bar{x} = ${x_average}, \\quad \\bar{y} = ${y_average}, \\quad s_x^2 = ${x_variance}, \\quad s_y^2 = ${y_variance}, \\quad s_{xy} = ${xy_covariance} \\]`;
+        //\[ \bar{x} = 180, \quad \bar{y} = 70, \quad s_x^2 = 900, \quad s_y^2 = 35, \quad s_{xy} = -250 \]
+
+        document.getElementById("a1_id").textContent = `$ ${xy_corr_ans} $`;
+        document.getElementById("a2_id").textContent = `$y = ${xy_line_a}x + ${xy_line_b} $`;
+        document.getElementById("a3_id").textContent = `$x = ${yx_line_a}y + ${yx_line_b} $`;
+    })
+//    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>回帰直線</h1>
+    <!--
+    <div class="box"> <span style="color: blue;">[Tips]</span> 共分散 $s_{xy}$ の計算は公式 $s_{xy} = \overline{xy} - \bar{x} \bar{y}$ を用いると良い。 </div>
+    -->
+    <p>ある高校に所属する生徒の、1日に使用するスマートフォンの平均使用時間（$x$ 分）と、定期テストの点数（$y$ 点）を調べた。
+        その結果、</p>
+        <p><span id="q1_id"></span> </p>
+        <p>
+        であることが分かった。以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。
+    </p>
+    <p>
+        [1] $x$ と $y$ の相関係数 $r_{xy}$ は　<span id="a1_id" style="color:transparent"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button><br>
+        [2] $x$ を説明変数、$y$ を目的変数とする回帰直線は　<span id="a2_id" style="color:transparent"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button><br>
+        [3] $y$ を説明変数、$x$ を目的変数とする回帰直線は　<span id="a3_id" style="color:transparent"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button><br>
+    </p>
+    <div class="box"><span style="color: blue;">[注意]</span>
+        回帰直線は変数間の傾向を示すものであり、因果関係を示すものではない。
+        例えば、スマートフォンの使用制限が成績の向上につながるかどうかは、この調査結果だけからは判断できない。
+    </div>
+</body>
+</html>
