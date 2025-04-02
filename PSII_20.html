@@ -25,14 +25,14 @@
     let x_variance = Math.floor(Math.random()*200 + 800);
     let y_variance = Math.floor(Math.random()*50 + 50);
     let xy_corr = (-1)*Math.floor(Math.random()*50 + 30)/100;
-    let xy_covariance = Math.floor((xy_corr * Math.sqrt(x_variance) * Math.sqrt(y_variance))*100)/100;
+    let xy_covariance = Math.floor((xy_corr * Math.sqrt(x_variance) * Math.sqrt(y_variance)));
     console.log([xy_corr, xy_covariance]);
 
-    let xy_corr_ans = Math.floor(xy_covariance /(Math.sqrt(x_variance) * Math.sqrt(y_variance)) *100) /100;
-    let xy_line_a = Math.floor((xy_covariance / x_variance)*100)/100;
-    let xy_line_b = Math.floor(((-1)* xy_covariance / x_variance * x_average + y_average)*100)/100;
-    let yx_line_a = Math.floor((xy_covariance / y_variance)*100)/100;
-    let yx_line_b = Math.floor(((-1)* xy_covariance / y_variance * y_average + x_average)*100)/100;
+    let xy_corr_ans = Math.round(xy_covariance /(Math.sqrt(x_variance) * Math.sqrt(y_variance)) *100) /100;
+    let xy_line_a = Math.round((xy_covariance / x_variance)*100)/100;
+    let xy_line_b = Math.round(((-1)* xy_covariance / x_variance * x_average + y_average)*100)/100;
+    let yx_line_a = Math.round((xy_covariance / y_variance)*100)/100;
+    let yx_line_b = Math.round(((-1)* xy_covariance / y_variance * y_average + x_average)*100)/100;
 
     function average(array){
         let n = array.length;
