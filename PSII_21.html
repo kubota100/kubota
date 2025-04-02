@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_21</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+ <script>
+     window.onload = function() {
+     renderMathInElement(document.body, {delimiters: [
+         {left: "\\[", right: "\\]", display: true},
+         {left: "$", right: "$", display: false}
+     ]});
+     };
+ </script>
+
+<script>
+    let x_average = Math.floor(Math.random()*60 + 150);
+    let y_average = Math.floor(Math.random()*10 + 60);
+    let x_variance = Math.floor(Math.random()*200 + 800);
+    let y_variance = Math.floor(Math.random()*50 + 50);
+    let xy_corr = (-1)*Math.floor(Math.random()*50 + 30)/100;
+    let xy_covariance = Math.floor((xy_corr * Math.sqrt(x_variance) * Math.sqrt(y_variance)));
+    console.log([xy_corr, xy_covariance]);
+
+    let xy_corr_ans = Math.round(xy_covariance /(Math.sqrt(x_variance) * Math.sqrt(y_variance)) *100) /100;
+    let xy_line_a = Math.round((xy_covariance / x_variance)*100)/100;
+    let xy_line_b = Math.round(((-1)* xy_covariance / x_variance * x_average + y_average)*100)/100;
+    let yx_line_a = Math.round((xy_covariance / y_variance)*100)/100;
+    let yx_line_b = Math.round(((-1)* xy_covariance / y_variance * y_average + x_average)*100)/100;
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+//    function generate_quizzes(){
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `\\[ \\bar{x} = ${x_average}, \\quad \\bar{y} = ${y_average}, \\quad s_x^2 = ${x_variance}, \\quad s_y^2 = ${y_variance}, \\quad s_{xy} = ${xy_covariance} \\]`;
+        //\[ \bar{x} = 180, \quad \bar{y} = 70, \quad s_x^2 = 900, \quad s_y^2 = 35, \quad s_{xy} = -250 \]
+
+        document.getElementById("a1_id").textContent = `$ ${xy_corr_ans} $`;
+        document.getElementById("a2_id").textContent = `$y = ${xy_line_a}x + ${xy_line_b} $`;
+        document.getElementById("a3_id").textContent = `$x = ${yx_line_a}y + ${yx_line_b} $`;
+    })
+//    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>ドイツ戦車の問題（標本サイズ2）</h1>
+    <p>このページの問題は教科書の p97, 問7.3 の改題である。
+        ページを再読み込みしても新しい問題は生成されない。</p>
+    <!--
+    <div class="box">本問題は教科書の p97, 問7.3 を補足したものである。
+        ページを再読み込みしても新しい問題は生成されない。
+    </div>
+    -->
+    <p>
+        <b>【背景】</b> <br>
+        戦争において敵国の情報を把握することは極めて重要である。
+        わずかな情報であっても、戦況に決定的な影響を与えることがあるからだ。
+        第二次世界大戦中、西側連合国は「ドイツがどれほどの数の戦車を生産しているか」を把握しようと試みた。
+        当然のことながら、ドイツが正確な生産台数を公表することはないため、連合国は別の情報源から推定する必要があった。
+        そこで注目されたのが、捕獲した戦車や破壊された戦車の部品などに刻印されたシリアルナンバー（固有の番号）である。
+        ここでは、$N$ 台の戦車があるとして、各戦車には固有の番号 $1,2, \dots, N$ が一意に割り当てられていると仮定する。
+        未知の $N$ の値を推定したい。
+    </p>
+    <p>
+        <b>【問題】</b> <br>
+        集合 $\{ 1,2, \dots, N \}$ から無作為非復元抽出で選んだサイズ $2$ の標本を $X_1$, $X_2$ として、$T = \max \{ X_1, X_2 \}$ とおく。
+        例えば、実際にとった標本が $5, 12$ であったとき、確率変数 $T$ の実現値は $t = \max \{ 5,12 \} = 12$ である。
+        なお、標本は非復元抽出で選んでいるので $X_1 \neq X_2$ であることに注意せよ。
+        $N$ は十分大きい整数であるとして、次の問に答えよ。</p>
+        <p>
+        [1] $P(T=2)$ を求めよ。<br>
+        [2] $P(T=3)$ を求めよ。<br>
+        [3] $2 \leq k \leq N$ を満たす整数 $k$ に対して $P(T = k)$ を求めよ。<br>
+        [4] $E[T]$ を求めよ。<br>
+        [5] $\frac{3}{2}T - 1$ が $N$ の不偏推定量であることを示せ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p>
+        <span id="a1_id" style="color:transparent">
+            [1] $\{ 1,2, \dots, N \}$ から無作為非復元抽出でサイズ $2$ の標本を選ぶ方法の総数は $\binom{N}{2}$ 通りである。
+            このうち、$T = 2$ となる標本の取り方は $\{1,2\}$ の $1$ 組である。よって
+            \[ P(T=2) = \frac{1}{\binom{N}{2}} = \frac{2}{N(N-1)} \]
+            である。<br>
+            [2] $T = 3$ となる標本は $\{1,3\}, \{2,3\}$ の $2$ 組であるから、
+            \[ P(T=3) = \frac{2}{\binom{N}{2}} = \frac{4}{N(N-1)} \]
+            である。 <br>
+            [3] $T = k$ となる標本は、ひとつは $k$ を含み、もう一方は $1,2,\dots,k-1$ のどれかでなければならない。
+            したがって、該当する標本は $k-1$ 組である。
+            よって、
+            \[ P(T=k) = \frac{k-1}{\binom{N}{2}} = \frac{2(k-1)}{N(N-1)} \]
+            である。<br>
+            [4] 期待値の定義にしたがって次のように計算する。
+            \[ \begin{aligned}
+            E[T] &= \sum_{k=2}^N k P(T=k) \\
+            &= \sum_{k=2}^N \frac{2k(k-1)}{N(N-1)} \\
+            &= \frac{2}{N(N-1)} \sum_{k=1}^N k(k-1) \\
+            &= \frac{2}{N(N-1)} \cdot \frac{N(N+1)(N-1)}{3} \\
+            &= \frac{2}{3}(N+1)
+            \end{aligned} \]
+            [5] $E[\frac{3}{2}T - 1] = N$ を示せばよい。[4]の結果を用いて
+            \[ E \left[ \frac{3}{2}T - 1 \right] = \frac{3}{2}E[T] - 1 = \frac{3}{2} \cdot \frac{2}{3}(N+1) - 1 = N \]
+            と計算できる。<br>
+        </span>
+    </p>
+    <br>　<br>
+</body>
+</html>
