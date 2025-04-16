@@ -4,7 +4,7 @@
 <head>
  <meta charset="utf-8">
  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
- <title>PSII_rep</title>
+ <title>PSII_LLN</title>
  <link rel="stylesheet" href="mystyle.css">
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
  <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
@@ -20,6 +20,36 @@
  </script>
 
 <script>
+    let counter10 = 0;
+    for(let i=0; i<10; i++){
+        if( Math.floor(Math.random()*2) == 0){
+            counter10++;
+        }
+    }
+    let ratio10 = counter10 / 10;
+    console.log(ratio10.toFixed(4));
+
+    let counter100 = 0;
+    for(let i=0; i<100; i++){
+        if( Math.floor(Math.random()*2) == 0){
+            counter100++;
+        }
+    }
+    let ratio100 = counter100 / 100;
+    console.log(ratio100.toFixed(4));
+
+    let counter10000 = 0;
+    for(let i=0; i<10000; i++){
+        if( Math.floor(Math.random()*2) == 0){
+            counter10000++;
+        }
+    }
+    let ratio10000 = counter10000 / 10000;
+    console.log(ratio10000.toFixed(4));
+
+
+
+    /*
     let data = [78, 68, 47, 74, 67, 46, 52, 48, 54, 44, 55, 48, 78, 49, 93, 70, 63, 72, 68, 73, 43, 26, 74, 56, 61, 58, 55, 73, 33, 67, 76, 64, 62, 54, 52, 59, 75, 67,
     49, 64, 84, 61, 78, 35, 65, 52, 85, 82, 75, 44, 32, 55, 85, 30, 60, 83, 37, 68, 98, 52, 85, 79, 67, 84, 75, 62, 87, 60];
     let num_of_data = data.length; //Math.floor(Math.random()*3 + 3);
@@ -61,6 +91,7 @@
     console.log(sample_means_mean);
     console.log(sample_vars_mean);
     console.log(sample_unvars_mean);
+    */
 
 
 
@@ -97,12 +128,9 @@
 
 //    function generate_quizzes(){
     document.addEventListener("DOMContentLoaded", function() {
-        // document.getElementById("q1_id").textContent = data_in_text;
-        document.getElementById("q2_id").textContent = "$\\mu = " + pop_mean + "$";
-        document.getElementById("q3_id").textContent = "$\\sigma^2 =" + pop_var + "$";
-        document.getElementById("q4_id").textContent = "$" + sample_means_mean + "$";
-        document.getElementById("q5_id").textContent = "$" + sample_vars_mean + "$";
-        document.getElementById("q6_id").textContent = "$" + sample_unvars_mean + "$";
+        document.getElementById("q1_id").textContent = `${ratio10.toFixed(4)}`;
+        document.getElementById("q2_id").textContent = `${ratio100.toFixed(4)}`;
+        document.getElementById("q3_id").textContent = `${ratio10000.toFixed(4)}`;
     })
 
     function show_answer(e){
@@ -114,8 +142,36 @@
 
 <body class="container">
  <center>
-    <h1>不偏推定量についての実験</h1>
+    <h1>コイン投げの実験</h1>
  </center>
+ <p>
+    公平なコインを $n$ 回投げて、表が出た回数 $k$ を数える。
+    このとき、表が出た割合 $\frac{k}{n}$ は、$n$ が大きくなるにつれてどのように変わるだろうか？
+    このページを再読み込みするたびに、あなたのパソコンやスマートフォンが一瞬で実験してくれる。
+    結果は次のとおりだ。
+ </p>
+ <table border="1">
+    <tr>
+      <th>n</th>
+      <th>表の割合 k/n </th>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td><b><span id="q1_id" style="color: blue;"></span></b></td>
+    </tr>
+    <tr>
+      <td>100</td>
+      <td><b><span id="q2_id" style="color: blue;"></span></b></td>
+    </tr>
+    <tr>
+      <td>10000</td>
+      <td><b><span id="q3_id" style="color: blue;"></span></b></td>
+    </tr>
+  </table>
+  
+ <!--
+ $n$回なげて$k$回表が出たとすると\AMI{表が出た割合}$\frac{k}{n}$は… \\
+\AMI{直感的な話、ぴったり$1/2$にはなかなかならないけど、こんな表になってそう} \\
 
  教科書 p8, 例2.1 にある68個のデータを母集団とみなす。
  母平均は <span id="q2_id"></span> であり、母分散は <span id="q3_id"></span> である。
@@ -124,5 +180,6 @@
  　　10000個の標本分散の平均は <span id="q5_id"></span>, <br>
  　　10000個の不偏分散の平均は <span id="q6_id"></span> <br> <br>
  となる。標本分散の平均はいつも母分散より少し小さく、不偏分散の平均の方が母分散に近いことが確かめられる。<br>
+ -->
 </body>
 </html>
