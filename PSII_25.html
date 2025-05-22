@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_25</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+ <script>
+     window.onload = function() {
+     renderMathInElement(document.body, {delimiters: [
+         {left: "\\[", right: "\\]", display: true},
+         {left: "$", right: "$", display: false}
+     ]});
+     };
+ </script>
+
+<script>
+    let germProb = [0.6, 0.65, 0.7, 0.75, 0.8, 0.85][Math.floor(Math.random()*6)];
+    let seedNum = [1000, 1100, 1200, 1300, 1400, 1500][Math.floor(Math.random()*6)];
+    let germNum = Math.round(seedNum*germProb)+ Math.floor(Math.random()*7+1)*5;
+    let zValue = Math.round((germNum - seedNum*germProb)/Math.sqrt(seedNum*germProb*(1-germProb))*1000)/1000;
+    console.log(zValue);
+    let prob = Math.round((1 - pnorm(zValue))*1000)/1000;
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+        function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) {
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+//    function generate_quizzes(){
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `$ ${germProb} $`;
+        document.getElementById("q2_id").textContent = `$ ${seedNum} $`;
+        document.getElementById("q3_id").textContent = `$ ${germNum} $`;
+        document.getElementById("q4_id").textContent = `$ B(${seedNum}, ${germProb}) $`;
+        document.getElementById("q5_id").textContent = `$ ${seedNum} $`;
+        document.getElementById("q6_id").textContent = `$ N(${Math.round(seedNum*germProb*100)/100}, ${Math.round(seedNum*germProb*(1-germProb)*10000)/10000}) $`;
+        //document.getElementById("q7_id").textContent = `\\[ \\frac{X-${Math.round(seedNum*germProb*100)/100}}{\\sqrt{${Math.round(seedNum*germProb*(1-germProb)*10000)/10000}}} \\approx N(0,1) \\]`;
+        document.getElementById("q7_id").textContent = `$ \\frac{X-${Math.round(seedNum*germProb*100)/100}}{\\sqrt{${Math.round(seedNum*germProb*(1-germProb)*10000)/10000}}}  $`;
+        document.getElementById("q8_id").textContent = `\\[ P(X \\geq ${germNum}) = P\\left(\\frac{X-${Math.round(seedNum*germProb*100)/100}}{\\sqrt{${Math.round(seedNum*germProb*(1-germProb)*10000)/10000}}} \\geq \\frac{${germNum}-${Math.round(seedNum*germProb*100)/100}}{\\sqrt{${Math.round(seedNum*germProb*(1-germProb)*10000)/10000}}} = ${zValue} \\right) \\]`;
+        document.getElementById("q9_id").textContent = `$ ${prob} $`;
+    })
+//    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>ド・モアブル-ラプラスの定理</h1>
+    <p>
+        以下の定理を ド・モアブル-ラプラスの定理 という。
+        授業で扱った定理 10.2 や教科書 p.113 の定理 8.10 をベルヌーイ型確率変数の列に対して適用したに過ぎない。
+    </p>
+    <div class="box"><span style="color: blue;">[定理]</span>
+        確率変数 $S$ が二項分布 $B(n, p)$ に従うとする。
+        このとき、$n$ が十分大きいならば、$S$ は近似的に正規分布 $N(np, np(1-p))$ に従う。
+        すなわち、 
+        \[ S \approx N(np, np(1-p)) \qquad (n \to \infty) \]
+        である。<br>
+        <div style="font-size: 90%; margin-top: 0.7em;">
+        <span style="color: blue;">[証明]</span>
+        $X_1, \cdots, X_n$ を成功確率 $p$ のベルヌーイ型確率変数とすると、
+        \[ S = X_1 + \cdots + X_n \]
+        とかける。各 $X_i$ について $E[X_i] = p$, $V[X_i] = p(1-p)$ であるから、
+        授業で扱った定理 10.2（または教科書の定理 8.10）より
+        \[ S = X_1 + \cdots + X_n \approx N(np, np(1-p)) \qquad (n \to \infty) \]
+        である。</div>
+    </div>
+    <p>
+        <b>【問題】</b> <br>
+        ある植物の発芽率は <span id="q1_id"></span> であるという。
+        この植物の種子を <span id="q2_id"></span> 個まいたとき、<span id="q3_id"></span> 個以上の種子が発芽する確率を、
+        ド・モアブル-ラプラスの定理を用いて小数第3位まで求めよ。
+        ただし、連続補正（教科書 p.116 参照）は用いなくてよい。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p>
+        <span id="a1_id" style="color:transparent">
+            <b>【解答】</b> <br>
+            発芽した種子の個数を $X$ とすると、$X$ は二項分布 <span id="q4_id"></span> に従う。
+            種子の個数 <span id="q5_id"></span> は十分大きいとみなしてよく、
+            ド・モアブル-ラプラスの定理から $X$ は近似的に <span id="q6_id"></span> に従う。
+            よって、<span id="q7_id"></span>は近似的に標準正規分布に従い、
+            <span id="q8_id"></span>
+            であるから、標準正規分布表より、求める確率は <span id="q9_id"></span> である（だいたい合っていればよい）。
+        </span>
+    </p>
+    <!--
+    <p>
+        $0 \leq p \leq 1$ とする。確率変数 $X$ が
+        \[ P(X=1) = p, \quad P(X=0) = 1-p \]
+        を満たすとき、成功確率 $p$ のベルヌーイ型確率変数であるといい、その分布をベルヌーイ分布という。
+        確率変数 $X$ が成功確率 $p$ のベルヌーイ分布に従うとき、次の問に答えよ。
+    </p>
+    <p>
+        [1] 平均値 $E[X]$ は　<span id="a1_id" style="color:transparent">$p$</span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+        [2] 分散 $V[X]$ は　<span id="a2_id" style="color:transparent">$p(1-p)$</span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p>
+        次に、$X_1, X_2, \dots, X_n$ をベルヌーイ分布に従う独立な確率変数とするとき、和
+        \[ S = X_1 + X_2 + \cdots + X_n \]
+        が従う分布を成功確率 $p$ の二項分布といい、$B(n,p)$ で表す。
+        確率変数 $S$ が成功確率 $p$ の二項分布 $B(n,p)$ に従うとき、次の問に答えよ。
+    </p>
+    <p>
+        [3] 平均値 $E[S]$ は　<span id="a3_id" style="color:transparent">$np$</span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+        [4] 分散 $V[S]$ は　<span id="a4_id" style="color:transparent">$np(1-p)$</span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button>
+    </p>
+    -->
+        
+
+<!--
+    <div class="box"><span style="color: blue;">[定理]</span>
+        （チェビシェフの不等式）
+        確率変数 $X$ の平均値を $\mu$ とし、分散を $\sigma^2$ とすると、
+        任意の $\varepsilon> 0$ に対して
+        \[ P(|X - \mu| \geq \varepsilon) \leq \frac{\sigma^2}{\varepsilon^2} \]
+        が成り立つ。
+    </div>
+    <p>
+        授業でも触れたように、チェビシェフの不等式は（平均値と分散が存在する限り）任意の確率分布に対して成り立つ、という点で非常に一般性の高い不等式である。
+        しかし、具体的な分布に適用した場合、必ずしも鋭い上界を与えるとは限らない。
+        例えば、上記の定理において $\varepsilon = 2\sigma$ ととると、
+        \[ P(|X - \mu| \geq 2\sigma) \leq \frac{\sigma^2}{(2\sigma)^2} = \frac{1}{4} \quad (= 25 \%) \]
+        という評価が得られるが、もし $X$ が正規分布に従うならば、左辺の実際の確率は $4.5 \%$ 程度に過ぎない。
+        このように、チェビシェフの不等式はその高い一般性ゆえに、個々の分布に対してはしばしば過大な上界を与える。
+        そこで、以下では正規分布とは異なる分布（ここでは一様分布）についても、この不等式による上界が実際の確率と比べてどの程度過大であるかを検討してみることにしよう。
+    </p>
+    <p>
+        <b>【問題】</b> <br>
+        $a < b$ に対し、確率密度関数が
+        \[ f(x) = \begin{cases} \frac{1}{b-a}, &\quad a \leq x \leq b \\ 0 &\quad \text{その他} \end{cases} \]
+        で与えられる確率分布を区間 $[a,b]$ 上の一様分布という。
+        $X$ を区間 $[a,b]$ 上の一様分布に従う確率変数とするとき、次の問に答えよ。
+        （まずは $a=0, b=1$ として取り組んでもよい。）
+    </p>
+    <p>
+        [1] $E[X]$ を求めよ。<br>
+        [2] $V[X]$ を求めよ。<br>
+        [3] $E[X] = \mu, V[X] = \sigma^2$ とするとき、$P(|X - \mu| \geq 2\sigma)$ を求めよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p>
+        <span id="a1_id" style="color:transparent">
+            [1] $E[X] = \frac{a+b}{2}$ である。（計算の詳細は教科書の定理 6.8 の証明を参照せよ。） <br>
+            [2] $V[X] = \frac{(b-a)^2}{12}$ である。（計算の詳細は教科書の定理 6.8 の証明を参照せよ。）<br>
+            [3] [1], [2] より $\mu = \frac{a+b}{2}, \sigma = \frac{b-a}{2\sqrt{3}}$ である。
+            よって、
+            \[ \begin{aligned}
+                P ( |X - \mu| \geq 2\sigma) &= P \left( \left| X - \frac{a+b}{2} \right| \geq \frac{b-a}{\sqrt{3}} \right) \\
+                &= P \left( X - \frac{a+b}{2} \leq -\frac{b-a}{\sqrt{3}} \right) + P \left( \frac{b-a}{\sqrt{3}} \leq X - \frac{a+b}{2} \right) \\
+                &= P \left( X \leq \frac{a+b}{2} -\frac{b-a}{\sqrt{3}} \right) + P \left( \frac{a+b}{2} + \frac{b-a}{\sqrt{3}} \leq X \right) \\
+             \end{aligned} \]
+            と計算できるが、
+            \[ \frac{a+b}{2} -\frac{b-a}{\sqrt{3}} < a, \qquad b < \frac{a+b}{2} + \frac{b-a}{\sqrt{3}} \]
+            なので
+            \[ P \left( X \leq \frac{a+b}{2} -\frac{b-a}{\sqrt{3}} \right) = P \left( \frac{a+b}{2} + \frac{b-a}{\sqrt{3}} \leq X \right) = 0 \]
+            である。よって、
+            \[ P ( |X - \mu| \geq 2\sigma) = 0 \]
+            である。<br>
+            （この解答の意味が分かりにくい場合は、まず $a=0, b=1$ として計算を追ってみるとよい。）
+        </span>
+    </p>
+    -->
+
+    <br>　<br>
+</body>
+</html>

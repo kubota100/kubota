@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_24</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+ <script>
+     window.onload = function() {
+     renderMathInElement(document.body, {delimiters: [
+         {left: "\\[", right: "\\]", display: true},
+         {left: "$", right: "$", display: false}
+     ]});
+     };
+ </script>
+
+<script>
+    let x_average = Math.floor(Math.random()*60 + 150);
+    let y_average = Math.floor(Math.random()*10 + 60);
+    let x_variance = Math.floor(Math.random()*200 + 800);
+    let y_variance = Math.floor(Math.random()*50 + 50);
+    let xy_corr = (-1)*Math.floor(Math.random()*50 + 30)/100;
+    let xy_covariance = Math.floor((xy_corr * Math.sqrt(x_variance) * Math.sqrt(y_variance)));
+    console.log([xy_corr, xy_covariance]);
+
+    let xy_corr_ans = Math.round(xy_covariance /(Math.sqrt(x_variance) * Math.sqrt(y_variance)) *100) /100;
+    let xy_line_a = Math.round((xy_covariance / x_variance)*100)/100;
+    let xy_line_b = Math.round(((-1)* xy_covariance / x_variance * x_average + y_average)*100)/100;
+    let yx_line_a = Math.round((xy_covariance / y_variance)*100)/100;
+    let yx_line_b = Math.round(((-1)* xy_covariance / y_variance * y_average + x_average)*100)/100;
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+//    function generate_quizzes(){
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `\\[ \\bar{x} = ${x_average}, \\quad \\bar{y} = ${y_average}, \\quad s_x^2 = ${x_variance}, \\quad s_y^2 = ${y_variance}, \\quad s_{xy} = ${xy_covariance} \\]`;
+        //\[ \bar{x} = 180, \quad \bar{y} = 70, \quad s_x^2 = 900, \quad s_y^2 = 35, \quad s_{xy} = -250 \]
+
+        document.getElementById("a1_id").textContent = `$ ${xy_corr_ans} $`;
+        document.getElementById("a2_id").textContent = `$y = ${xy_line_a}x + ${xy_line_b} $`;
+        document.getElementById("a3_id").textContent = `$x = ${yx_line_a}y + ${yx_line_b} $`;
+    })
+//    }
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>ベルヌーイ分布と二項分布の復習</h1>
+    <p>このページは再読み込みしても新しい問題を生成しない。</p>
+    <div class="box"><span style="color: blue;">[Tips]</span>
+        本問題の詳しい解説は教科書 p.68 〜 p.71 を見よ。
+    </div>
+    <p>
+        $0 \leq p \leq 1$ とする。確率変数 $X$ が
+        \[ P(X=1) = p, \quad P(X=0) = 1-p \]
+        を満たすとき、成功確率 $p$ のベルヌーイ型確率変数であるといい、その分布をベルヌーイ分布という。
+        確率変数 $X$ が成功確率 $p$ のベルヌーイ分布に従うとき、次の問に答えよ。
+    </p>
+    <p>
+        [1] 平均値 $E[X]$ は　<span id="a1_id" style="color:transparent">$p$</span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+        [2] 分散 $V[X]$ は　<span id="a2_id" style="color:transparent">$p(1-p)$</span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p>
+        次に、$X_1, X_2, \dots, X_n$ をベルヌーイ分布に従う独立な確率変数とするとき、和
+        \[ S = X_1 + X_2 + \cdots + X_n \]
+        が従う分布を成功確率 $p$ の二項分布といい、$B(n,p)$ で表す。
+        確率変数 $S$ が成功確率 $p$ の二項分布 $B(n,p)$ に従うとき、次の問に答えよ。
+    </p>
+    <p>
+        [3] 平均値 $E[S]$ は　<span id="a3_id" style="color:transparent">$np$</span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
+        [4] 分散 $V[S]$ は　<span id="a4_id" style="color:transparent">$np(1-p)$</span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button>
+    </p>
+        
+
+<!--
+    <div class="box"><span style="color: blue;">[定理]</span>
+        （チェビシェフの不等式）
+        確率変数 $X$ の平均値を $\mu$ とし、分散を $\sigma^2$ とすると、
+        任意の $\varepsilon> 0$ に対して
+        \[ P(|X - \mu| \geq \varepsilon) \leq \frac{\sigma^2}{\varepsilon^2} \]
+        が成り立つ。
+    </div>
+    <p>
+        授業でも触れたように、チェビシェフの不等式は（平均値と分散が存在する限り）任意の確率分布に対して成り立つ、という点で非常に一般性の高い不等式である。
+        しかし、具体的な分布に適用した場合、必ずしも鋭い上界を与えるとは限らない。
+        例えば、上記の定理において $\varepsilon = 2\sigma$ ととると、
+        \[ P(|X - \mu| \geq 2\sigma) \leq \frac{\sigma^2}{(2\sigma)^2} = \frac{1}{4} \quad (= 25 \%) \]
+        という評価が得られるが、もし $X$ が正規分布に従うならば、左辺の実際の確率は $4.5 \%$ 程度に過ぎない。
+        このように、チェビシェフの不等式はその高い一般性ゆえに、個々の分布に対してはしばしば過大な上界を与える。
+        そこで、以下では正規分布とは異なる分布（ここでは一様分布）についても、この不等式による上界が実際の確率と比べてどの程度過大であるかを検討してみることにしよう。
+    </p>
+    <p>
+        <b>【問題】</b> <br>
+        $a < b$ に対し、確率密度関数が
+        \[ f(x) = \begin{cases} \frac{1}{b-a}, &\quad a \leq x \leq b \\ 0 &\quad \text{その他} \end{cases} \]
+        で与えられる確率分布を区間 $[a,b]$ 上の一様分布という。
+        $X$ を区間 $[a,b]$ 上の一様分布に従う確率変数とするとき、次の問に答えよ。
+        （まずは $a=0, b=1$ として取り組んでもよい。）
+    </p>
+    <p>
+        [1] $E[X]$ を求めよ。<br>
+        [2] $V[X]$ を求めよ。<br>
+        [3] $E[X] = \mu, V[X] = \sigma^2$ とするとき、$P(|X - \mu| \geq 2\sigma)$ を求めよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p>
+        <span id="a1_id" style="color:transparent">
+            [1] $E[X] = \frac{a+b}{2}$ である。（計算の詳細は教科書の定理 6.8 の証明を参照せよ。） <br>
+            [2] $V[X] = \frac{(b-a)^2}{12}$ である。（計算の詳細は教科書の定理 6.8 の証明を参照せよ。）<br>
+            [3] [1], [2] より $\mu = \frac{a+b}{2}, \sigma = \frac{b-a}{2\sqrt{3}}$ である。
+            よって、
+            \[ \begin{aligned}
+                P ( |X - \mu| \geq 2\sigma) &= P \left( \left| X - \frac{a+b}{2} \right| \geq \frac{b-a}{\sqrt{3}} \right) \\
+                &= P \left( X - \frac{a+b}{2} \leq -\frac{b-a}{\sqrt{3}} \right) + P \left( \frac{b-a}{\sqrt{3}} \leq X - \frac{a+b}{2} \right) \\
+                &= P \left( X \leq \frac{a+b}{2} -\frac{b-a}{\sqrt{3}} \right) + P \left( \frac{a+b}{2} + \frac{b-a}{\sqrt{3}} \leq X \right) \\
+             \end{aligned} \]
+            と計算できるが、
+            \[ \frac{a+b}{2} -\frac{b-a}{\sqrt{3}} < a, \qquad b < \frac{a+b}{2} + \frac{b-a}{\sqrt{3}} \]
+            なので
+            \[ P \left( X \leq \frac{a+b}{2} -\frac{b-a}{\sqrt{3}} \right) = P \left( \frac{a+b}{2} + \frac{b-a}{\sqrt{3}} \leq X \right) = 0 \]
+            である。よって、
+            \[ P ( |X - \mu| \geq 2\sigma) = 0 \]
+            である。<br>
+            （この解答の意味が分かりにくい場合は、まず $a=0, b=1$ として計算を追ってみるとよい。）
+        </span>
+    </p>
+    -->
+
+    <br>　<br>
+</body>
+</html>
