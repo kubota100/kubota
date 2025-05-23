@@ -4,7 +4,7 @@
 <head>
  <meta charset="utf-8">
  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
- <title>PSII_09</title>
+ <title>PSII_26</title>
  <link rel="stylesheet" href="mystyle.css">
  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
  <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
@@ -19,17 +19,31 @@
 </script>    
 
 <script>
-    let x1 = Math.floor(Math.random()*100 + 50)/100;
-    let mu1 = Math.floor(Math.random()*21 - 10);
-    let sigma1 = Math.floor(Math.random()*8 + 3);
-    let q1 = Math.round((x1 * sigma1 + mu1)*100)/100;
-    let a1 = Math.round((1 - pnorm(x1))*10000)/100; 
+    let studentNum = Math.floor(Math.random()*201 + 1000);
+    let mu = Math.floor(Math.random()*21 + 40);
+    let sigma = Math.floor(Math.random()*11 + 10);
+    let highScore = mu + Math.floor(Math.random()*11 + 15);
+    let upperLayerSeed = Math.floor(Math.random()*6);
+    let upperLayer = [5,10,15,20,25,30][upperLayerSeed];
+    let alphaPoint = [1.6449, 1.2816, 1.0364, 0.8416, 0.6745, 0.5244][upperLayerSeed];
 
+    let highScoreRatio = Math.round((1 - pnorm( (highScore - mu)/sigma ))*10000)/10000;
+    let highScoreNum = Math.round(studentNum*highScoreRatio);
+    let upperPoint = mu + sigma*alphaPoint;
+    upperPoint = Math.ceil(upperPoint);
+    console.log(highScoreRatio);
+    console.log(highScoreNum);
+    console.log(upperPoint);
+
+
+    /*
+    let a1 = Math.round((1 - pnorm(x1))*10000)/100; 
     let mu2 = Math.floor(Math.random()*21 - 10);
     let sigma2 = Math.floor(Math.random()*8 + 3);
     let b = (-1)*Math.floor(Math.random()*150 + 50)/100;
     let a2 = Math.round((b*sigma2 + mu2)*100)/100;
     let q2 = Math.round(pnorm((-1)*b)*10000)/10000;
+    */
 
     /////////////////////////////////////////
 
@@ -70,13 +84,14 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("q11_id").textContent = "$N(" + mu1 +", " + sigma1 + "^2)$";
-        document.getElementById("q12_id").textContent = "$P( X > " + q1 + ")$";
-        document.getElementById("q21_id").textContent = "$N(" + mu2 +", " + sigma2 + "^2)$";
-        document.getElementById("q22_id").textContent = "$P( a < X ) =" + q2 + " $";
+        document.getElementById("q1_id").textContent = `$ ${studentNum} $`;
+        document.getElementById("q2_id").textContent = `$ ${mu} $`;
+        document.getElementById("q3_id").textContent = `$ ${sigma} $`;
+        document.getElementById("q4_id").textContent = `$ ${highScore} $`;
+        document.getElementById("q5_id").textContent = `$ ${upperLayer} \\% $`;
 
-        document.getElementById("a1_id").textContent = "$" + a1 + "$";
-        document.getElementById("a2_id").textContent = "$" + a2 + "$";
+        document.getElementById("a1_id").textContent = `$ ${highScoreNum} $`;
+        document.getElementById("a2_id").textContent = `$ ${upperPoint} $`;
     })
 
     function show_answer(e){
@@ -87,25 +102,32 @@
 </head>
 
 <body class="container">
-    <h1>標準正規分布表の読み取り(2)</h1>
+    <h1>標準正規分布表の読み取り(3)</h1>
+    <!--
  <div class="box">
     <p><span style="color: blue;">[例題]</span> <br> $X$ が $N(16, 3^2)$ に従うとする。このとき $P(X < 18.46)$ を求めよ。</p> <br>
     <p> <span style="color: red;">[解説]</span> <br>
         $X \sim N(16, 3^2)$ より $\frac{X-16}{3} \sim N(0,1)$ であるから、
         \[ P(X < 18.46) = P \left( \frac{X-16}{3} < 0.82 \right) = 0.5 + 0.29389 = 0.7939 \]
         である(適当な位で四捨五入した)。
-        <!--
-        と変形でき、右辺は標準正規分布表からその値を捉えることができる。
-        $P(\frac{X-16}{3} < 0.82) = 0.5 + 0.29389$ だから $P(X < 18.46) = 0.7939$ (適当な位で四捨五入した)。
-        -->
     </p>
  </div>
- <p>以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。</p>
+-->
+ <p>
+    <span id="q1_id"></span> 人の生徒に数学のテストを行ったところ、その成績は平均 <span id="q2_id"></span> 点、標準偏差 <span id="q3_id"></span> 点だった。
+    得点の分布が正規分布に従うものとするとき、次の問に答えよ。
+ </p>
+ <p>
+    [1] <span id="q4_id"></span> 点以上の生徒は、およそ　<span id="a1_id" style="color:transparent"></span>　人いる（$\pm 1$人程度の誤差は許容）。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+    [2] 成績の高い方から <span id="q5_id"></span> の中に入るのは　<span id="a2_id" style="color:transparent"></span>　点以上の生徒である。　　　　<button id="2_id" onclick="show_answer(this)">答え</button>
+ </p>
+ <!--
  <p>
  [1] $X$ が <span id="q11_id"></span> に従うとする。
  このとき <span id="q12_id"></span> は　<span id="a1_id" style="color:transparent"></span>　% である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
  [2] $X$ が <span id="q21_id"></span> に従うとする。
  このとき <span id="q22_id"></span> を満たす $a$ は　<span id="a2_id" style="color:transparent"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
  </p>
+ -->
 </body>
 </html>
