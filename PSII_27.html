@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_27</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    let sigma = Math.floor(Math.random()*11 + 10)/10;
+    let seed = Math.floor(Math.random()*3);
+    let confidence = [90, 95, 99][seed];
+    let interval = [1, 1.5, 2][Math.floor(Math.random()*3)]; // Math.floor(Math.random()*11 + 10)/10;
+    let alphaPoint = [1.645, 1.96, 2.576][seed];
+    let number = Math.ceil(((2*alphaPoint*sigma)/interval)**2);
+
+    /////////////////////////////////////////
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) {
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `$ ${sigma} $`;
+        document.getElementById("q2_id").textContent = `$ ${confidence} \\% $`;
+        document.getElementById("q3_id").textContent = `$ ${interval} $`;
+
+        document.getElementById("a1_id").textContent = `$ ${number} $`;
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>信頼区間の幅</h1>
+    <div class="box"><span style="color: blue;">[Tips]</span>
+        教科書 p.108 の例 8.4 にも目を通しておくこと。
+    </div>
+    <p>
+        コーヒーメーカーを用いて、同一条件で淹れたコーヒーの抽出後5分経過時点の温度を複数回測定する。
+        測定値は正規分布に従い、標準偏差が <span id="q1_id"></span> 度であることが分かっているとする。
+        このとき、信頼係数 <span id="q2_id"></span> で推定される平均温度の信頼区間の幅が <span id="q3_id"></span> 度以下になるようにするには、
+        測定を最低　<span id="a1_id" style="color:transparent"></span>　回行う必要がある。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+
+
+    <!-- 
+ <p>
+    <span id="q1_id"></span> 人の生徒に数学のテストを行ったところ、その成績は平均 <span id="q2_id"></span> 点、標準偏差 <span id="q3_id"></span> 点だった。
+    得点の分布が正規分布に従うものとするとき、次の問に答えよ。
+ </p>
+ <p>
+    [1] <span id="q4_id"></span> 点以上の生徒は、およそ　<span id="a1_id" style="color:transparent"></span>　人いる（$\pm 1$人程度の誤差は許容）。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+    [2] 成績の高い方から <span id="q5_id"></span> の中に入るのは　<span id="a2_id" style="color:transparent"></span>　点以上の生徒である。　　　　<button id="2_id" onclick="show_answer(this)">答え</button>
+ </p>
+ -->
+
+</body>
+</html>
