@@ -65,9 +65,9 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("q1_id").textContent = `$ ${sigma} $`;
+        document.getElementById("q1_id").textContent = `$ ${sigma} \\, ^\\circ\\mathrm{C} $`;
         document.getElementById("q2_id").textContent = `$ ${confidence} \\% $`;
-        document.getElementById("q3_id").textContent = `$ ${interval} $`;
+        document.getElementById("q3_id").textContent = `$ ${interval} \\, ^\\circ\\mathrm{C} $`;
 
         document.getElementById("a1_id").textContent = `$ ${number} $`;
     })
@@ -86,8 +86,8 @@
     </div>
     <p>
         コーヒーメーカーを用いて、同一条件で淹れたコーヒーの抽出後5分経過時点の温度を複数回測定する。
-        測定値は正規分布に従い、標準偏差が <span id="q1_id"></span> 度であることが分かっているとする。
-        このとき、信頼係数 <span id="q2_id"></span> で推定される平均温度の信頼区間の幅が <span id="q3_id"></span> 度以下になるようにするには、
+        測定値は正規分布に従い、標準偏差が <span id="q1_id"></span> であることが分かっているとする。
+        このとき、信頼係数 <span id="q2_id"></span> で推定される平均温度の信頼区間の幅が <span id="q3_id"></span> 以下になるようにするには、
         測定を最低　<span id="a1_id" style="color:transparent"></span>　回行う必要がある。　　<button id="1_id" onclick="show_answer(this)">答え</button>
     </p>
 
