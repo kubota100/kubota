@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_28</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    let sigma = Math.floor(Math.random()*4 + 2);
+    let endPoint_rejection = sigma * Math.floor(Math.random()*6 + 15)/10;
+    let alpha = Math.round(2*pnorm((-1)*endPoint_rejection/sigma)*10000)/10000;
+    let trueMean = sigma * (-1)*Math.floor(Math.random()*11 + 15)/10;
+    let lower = ((-1)*endPoint_rejection - trueMean)/sigma;
+    let upper = (endPoint_rejection - trueMean)/sigma;
+    let beta = Math.round((pnorm(upper) - pnorm(lower))*10000)/10000;
+
+    /////////////////////////////////////////
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) { // P(Z \leq x) の値を返す。
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `$N(\\mu, ${sigma}^2)$`;
+        document.getElementById("q2_id").textContent = `$ |x| \\geq ${endPoint_rejection}$`;
+        document.getElementById("q3_id").textContent = `$\\mu = ${trueMean}$`;
+
+        document.getElementById("a1_id").textContent = `$N(0, ${sigma}^2)$`;
+        document.getElementById("a2_id").textContent = `$P(|X| \\geq ${endPoint_rejection})$`;
+        document.getElementById("a3_id").textContent = `$ ${alpha} $`;
+        document.getElementById("a4_id").textContent = `$\\mu = ${trueMean}$`;
+        document.getElementById("a5_id").textContent = `$N(${trueMean}, ${sigma}^2)$`;
+        document.getElementById("a6_id").textContent = `$P(|X| < ${endPoint_rejection})$`;
+        document.getElementById("a7_id").textContent = `$ ${beta} $`;
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("b"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>2種類の過誤</h1>
+    <div class="box"><span style="color: blue;">[Tips]</span>
+        理論的にやや難しい内容を含んでいるので、仮説検定に慣れてから取り組んでもよい。
+    </div>
+    <p>
+        確率変数 $X$ は正規分布 <span id="q1_id"></span> に従うとする。
+        母平均について、帰無仮説 $H_0: \mu = 0$, 対立仮説 $H_1: \mu \neq 0$ に基づく検定を考える。
+        棄却域を <span id="q2_id"></span> と定めるとき、次の問に答えよ。
+    </p>
+    <p>
+        [1] 第1種の誤りの確率を小数第4位まで求めよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="b1_id">
+        第1種の誤りとは「$H_0$ が正しいのに $H_0$ を棄却する誤り」である。
+        $H_0$ が正しいとき、確率変数 $X$ は <span id="a1_id"></span> に従う。
+        $H_0$ を棄却する確率は <span id="a2_id"></span> であるから、これを求めると　<span id="a3_id"></span>　である。
+    </p>
+    <p>
+        [2] 本当の平均が <span id="q3_id"></span> であるとき、第2種の誤りの確率を小数第4位まで求めよ。<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+        <p style="color: transparent; margin-left: 27px;" id="b2_id">
+        第2種の誤りとは「$H_0$ が正しくないのに $H_0$ を棄却しない誤り」である。
+        いま、真実は <span id="a4_id"></span> であるから、確率変数 $X$ は <span id="a5_id"></span> に従う。
+        $H_0$ を棄却しない確率は <span id="a6_id"></span> であるから、これを求めると　<span id="a7_id"></span>　である。
+    </p>
+    <div class="box"><span style="color: blue;">[注意]</span>
+        実際の仮説検定では、有意水準（$=$ 第1種の誤りの確率）をあらかじめ決めたうえで、それに対応する棄却域を設定するのが一般的である。
+        また、母平均の真の値は通常分からないため、第2種の誤りの確率を正確に求めることは一般には困難である。
+    </div>
+
+</body>
+</html>
