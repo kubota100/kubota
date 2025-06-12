@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>定理環境等の出力</title>
+    <style>
+    ol.list_parentheses{
+        padding:0 0 0 2em;
+        margin:0;
+    }
+    ol.list_parentheses li{
+        list-style-type:none;
+        list-style-position:inside;
+        counter-increment: cnt;
+    }
+    ol.list_parentheses li:before{
+        display: marker;
+        content: "(" counter(cnt) ") ";
+    }
+    </style>
+    <style>
+    .box {
+        border: blue 1px solid; /*境界線の指定*/
+        padding:10px;
+        }
+        .box p {
+        margin:0;
+        padding:0;
+        }
+    </style>
+    <style>
+    .container {
+            margin: 0;
+        }
+    
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <script>
+        function show(tmp){
+            let output = "\\begin{" + tmp.id + "}\n\\end{" + tmp.id + "}";
+            document.getElementById("tex_id").textContent = output;
+        }
+
+        function original(){
+            let input = document.getElementById("original_id").value;
+            let output = "\\begin{" + input + "}\n\\end{" + input + "}";
+            document.getElementById("tex_id").textContent = output;
+        }
+
+        function copyToClipboard(){
+            let text = document.getElementById("tex_id").value;
+            navigator.clipboard.writeText(text);
+            document.getElementById("01_id").textContent = "コピーしました！"
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+    <center>
+        <p>
+            <h1>定理環境等の出力</h1>
+        </p>
+        <p>
+            <button id="thm" onclick="show(this)">thm</button>　
+            <button id="pro" onclick="show(this)">pro</button>　
+            <button id="lem" onclick="show(this)">lem</button>　
+            <button id="cor" onclick="show(this)">cor</button> <br>
+            <button id="center" onclick="show(this)">center</button>　
+            <button id="align*" onclick="show(this)">align*</button>　
+            <button id="equation" onclick="show(this)">equation</button>　
+            <button id="cases" onclick="show(this)">cases</button>　
+            <br>
+        </p>
+        <p>
+            <input type="text" id="original_id" size="50" placeholder="defi"> <br>
+            <button onclick="original()">original</button>
+        </p>
+    <p>
+        <textarea rows="10" cols="50" id="tex_id"></textarea> <br>
+        <button id="text_id" onclick="copyToClipboard()">コピー</button>
+    </p>
+    <p>
+        <span id="01_id" style="color:red"></span>
+    </p>
+    </center>
+    </div>
+</body>
+</html>

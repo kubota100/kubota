@@ -124,6 +124,7 @@
         function copyToClipboard(){
             let text = document.getElementById("tex_id").value;
             navigator.clipboard.writeText(text);
+            document.getElementById("01_id").textContent = "コピーしました！"
         }
     </script>
 </head>
@@ -144,6 +145,9 @@
     <p>
         <textarea rows="10" cols="50" id="tex_id"></textarea> <br>
         <button id="text_id" onclick="copyToClipboard()">コピー</button>
+    </p>
+    <p>
+        <span id="01_id" style="color:red"></span>
     </p>
     </center>
     </div>
