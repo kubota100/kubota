@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_29</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    let n_A = Math.floor(Math.random()*11 + 35);
+    let n_B = Math.floor(Math.random()*11 + 35);
+    let sampleMean_A = Math.floor(Math.random()*151 + 550)/10;
+    let sampleMean_B = Math.floor(Math.random()*151 + 550)/10;
+    let sd_A = Math.floor(Math.random()*51 + 70)/10;
+    let sd_B = Math.floor(Math.random()*51 + 70)/10;
+    let realization_z = (sampleMean_A - sampleMean_B)/(Math.sqrt((sd_A**2 / n_A)+(sd_B**2 / n_B)))
+    realization_z = Math.round(realization_z*1000)/1000
+    let judgment = 0;
+    if(Math.abs(realization_z) > 1.96){
+        judgment = 1;
+    }
+    let statement = ["$z$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。<br>したがって、両組の平均点に差があるとは言えない。", "$z$ は棄却域に落ちるので帰無仮説 $H_0$ は棄却される。<br>したがって、両組の平均点に差があると言える。"];
+
+
+    /*
+    let sigma = Math.floor(Math.random()*4 + 2);
+    let endPoint_rejection = sigma * Math.floor(Math.random()*6 + 15)/10;
+    let alpha = Math.round(2*pnorm((-1)*endPoint_rejection/sigma)*10000)/10000;
+    let trueMean = sigma * (-1)*Math.floor(Math.random()*11 + 15)/10;
+    let lower = ((-1)*endPoint_rejection - trueMean)/sigma;
+    let upper = (endPoint_rejection - trueMean)/sigma;
+    let beta = Math.round((pnorm(upper) - pnorm(lower))*10000)/10000;
+    */
+
+    /////////////////////////////////////////
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) { // P(Z \leq x) の値を返す。
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `$ ${n_A} $`;
+        document.getElementById("q2_id").textContent = `$ ${n_B} $`;
+        document.getElementById("q3_id").textContent = `$ ${sampleMean_A} $`;
+        document.getElementById("q4_id").textContent = `$ ${sampleMean_B} $`;
+        document.getElementById("q5_id").textContent = `$ N(\\mu_A, ${sd_A}^2) $`;
+        document.getElementById("q6_id").textContent = `$ N(\\mu_B, ${sd_B}^2) $`;
+
+        document.getElementById("a1_id").textContent = `\\[ Z := \\frac{(\\overline{X} - \\overline{Y}) - (\\mu_A - \\mu_B)}{\\sqrt{ \\frac{ ${sd_A}^2 }{${n_A}} + \\frac{${sd_B}^2}{${n_B}} }} \\]`;
+        document.getElementById("a2_id").textContent = `\\[ z = \\frac{ ${sampleMean_A} - ${sampleMean_B}}{\\sqrt{ \\frac{ ${sd_A}^2 }{${n_A}} + \\frac{${sd_B}^2}{${n_B}} }} = ${realization_z} \\]`;
+        document.getElementById("a3_id").innerHTML = statement[judgment];
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("b"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>母平均の差の検定（対応のない2標本）</h1>
+    <div class="box"><span style="color: blue;">[定理]</span> （正規分布の再生性, 教科書 p86 または授業の定理 7.2）<br>
+        $X, Y$ をそれぞれ正規分布 $N(\mu_1, \sigma_1^2), N(\mu_2, \sigma_2^2)$ に従う独立な確率変数とすると、
+        $X+Y$ は $N(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$ に従う。
+    </div>
+    <p>
+        [1] ふたつの正規母集団 $N(\mu_A, \sigma_A^2), N(\mu_B, \sigma_B^2)$ を考える。
+        $N(\mu_A, \sigma_A^2)$ からサイズ $n_A$ の標本 $X_1, \dots, X_{n_A}$ をとり、
+        $N(\mu_B, \sigma_B^2)$ からサイズ $n_B$ の標本 $Y_1, \dots, Y_{n_B}$ をとる。
+        このとき、標本平均の差 $\overline{X} - \overline{Y}$ がどの分布に従うかを答えよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="b1_id">
+        $\overline{X} \sim N \left( \mu_A, \frac{\sigma_A^2}{n_A} \right)$, $\overline{Y} \sim N \left( \mu_B, \frac{\sigma_B^2}{n_B} \right)$ であるから、
+        正規分布の再生性より
+        \[ \overline{X} - \overline{Y} \, \sim \, N \left( \mu_A - \mu_B, \, \frac{\sigma_A^2}{n_A} + \frac{\sigma_B^2}{n_B} \right) \]
+        である。
+        <!--
+        ※ なお、分散 $V[\overline{X} - \overline{Y}]$ は、$\overline{X}$ と $\overline{Y}$ が独立であることと、分散の性質を用いて
+        \[
+        \begin{aligned}
+        V[\overline{X} - \overline{Y}]
+        &= V[\overline{X} + (-1) \overline{Y}] \\
+        &= V[\overline{X}] + V[(-1) \overline{Y}] \\
+        &= V[\overline{X}] + (-1)^2 V[\overline{Y}] \\
+        &= V[\overline{X}] + V[\overline{Y}]
+        \end{aligned}
+        \]
+        と計算されることに注意。
+        -->
+    </p>
+    <p>
+        [2] <span id="q1_id"></span> 人の生徒からなるA組と、<span id="q2_id"></span> 人の生徒からなるB組に対して試験を実施したところ、それぞれの平均点は、<span id="q3_id"></span> 点、<span id="q4_id"></span> 点であった。
+        各組の得点は、それぞれ正規分布 <span id="q5_id"></span>, <span id="q6_id"></span> に従う母集団から独立に抽出された標本であると仮定する。
+        両組の平均点に差があると判断してよいか、有意水準 $5\%$ で検定せよ。　　<button id="2_id" onclick="show_answer(this)">答え</button>
+        <!--
+        <table border = "1">
+            <tr> <td>　</td> <td>A組</td> <td>B組</td> </tr>
+            <tr> <td>人数</td> <td>$n_A = 25$</td> <td>$n_B = 32$</td> </tr>
+            <tr> <td>平均点</td> <td>$\overline{x_A} = 64.5$</td> <td>$\overline{x_B} = 61.5$</td> </tr>
+            <tr> <td>分散</td> <td>$\sigma^2_A = 8.3^2$</td> <td>$\sigma^2_B = 9.6^2$</td> </tr>
+        </table>
+        -->
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="b2_id">
+        帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
+        　　$H_0: \mu_A = \mu_B$ <br>
+        　　$H_1: \mu_A \neq \mu_B$ <br>
+        A組とB組の標本平均をそれぞれ $\overline{X}, \overline{Y}$ とすると、[1]より
+        <span id="a1_id"></span>
+        は標準正規分布 $N(0,1)$ に従う。<br>
+        有意水準 $5\%$ より、棄却域は $|z| > 1.96$ である。<br>
+        帰無仮説 $H_0$ のもとで実現値は
+        <span id="a2_id"></span>
+        となり、<span id="a3_id"></span>
+    </p>
+    <div class="box"><span style="color: blue;">[注意]</span>
+        母平均の差の検定は今日いたるところで用いられている統計手法である。
+        教育・医療・社会学・ビジネスなど非常に多くの分野で、指導法や治療法の効果、地域間の格差や広告の影響などを平均値の差に基づいて比較・判断する際に活用されている。
+        本問題では、状況を単純化するために母分散既知としたが、より実践的な場面では母分散は通常未知である。
+        そのような場合には Welch の検定など、別の方法によって母平均の差を検定することになるが、この段階になるともはや手計算や電卓では対応が難しく、PCや統計ソフトを使った解析が一般的となる。
+    </div>
+    <p>　<br>　</p>
+    <!-- 正規性の検定やウェルチの検定に触れてもよい。母平均の差の検定は多様な現場で用いられること、など。 -->
+    <!--
+    <p>
+        確率変数 $X$ は正規分布 <span id="q1_id"></span> に従うとする。
+        母平均について、帰無仮説 $H_0: \mu = 0$, 対立仮説 $H_1: \mu \neq 0$ に基づく検定を考える。
+        棄却域を <span id="q2_id"></span> と定めるとき、次の問に答えよ。
+    </p>
+    <p>
+        [1] 第1種の誤りの確率を小数第4位まで求めよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="b1_id">
+        第1種の誤りとは「$H_0$ が正しいのに $H_0$ を棄却する誤り」である。
+        $H_0$ が正しいとき、確率変数 $X$ は <span id="a1_id"></span> に従う。
+        $H_0$ を棄却する確率は <span id="a2_id"></span> であるから、これを求めると　<span id="a3_id"></span>　である。
+    </p>
+    <p>
+        [2] 本当の平均が <span id="q3_id"></span> であるとき、第2種の誤りの確率を小数第4位まで求めよ。<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+        <p style="color: transparent; margin-left: 27px;" id="b2_id">
+        第2種の誤りとは「$H_0$ が正しくないのに $H_0$ を棄却しない誤り」である。
+        いま、真実は <span id="a4_id"></span> であるから、確率変数 $X$ は <span id="a5_id"></span> に従う。
+        $H_0$ を棄却しない確率は <span id="a6_id"></span> であるから、これを求めると　<span id="a7_id"></span>　である。
+    </p>
+    <div class="box"><span style="color: blue;">[注意]</span>
+        実際の仮説検定では、有意水準（$=$ 第1種の誤りの確率）をあらかじめ決めたうえで、それに対応する棄却域を設定するのが一般的である。
+        また、母平均の真の値は通常分からないため、第2種の誤りの確率を正確に求めることは一般には困難である。
+    </div>
+    -->
+
+</body>
+</html>
