@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_examInfo</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+ <script>
+     window.onload = function() {
+     renderMathInElement(document.body, {delimiters: [
+         {left: "\\[", right: "\\]", display: true},
+         {left: "$", right: "$", display: false}
+     ]});
+     };
+ </script>
+
+<script>
+    let counter10 = 0;
+    for(let i=0; i<10; i++){
+        if( Math.floor(Math.random()*2) == 0){
+            counter10++;
+        }
+    }
+    let ratio10 = counter10 / 10;
+    console.log(ratio10.toFixed(4));
+
+    let counter100 = 0;
+    for(let i=0; i<100; i++){
+        if( Math.floor(Math.random()*2) == 0){
+            counter100++;
+        }
+    }
+    let ratio100 = counter100 / 100;
+    console.log(ratio100.toFixed(4));
+
+    let counter10000 = 0;
+    for(let i=0; i<10000; i++){
+        if( Math.floor(Math.random()*2) == 0){
+            counter10000++;
+        }
+    }
+    let ratio10000 = counter10000 / 10000;
+    console.log(ratio10000.toFixed(4));
+
+
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function square(array){
+        let result = [];
+        let num = array.length;
+        for(let i=0; i<num; i++){
+            result.push(array[i]**2);
+        }
+        return result;        
+    }
+
+//    function generate_quizzes(){
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `${ratio10.toFixed(4)}`;
+        document.getElementById("q2_id").textContent = `${ratio100.toFixed(4)}`;
+        document.getElementById("q3_id").textContent = `${ratio10000.toFixed(4)}`;
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "black";
+    }
+</script>
+</head>
+
+<body class="container">
+ <center>
+    <h1>期末試験について</h1>
+ </center>
+ <ul>
+    <li>試験時間は 80分 程度を想定。</li>
+    <li>3クラス合同でできないか模索中。</li>
+    <li>一般電卓の持ち込み可（むしろないと厳しい）。</li>
+    <li>標準正規分布などの表については当日教科書のコピーを配る。</li>
+    <li>2024年度の過去問は <a href="2024PSII_fin_exam.pdf">こちら</a> にあります。</li>
+    <li>2024年度の期末試験の平均点は 84.91点 でした。</li>
+    <li>過去問を見れば試験の雰囲気が分かると思いますので、過去問より難易度は上がります。</li>
+    <li>授業の演習問題をすべて解けるようにしておけばほとんど100点が取れるような試験にするつもり。</li>
+    <li>どの問題も手続きはほとんど決まっていますので「考えなくても解ける」水準になるまで練習してきてください。</li>
+    <li>仮説検定の問題のみ記述式。採点基準は以下の通り。</li>
+    <ol>
+        <li>帰無仮説と対立仮説を明記している。</li>
+        <li>使用する統計量と、その統計量が従う分布を記述している。</li>
+        <li>棄却域を適切に示している。</li>
+        <li>統計量の実現値を正しく計算している。</li>
+        <li>
+            帰無仮説の採否を正しく判定し、あわせて検定結果を適切に解釈している。ただし、1〜4 のいずれかに誤りがある場合、この項目は0点とします。
+            昨年度の答案では、「帰無仮説は棄却されない」という判断までは正しくできていたものの、「よって、コインは公平である」と誤って解釈したものが多く見られました。
+            授業でも説明したとおり、「帰無仮説を棄却しない」ことは「帰無仮説が正しい」ことを意味しません。
+            なお、採点では検定結果の解釈までを評価対象としますので「帰無仮説は棄却される／棄却されない」までの記述では不十分とします。
+        </li>
+    </ol>
+ </ul>
+</body>
+</html>
