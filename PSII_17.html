@@ -60,12 +60,10 @@
 
     let judge = "";
     if((y_value < alpha_point_lower)||(alpha_point_upper < y_value)){
-        judge = "$y$ は棄却域に落ちるので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却される。"
+        judge = "$y$ は棄却域に落ちるので帰無仮説 $H_0$ は棄却される。つまり、ばらつきに変化が生じたと言える。"
     } else {
-        judge = "$y$ は棄却域に落ちていないので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却されない。"
+        judge = "$y$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。つまり、ばらつきに変化が生じたとは言えない。"
     }
-
-    //let both_sides = Math.round((100 - conf_coef)*5)/10;
 
     /////////////////////////////////////////
 
@@ -137,8 +135,7 @@
 <p>製造方法を変えたことにより、ばらつきに変化が生じたと言えるか。
     母集団は正規分布に従うものとして、有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button> </p>
 
- <sapn id="a1_id" style="color:white">
-<p>
+<p id="a1_id" style="color:transparent">
  [解答] <br>
  帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
  　　<span id="q6_id"></span> <br>
@@ -151,7 +148,6 @@
  <span id="q10_id"></span>
  となり、<span id="q11_id"></span>
 </p>
-</sapn>
 
 <br>　<br>
  </body>

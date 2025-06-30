@@ -63,9 +63,9 @@
 
     let judge = "";
     if(Math.abs(t_value) > alpha_point){
-        judge = "$t$ は棄却域に落ちるので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却される。"
+        judge = "$t$ は棄却域に落ちるので帰無仮説 $H_0$ は棄却される。つまり、$\\mu = "+ pop_mean +"$ とはいえない。"
     } else {
-        judge = "$t$ は棄却域に落ちていないので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却されない。"
+        judge = "$t$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。つまり、$\\mu = "+ pop_mean +"$ でないとはいえない。"
     }
 
     //let both_sides = Math.round((100 - conf_coef)*5)/10;
@@ -133,13 +133,12 @@
 
 <body class="container">
     <h1>母平均の検定（母分散未知）</h1>
-<p>次の <span id="q1_id"></span> 個の数は正規母集団 $N(\mu, \sigma^2)$ から取り出された無作為標本である。</p>
+<p>次の <span id="q1_id"></span> 個の値は正規母集団 $N(\mu, \sigma^2)$ から得られた観測値である。</p>
 <p>　　 <span id="q2_id"></span> </p>
-<p>この標本は平均値 <span id="q3_id"></span> の正規母集団から取り出された無作為標本といえるか。
+<p>これらの観測値は平均値 <span id="q3_id"></span> の正規母集団から取り出されたものといえるか。
     有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button> </p>
 
- <sapn id="a1_id" style="color:white">
-    <p>
+    <p id="a1_id" style="color:transparent">
  [解答] <br>
  帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
  　　<span id="q6_id"></span> <br>
@@ -152,18 +151,6 @@
  <span id="q10_id"></span>
  となり、<span id="q11_id"></span>
 </p>
-<!--
- $\hat{p}$ を標本比率とする。
- 標本数 <span id="q22_id"></span> は十分大きいとみなしてよく、<br>
- したがって中心極限定理および大数の法則から <span id="q5_id"></span> が標準正規分布 $N(0,1)$ に従うとしてよい。 <br>
- 標準正規分布の下側 <span id="q6_id"></span> 点と上側 <span id="q7_id"></span> 点はそれぞれ <span id="q8_id"></span> であり、 <br>
- 標本比率の実現値は <span id="q21_id"></span> だから
- <span id="q10_id"></span>
- となる。これを $p$ について解いて母比率 $p$ の <span id="q11_id"></span> 信頼区間
- <span id="q12_id"></span>
- を得る。
- -->
- </sapn>
 
 <br>　<br>
  </body>

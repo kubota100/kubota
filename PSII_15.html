@@ -51,9 +51,9 @@
 
     let judge = "";
     if(Math.abs(z_value) > alpha_point){
-        judge = "$z$ は棄却域に落ちるので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却される。"
+        judge = "$z$ は棄却域に落ちるので帰無仮説 $H_0$ は棄却される。つまり、$\\mu = "+ pop_mean +"$ とはいえない。" 
     } else {
-        judge = "$z$ は棄却域に落ちていないので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却されない。"
+        judge = "$z$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。つまり、$\\mu = "+ pop_mean +"$ でないとはいえない。"
     }
 
     //let both_sides = Math.round((100 - conf_coef)*5)/10;
@@ -128,13 +128,12 @@
 
 <body class="container">
     <h1>母平均の検定（母分散既知）</h1>
-<p>次の <span id="q1_id"></span> 個の数は正規母集団 $N(\mu, \sigma^2)$ から取り出された無作為標本である。</p>
+<p>次の <span id="q1_id"></span> 個の値は正規母集団 $N(\mu, \sigma^2)$ から得られた観測値である。</p>
 <p>　　 <span id="q2_id"></span></p>
-<p>母分散 <span id="q5_id"></span> が既知であるとき、この標本は平均値 <span id="q3_id"></span> の正規母集団から取り出された無作為標本といえるか。
-    有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button> </p>
-
- <sapn id="a1_id" style="color:white">
-<p>
+<p>母分散 <span id="q5_id"></span> が既知であるとき、これらの観測値が平均値 <span id="q3_id"></span> の正規母集団から得られたものといえるか。
+    有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+</p>
+<p id="a1_id" style="color:transparent">
  [解答] <br>
  帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
  　　<span id="q6_id"></span> <br>
@@ -147,7 +146,10 @@
  <span id="q10_id"></span>
  となり、<span id="q11_id"></span>
 </p>
- </sapn>
+<div class="box"><span style="color: blue;">[Tips]</span>
+    帰無仮説が棄却されなかった場合、「つまり、$\mu = 10$ でないとはいえない。」のような言い回しを使っていますが、
+    この表現に抵抗がある場合は「つまり、この検定では $\mu = 10$ を否定する統計的根拠は得られない。」のような記述でも構いません。
+</div>
 
 <br>　<br>
  </body>
