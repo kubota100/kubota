@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_30</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    let oldTimes = [];
+    let newTimes = [];
+    for(let i=0; i<6; i++){
+        oldTimes.push(Math.floor(Math.random()*21 + 80));
+        newTimes.push(Math.floor(Math.random()*41 + 60));
+    }
+    console.log(oldTimes);
+    console.log(newTimes);
+
+    let diffTimes = [];
+    for(let i=0; i<6; i++){
+        diffTimes.push(oldTimes[i] - newTimes[i]);
+    }
+    console.log(diffTimes);
+
+    let diffTimes_square = [];
+    for(let i=0; i<6; i++){
+        diffTimes_square.push(diffTimes[i]**2);
+    }
+
+    let variance = average(diffTimes_square) - average(diffTimes)**2;
+    let un_var = 6*variance / 5;
+    let un_std = Math.sqrt(un_var);
+    console.log(un_std);
+
+    let t_value = average(diffTimes) / (un_std / Math.sqrt(6));
+    t_value = Math.round(t_value*100000)/100000;
+    console.log(t_value);
+
+    let diffTimes_text = "\\[ ";
+    for(let i=0; i<6; i++){
+        diffTimes_text += diffTimes[i];
+        if(i != 5){
+            diffTimes_text += ", \\quad";
+        }
+    }
+    diffTimes_text += " \\]";
+    
+    let judgment = 0;
+    if(Math.abs(t_value) > 2.57058){
+        judgment = 1;
+    }
+    let statement = ["$t$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。<br>したがって、新UIにより作業時間が変化したとは言えない。", "$t$ は棄却域に落ちるので帰無仮説 $H_0$ は棄却される。<br>したがって、新UIにより作業時間が変化したと言える。"];
+
+    /////////////////////////////////////////
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) { // P(Z \leq x) の値を返す。
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `$ ${oldTimes[0]} $`;
+        document.getElementById("q2_id").textContent = `$ ${oldTimes[1]} $`;
+        document.getElementById("q3_id").textContent = `$ ${oldTimes[2]} $`;
+        document.getElementById("q4_id").textContent = `$ ${oldTimes[3]} $`;
+        document.getElementById("q5_id").textContent = `$ ${oldTimes[4]} $`;
+        document.getElementById("q6_id").textContent = `$ ${oldTimes[5]} $`;
+        document.getElementById("q7_id").textContent = `$ ${newTimes[0]} $`;
+        document.getElementById("q8_id").textContent = `$ ${newTimes[1]} $`;
+        document.getElementById("q9_id").textContent = `$ ${newTimes[2]} $`;
+        document.getElementById("q10_id").textContent = `$ ${newTimes[3]} $`;
+        document.getElementById("q11_id").textContent = `$ ${newTimes[4]} $`;
+        document.getElementById("q12_id").textContent = `$ ${newTimes[5]} $`;
+
+        document.getElementById("a1_id").textContent = diffTimes_text;
+        document.getElementById("a2_id").textContent = `\\[ t = \\frac{ ${Math.round(average(diffTimes)*1000000)/1000000} - ${0}}{ ${Math.round(un_std*1000000)/1000000} / \\sqrt{6} } = ${t_value} \\]`;
+        document.getElementById("a3_id").innerHTML = statement[judgment];
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("b"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>母平均の差の検定（対応のある2標本）</h1>
+    <div class="box"><span style="color: blue;">[Tips]</span> 
+        2標本に対応がある場合、母平均の差に関する検定は、本質的には「変化量」に対する母平均の検定となり、すでに扱った「母平均の検定（母分散未知）」と同様の問題に帰着される。
+    </div>
+    <p>
+        ある企業では、ユーザーインターフェース（以下UI、意味は下記を参照）の改良が作業効率に与える影響を調べるため、
+        6人の被験者に対して同じ作業を旧UIと新UIの両方で行わせ、作業にかかった時間（単位：秒）を以下のように測定した：
+    </p>
+        <table border="1">
+            <tr>
+                <td>被験者No.</td><td style="width: 3em;">1</td><td style="width: 3em;">2</td><td style="width: 3em;">3</td><td style="width: 3em;">4</td><td style="width: 3em;">5</td><td style="width: 3em;">6</td>
+            </tr>
+            <tr>
+                <td>旧UI</td><td><span id="q1_id"></span></td><td><span id="q2_id"></span></td><td><span id="q3_id"></span></td><td><span id="q4_id"></span></td><td><span id="q5_id"></span></td><td><span id="q6_id"></span></td>
+            </tr>
+            <tr>
+                <td>新UI</td><td><span id="q7_id"></span></td><td><span id="q8_id"></span></td><td><span id="q9_id"></span></td><td><span id="q10_id"></span></td><td><span id="q11_id"></span></td><td><span id="q12_id"></span></td>
+            </tr>
+        </table>
+    <p>
+        この結果から、新UIにより作業時間が変化したといえるかを、有意水準 $5\%$ で検定せよ。
+        ただし、作業時間の差は正規分布に従うとする。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <!--
+    <p>
+        [1] ふたつの正規母集団 $N(\mu_A, \sigma_A^2), N(\mu_B, \sigma_B^2)$ を考える。
+        $N(\mu_A, \sigma_A^2)$ からサイズ $n_A$ の標本 $X_1, \dots, X_{n_A}$ をとり、
+        $N(\mu_B, \sigma_B^2)$ からサイズ $n_B$ の標本 $Y_1, \dots, Y_{n_B}$ をとる。
+        このとき、標本平均の差 $\overline{X} - \overline{Y}$ がどの分布に従うかを答えよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+
+    <p>
+        [2] <span id="q1_id"></span> 人の生徒からなるA組と、<span id="q2_id"></span> 人の生徒からなるB組に対して試験を実施したところ、それぞれの平均点は、<span id="q3_id"></span> 点、<span id="q4_id"></span> 点であった。
+        各組の得点は、それぞれ正規分布 <span id="q5_id"></span>, <span id="q6_id"></span> に従う母集団から独立に抽出された標本であると仮定する。
+        両組の平均点に差があると判断してよいか、有意水準 $5\%$ で検定せよ。　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    -->
+    <p style="color: transparent; margin-left: 27px;" id="b1_id">
+        作業時間の差（旧UI $-$ 新UI）を $D$ とし、その平均値を $\mu_D$ とする。<br>
+        帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
+        　　$H_0: \mu_D = 0$ <br>
+        　　$H_1: \mu_D \neq 0$ <br>
+        作業時間の差の不偏分散を $U^2$ として、統計量
+        \[ T := \frac{\overline{D} - \mu_D}{U / \sqrt{n}} \]
+        が自由度 $5$ の $t$ 分布 $t_5$ に従うことを利用して検定を行う。<br>
+        有意水準 $5\%$ より、棄却域は $|t| > 2.57058$ である。<br>
+        作業時間の差の観測値は
+        <span id="a1_id"></span>
+        であるから、帰無仮説 $H_0$ のもとで実現値は
+        <span id="a2_id"></span>
+        となり、<span id="a3_id"></span>
+        <!--
+        A組とB組の標本平均をそれぞれ $\overline{X}, \overline{Y}$ とすると、[1]より
+        <span id="a1_id"></span>
+        は標準正規分布 $N(0,1)$ に従う。<br>
+        有意水準 $5\%$ より、棄却域は $|z| > 1.96$ である。<br>
+        <span id="a2_id"></span>
+        となり、<span id="a3_id"></span>
+        -->
+    </p>
+    <div class="box"><span style="color: blue;">[Tips]</span>
+        ユーザーインターフェース（UI）とは、ユーザーが製品やサービスを利用する際に関わるすべての接点を指すが、ここではより簡単に「操作画面」と考えてよい。
+        みなさんも、スマートフォンのアプリがアップデートされて「操作画面」が急に変わり、使いづらくなったり、慣れるまで戸惑ったりした経験があるだろう。
+        そのようなとき、私たちは「あのアプリはUIが変わったね」などと言ったりする。
+    </div>
+    <p>　<br>　</p>
+</body>
+</html>
