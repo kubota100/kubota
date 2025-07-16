@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>LA_21</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>
+
+<script>
+    function det3(a,b,c,d,e,f,g,h,i){
+        return a*(e*i - f*h) - d*(b*i-c*h) + g*(b*f-c*e);
+    }
+
+    let eigenvalue1 = Math.floor(Math.random()*3)+2;
+    let eigenvalue2;
+    if(eigenvalue1 % 2 == 0){
+        eigenvalue2 = 3;
+    }else{
+        eigenvalue2 = [2,4][Math.floor(Math.random()*2)];
+    }
+
+    /*
+    while(eigenvalue1 == eigenvalue2){
+        eigenvalue2 = Math.floor(Math.random()*3)+2;        
+    }
+    let GCD = gcd(eigenvalue1, eigenvalue2);
+    eigenvalue1 = eigenvalue1 / GCD;
+    eigenvalue2 = eigenvalue2 / GCD;
+    */
+    console.log([eigenvalue1, eigenvalue2]);
+
+    let eigenvector1 = [0,0];
+    let eigenvector2 = [0,0];
+    let counter = 0;
+    while(eigenvector1[0]*eigenvector2[1] - eigenvector1[1]*eigenvector2[0] != 1){
+        counter++;
+        eigenvector1[0] = Math.floor(Math.random()*4)+1;
+        eigenvector1[1] = Math.floor(Math.random()*10)-4;
+        if(eigenvector1[1] == 0){
+            eigenvector1[1] = 1;
+        }
+        //eigenvector2[0] = Math.floor(Math.random()*4)+1;
+        eigenvector2[0] = 1;
+        eigenvector2[1] = Math.floor(Math.random()*10)-4;
+        if(eigenvector2[1] == 0){
+            eigenvector2[1] = 1;
+        }
+    }
+    console.log(counter);
+    console.log(eigenvector1);
+    console.log(eigenvector2);
+
+    let A = [eigenvector1[0]*eigenvector2[1]*eigenvalue1 - eigenvector1[1]*eigenvector2[0]*eigenvalue2,
+                eigenvector1[0]*eigenvector2[0]*(eigenvalue2 - eigenvalue1),
+                eigenvector1[1]*eigenvector2[1]*(eigenvalue1 - eigenvalue2),
+                eigenvector1[0]*eigenvector2[1]*eigenvalue2 - eigenvector1[1]*eigenvector2[0]*eigenvalue1];
+    console.log(A);
+
+    let A_squared = [A[0]**2+A[1]*A[2], A[1]*(A[0] + A[3]), A[2]*(A[0]+A[3]), A[3]**2 + A[1]*A[2]];
+    let P = [eigenvector1[0], eigenvector2[0], eigenvector1[1], eigenvector2[1]];
+
+    let GivenMatrix_text = `\\[ A = \\begin{bmatrix} ${A[0]} & ${A[1]} \\\\ ${A[2]} & ${A[3]} \\end{bmatrix}, \\qquad P = \\begin{bmatrix} ${eigenvector1[0]} & ${eigenvector2[0]} \\\\ ${eigenvector1[1]} & ${eigenvector2[1]} \\end{bmatrix} \\]`
+    let A_nthPower_text = `$ \\begin{bmatrix}` + adjustCoeff(P[0]*P[3]) + `${eigenvalue1}^n +`+ adjustCoeff((-1)*P[1]*P[2]) + `${eigenvalue2}^n & `+ adjustCoeff((-1)*P[0]*P[1]) +` ${eigenvalue1}^n + `+ adjustCoeff(P[0]*P[1]) +` ${eigenvalue2}^n \\\\ `+ adjustCoeff(P[2]*P[3]) + `${eigenvalue1}^n +`+ adjustCoeff((-1)*P[2]*P[3]) +` ${eigenvalue2}^n & `+ adjustCoeff((-1)*P[1]*P[2]) + ` ${eigenvalue1}^n + `+ adjustCoeff(P[0]*P[3]) +` ${eigenvalue2}^n \\end{bmatrix} $`
+
+
+    ////////////////////////////////////////////
+
+    function gcd(a, b) {
+        while (b !== 0) {
+            let temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return Math.abs(a); // 負の数への対応も含めて
+        }
+
+    function adjustCoeff(k){
+        if(k==1){
+            return "";
+        } else if(k==-1){
+            return "(-1) \\cdot";
+        } else if(k==0){
+            return "これは出ないはず";          
+        } else if(k<0){
+            return `(${k}) \\cdot`;
+        } else {
+            return `${k} \\cdot`
+        }
+    }
+
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        /*
+        document.getElementById("q1_id").textContent = GivenMatrix_text;
+        document.getElementById("a1").textContent = `$ \\begin{bmatrix} ${A_squared[0]} & ${A_squared[1]} \\\\ ${A_squared[2]} & ${A_squared[3]} \\end{bmatrix} $`;
+        document.getElementById("a2").textContent = `$ \\begin{bmatrix} ${P[3]} & ${(-1)*P[1]} \\\\ ${(-1)*P[2]} & ${P[0]} \\end{bmatrix} $`;
+        document.getElementById("a3").textContent = `$ \\begin{bmatrix} ${eigenvalue1} & 0 \\\\ 0 & ${eigenvalue2} \\end{bmatrix} $`;
+        document.getElementById("a4").textContent = A_nthPower_text;
+        */
+    })
+</script>
+</head>
+
+<body class="container">
+    <center><h1>行列の $n$ 乗 (2)</h1></center>
+    <p>
+        このページは再読み込みしても新しい問題を生成しない。
+    </p>
+    <div class="box"><span style="color: blue;">[Tips]</span>
+        実数 $\alpha$ に対し、次の等式
+        \[ \begin{bmatrix} \alpha & 1 \\ 0 & \alpha \end{bmatrix}^n = \begin{bmatrix} \alpha^n& n\alpha^{n-1} \\ 0&\alpha^n \end{bmatrix} \]
+        が成り立つ。ただし、$n$ は非負整数である。
+        このことは、教科書 p.20, 1.27 と同様に二項定理を用いて確かめることもできるし、数学的帰納法を用いて証明することもできる。
+    </div>
+    <p>
+        行列 $A, P$ をそれぞれ
+        \[ A = \begin{bmatrix} 1&4 \\ -1&5 \end{bmatrix}, \quad P = \begin{bmatrix} 2&1 \\ 1&1 \end{bmatrix} \]
+        と定める。以下の問に答えよ。
+    </p>
+    <ol class="list_parentheses">
+        <li>$A^2$ は　<span id="a1" style="color: transparent">$\begin{bmatrix} -3 & 24 \\ -6 & 21 \end{bmatrix}$</span>　である。　　<button id="1" onclick="show_answer(this)">答え</button></li>
+        <li>$P$ の逆行列は　<span id="a2" style="color: transparent;">$\begin{bmatrix} 1 & -1 \\ -1 & 2 \end{bmatrix}$</span>　である。　　<button id="2" onclick="show_answer(this)">答え</button></li>
+        <li>$P^{-1}AP$ は　<span id="a3" style="color: transparent;">$\begin{bmatrix} 3 & 1 \\ 0 & 3 \end{bmatrix}$</span>　である。　　<button id="3" onclick="show_answer(this)">答え</button></li>
+        <li>$A^n$ は　<span id="a4" style="color: transparent;">$3^{n-1} \begin{bmatrix} 3-2n & 4n \\ -n & 3+2n \end{bmatrix}$</span>　である。　　<button id="4" onclick="show_answer(this)">答え</button></li>
+    </ol>
+    <p></p>
+    <!--
+    <div class="box"><span style="color: blue;">[補足]</span>
+        与えられた行列の $n$ 乗を計算することは様々な利点があるため、その計算手法を把握しておくことは重要である。
+        与えられた行列 $A$ の $n$ 乗を計算するにあたり、もっとも汎用性のある方法が $P^{-1}AP$ を対角行列にする正則行列 $P$ を見つけることである。
+        そのような正則行列がいつでも取れるとは限らないのだが、 このような行列 $P$ をどのようにして見つけるかは、後期の線形数学で習う。
+    </div>
+    -->
+    <div class="box"><span style="color: blue;">[補足]</span>
+        後期の線形数学では、与えられた行列 $A$ に対して、$P^{-1}AP$ を対角行列にする正則行列 $P$ の取り方を学ぶとともに、そのような行列 $P$ がいつでも取れるとは限らないことも学ぶ。
+        さらに発展的な線形代数を学ぶと、$P^{-1}AP$ を対角行列にできない場合は
+        \[ P^{-1}AP = \begin{bmatrix} \alpha & 1 \\ 0 & \alpha \end{bmatrix} \]
+        のような形に変換できることが知られている（右辺の行列を $A$ の <b>ジョルダン標準形</b> という）。
+    </div>
+    <p>
+        　<br>　<br>
+    </p>
+
+
+
+ <!--
+     <ol class="list_parentheses">
+        <li>$A$ の行列式の値は <span id="a1" style="color: transparent; display: inline-block; width: 2em; text-align: center;"></span> である。　<button id="1" onclick="show_answer(this)">答え</button> </li>
+        <li>$A$ の $(1,1)$ 余因子は <span id="a2" style="color: transparent; display: inline-block; width: 2em; text-align: center;"></span> である。　<button id="2" onclick="show_answer(this)">答え</button></li>
+        <li>$A$ の $(1,2)$ 余因子は <span id="a3" style="color: transparent; display: inline-block; width: 2em; text-align: center;"></span> である。　<button id="3" onclick="show_answer(this)">答え</button></li>
+        <li>$A$ の $(1,3)$ 余因子は <span id="a4" style="color: transparent; display: inline-block; width: 2em; text-align: center;"></span> である。　<button id="4" onclick="show_answer(this)">答え</button></li>
+        <li>$A$ の $(2,1)$ 余因子は <span id="a5" style="color: transparent; display: inline-block; width: 2em; text-align: center;"></span> である。　<button id="5" onclick="show_answer(this)">答え</button></li>
+        <li>$A$ の $(2,2)$ 余因子は <span id="a6" style="color: transparent; display: inline-block; width: 2em; text-align: center;"></span> である。　<button id="6" onclick="show_answer(this)">答え</button></li>
+        <li>$A$ の $(2,3)$ 余因子は <span id="a7" style="color: transparent; display: inline-block; width: 2em; text-align: center;"></span> である。　<button id="7" onclick="show_answer(this)">答え</button></li>
+        <li>$A$ の $(3,1)$ 余因子は <span id="a8" style="color: transparent; display: inline-block; width: 2em; text-align: center;"></span> である。　<button id="8" onclick="show_answer(this)">答え</button></li>
+        <li>$A$ の $(3,2)$ 余因子は <span id="a9" style="color: transparent; display: inline-block; width: 2em; text-align: center;"></span> である。　<button id="9" onclick="show_answer(this)">答え</button></li>
+        <li>$A$ の $(3,3)$ 余因子は <span id="a10" style="color: transparent; display: inline-block; width: 2em; text-align: center;"></span> である。　<button id="10" onclick="show_answer(this)">答え</button></li>
+        <li>$A$ の逆行列は <span id="a11" style="color:transparent"></span> である。　<button id="11" onclick="show_answer(this)">答え</button></li>
+    </ol>
+ -->
+</body>
+</html>
