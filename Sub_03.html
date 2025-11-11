@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>近傍から隣接行列</title>
+    <style>
+    .box {
+        border: blue 1px solid; /*境界線の指定*/
+        padding:10px;
+        }
+        .box p {
+        margin:0;
+        padding:0;
+        }
+    </style>
+    <style>
+    .container {
+            margin: 0;
+        }
+    
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <script>
+        function copyToClipboard(){
+            let text = document.getElementById("output_id").value;
+            navigator.clipboard.writeText(text);
+            document.getElementById("01_id").textContent = "コピーしました！"
+        }
+
+        function preprocess(){ // テキストボックスの入力を取得し、2次元配列（隣接行列）に変換する。
+            // テキストボックスの入力を取得
+            let input = document.getElementById("input_id").value;
+            // 取得した文字の空白文字を消す
+            let tmp = "";
+            for (let i = 0; i<input.length; i++){
+                if(input[i] != " "){
+                    tmp += input[i];
+                }
+            }
+            input = tmp;
+            //文字列の最後の文字が ; だった場合はそれを削除する。
+            if(input[input.length - 1] == ";"){
+                input = input.slice(0,-1);
+            }
+            console.log(input);
+            let neighbours = input.split(";");
+            let adjacencyMatrix = [];
+            //まずは零行列を作る。
+            for(let i=0; i<neighbours.length; i++){
+                let rowZeroVector = [];
+                for(let j=0; j<neighbours.length; j++){
+                    rowZeroVector.push(0);
+                }
+                adjacencyMatrix.push(rowZeroVector);
+            }
+            console.log(adjacencyMatrix);
+            //隣接行列を作る
+            for(let i=0; i<neighbours.length; i++){
+                let neighboursPair = neighbours[i].split("_");
+                console.log(neighboursPair);
+                for(let j=0; j<neighboursPair[1].length; j++){
+                    adjacencyMatrix[Number(neighboursPair[0])][Number(neighboursPair[1][j])] = 1;
+                }
+            }
+            console.log(adjacencyMatrix);
+            //隣接行列が対称行列かどうかを判定する
+            let flag = 0;
+            let IncorrectPair = [];
+            for(let i = 0; i<adjacencyMatrix.length; i++){
+                for(let j = 0; j<adjacencyMatrix.length; j++){
+                    if(adjacencyMatrix[i][j] != adjacencyMatrix[j][i]){
+                        flag = 1;
+                        if(adjacencyMatrix[i][j] == 0){
+                            IncorrectPair.push([i,j]);
+                        }
+                    }
+                }
+            }
+            if(flag == 1){
+                let message = "隣接行列が対称行列になっていため、入力ミスの可能性があります。\n";
+                for(let i = 0; i<IncorrectPair.length; i++){
+                    message += "頂点 "+IncorrectPair[i][0]+ " の近傍に " + IncorrectPair[i][1] + " はありませんか？\n"
+                }
+                alert(message);
+            }
+            return adjacencyMatrix;
+        }
+
+        function showMatrixCalculator(){
+            let adjacencyMatrix = preprocess();
+            let output = "";
+            for(let i = 0; i<adjacencyMatrix.length; i++){
+                for(let j = 0; j<adjacencyMatrix.length; j++){
+                    output += adjacencyMatrix[i][j];
+                    if(j != adjacencyMatrix.length - 1){
+                        output += ",";
+                    }
+                }
+                if(i != adjacencyMatrix.length - 1){
+                    output += ";\n";
+                }
+            }
+            document.getElementById("output_id").textContent = output;
+        }
+
+        function showTeX(){
+            let adjacencyMatrix = preprocess();
+            let output = "\\begin{bmatrix} \n";
+            for(let i = 0; i<adjacencyMatrix.length; i++){
+                for(let j = 0; j<adjacencyMatrix.length; j++){
+                    output += adjacencyMatrix[i][j];
+                    if(j != adjacencyMatrix.length - 1){
+                        output += "&";
+                    }else if(i != adjacencyMatrix.length - 1){
+                        output += " \\\\ \n";
+                    }else{
+                        output += "\n";
+                    }
+                }
+            }
+            output += "\\end{bmatrix}";
+            document.getElementById("output_id").textContent = output;
+        }
+
+        function showMagma(){
+            let adjacencyMatrix = preprocess();
+            let output = "Matrix([\n[";
+            for(let i = 0; i<adjacencyMatrix.length; i++){
+                for(let j = 0; j<adjacencyMatrix.length; j++){
+                    output += adjacencyMatrix[i][j];
+                    if(j != adjacencyMatrix.length - 1){
+                        output += ",";
+                    }else if(i != adjacencyMatrix.length - 1){
+                        output += "],\n";
+                    }else{
+                        output += "]]);";
+                    }
+                }
+            }
+            document.getElementById("output_id").textContent = output;
+        }
+    </script>
+    <!-- TeX 用と Magma 用のものも作っておく。 -->
+</head>
+
+<body>
+    <div class="container">
+    <center>
+        <p>
+            <h1>近傍から隣接行列</h1>
+        </p>
+        <p>
+            10頂点まで。頂点の番号は「0番目」から。
+        </p>
+        <p>
+            <a href="https://matrixcalc.org/ja/vectors.html" target="_blank" rel="noopener noreferrer">固有値計算機</a>　　
+            <a href="https://magma.maths.usyd.edu.au/calc/" target="_blank" rel="noopener noreferrer">Magma Calculator</a>
+        </p>
+        <p>
+            <input type="text" id="input_id" size="50" placeholder="0_1; 1_023; 2_13; 3_12　←番号は0から！"> <br>
+            <button onclick="showMatrixCalculator()">MatrixCalculator</button>　
+            <button onclick="showTeX()">TeX</button>　
+            <button onclick="showMagma()">Magma</button>
+            <br>
+        </p>
+    <p>
+        <textarea rows="10" cols="50" id="output_id"></textarea> <br>
+        <button id="text_id" onclick="copyToClipboard()">コピー</button>
+    </p>
+    <p>
+        <span id="01_id" style="color:red"></span>
+    </p>
+    </center>
+    </div>
+</body>
+</html>
