@@ -81,6 +81,17 @@
     function show_answer612(){document.getElementById("612_id").style.color = "red";}
     function show_answer613(){document.getElementById("613_id").style.color = "red";}
     function show_answer614(){document.getElementById("614_id").style.color = "red";}
+
+    function show_answer31(){document.getElementById("31_id").style.color = "red";}
+    function show_answer32(){document.getElementById("32_id").style.color = "red";}
+    function show_answer33(){document.getElementById("33_id").style.color = "red";}
+    function show_answer34(){document.getElementById("34_id").style.color = "red";}
+
+    function show_answer41(){document.getElementById("41_id").style.color = "red";}
+    function show_answer42(){document.getElementById("42_id").style.color = "red";}
+    function show_answer43(){document.getElementById("43_id").style.color = "red";}
+    function show_answer44(){document.getElementById("44_id").style.color = "red";}
+    function show_answer45(){document.getElementById("45_id").style.color = "red";}
 </script>
 </head>
 
@@ -93,7 +104,7 @@
  </center>
  <div class="box">
     <span style="color: blue;">[定義]</span> 集合 $A$ 上の同値関係 $\sim$ について、
-    $a \in A$の同値類 $[a]$ とは $a$ と関係のある $A$ の要素全体の集合を言う。集合の言葉で書くと
+    $a \in A$ の同値類 $[a]$ とは $a$ と関係のある $A$ の要素全体の集合を言う。集合の言葉で書くと
     \[ [a] = \{ x \in A \mid x \sim a \} \]
     である。同値類全体の集合を $A$ の $\sim$ による商集合といい $A / \!\! \sim$ とかく。
     集合の言葉で書くと
@@ -128,7 +139,37 @@
         　<button onclick="show_answer63()">答え</button>　</li>    
  </ol>
  <br> <br>
- [3] $\mathbb{R}^2 \setminus \{(0,0)\}$ 上の二項関係 $\sim$ を
+ [3] $\mathbb{R} \setminus \{0\}$ 上の二項関係 $\sim$ を $a \sim b \stackrel{\text{def}}{\iff} ab > 0$ と定めると、$\sim$ は同値関係となる。
+ 次の空欄をうめよ。
+ <ol class="list_parentheses">
+    <li>命題「$\sqrt{2} \sim \sqrt{3}$」は <span id="31_id" style="color:transparent">真</span> である（真偽を答えよ）。
+        　<button onclick="show_answer31()">答え</button>　</li>
+    <li>命題「$\sqrt{2} \sim - \pi$」は <span id="32_id" style="color:transparent">偽</span> である（真偽を答えよ）。
+        　<button onclick="show_answer32()">答え</button>　</li>
+    <li>$1$ の同値類 $[1]$ を内包的記法で表すと $[1] = $ <span id="33_id" style="color:transparent">$\{x \mid x > 0\}$</span> である。
+        　<button onclick="show_answer33()">答え</button>　</li>
+    <li>$\mathbb{R} \setminus \{0\}$ の同値関係 $\sim$ による商集合は $(\mathbb{R} \setminus \{0\}) / \!\! \sim \, \, = $ <span id="34_id" style="color:transparent"> $\{ [1], [-1] \}$ </span>である。
+        　<button onclick="show_answer34()">答え</button>　</li>
+ </ol>
+
+ <br> <br>
+ [4] $A = \{1,2,3\}$ とする。$A$ のべき集合 $2^A$ 上の二項関係 $\sim$ を $X \sim Y \stackrel{\text{def}}{\iff} |X| = |Y|$ と定めると、$\sim$ は同値関係となる。
+ 次の空欄をうめよ。
+ <ol class="list_parentheses">
+    <li>命題「$\{1\} \sim \{2,3\}$」は <span id="41_id" style="color:transparent">偽</span> である（真偽を答えよ）。
+    　<button onclick="show_answer41()">答え</button>　</li>
+    <li>命題「$\{1,2\} \sim \{1,3\}$」は <span id="42_id" style="color:transparent">真</span> である（真偽を答えよ）。
+    　<button onclick="show_answer42()">答え</button>　</li>
+    <li>$\{1\}$ の同値類 $[\{1\}]$ を外延的記法で表すと $[\{1\}] =$ <span id="43_id" style="color:transparent">$\{ \{1\}, \{2\}, \{3\} \}$</span> である。
+    　<button onclick="show_answer43()">答え</button>　</li>
+    <li>$\{2,3\}$ の同値類 $[\{2,3\}]$ を外延的記法で表すと $[\{2,3\}] =$ <span id="44_id" style="color:transparent">$\{ \{1,2\}, \{2,3\}, \{1,3\} \}$</span> である。
+    　<button onclick="show_answer44()">答え</button>　</li>
+    <li>$2^A$ の同値関係 $\sim$ による商集合は $2^A / \!\! \sim \, \, =$ <span id="45_id" style="color:transparent">$\{[\emptyset], [\{1\}], [\{1,2\}], [\{1,2,3\}] \}$</span> である。
+    　<button onclick="show_answer45()">答え</button>　</li>
+ </ol>
+
+ <br> <br>
+ [5] $\mathbb{R}^2 \setminus \{(0,0)\}$ 上の二項関係 $\sim$ を
  \[ (x_1, y_1) \sim (x_2, y_2) \stackrel{\text{def}}{\iff} \exists t \in \mathbb{R} \setminus \{0\} \text{ s.t. } (x_2, y_2) = (tx_1, ty_1) \]
  と定めると $\sim$ は同値関係となる。次の空欄をうめよ。
  <ol class="list_parentheses">
