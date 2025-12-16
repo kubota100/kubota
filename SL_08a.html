@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SL-08a</title>
+    <style>
+        .box {
+            border: blue 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box p {
+            margin:0;
+            padding:0;
+        }
+        .box_red {
+            border: red 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box_red p {
+            margin:0;
+            padding:0;
+        }
+        ol.list_parentheses{
+              padding:0 0 0 2em;
+              margin:0;
+        }
+        ol.list_parentheses li{
+              list-style-type:none;
+              list-style-position:inside;
+              counter-increment: cnt;
+        }
+        ol.list_parentheses li:before{
+              display: marker;
+              content: "(" counter(cnt) ") ";
+        }
+        .container {
+          margin: 0;
+        }
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = function() {
+        renderMathInElement(document.body, {delimiters: [
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false}
+        ]});
+        };
+    </script>
+</head>
+
+<body>
+<div class="container">
+ <center><h1>合同方程式、計算のコツ</h1></center>
+ <p>
+    $a$ と $m$ を互いに素である自然数とする。
+    合同方程式 $ax \equiv b \pmod{m}$ を解くときは、両辺を何倍かしてうまいこと $x$ の係数を $1$ にしなければならないが、工夫の仕方によっては楽に解けることも多い。
+    このページでは計算の工夫をいくつか紹介してみることにする。
+ </p>
+ <div class="box">
+    <span style="color: blue;">【工夫その１】</span>
+    $ax \equiv b \pmod{m}$ において、$a$ と $m$ が十分近い場合は、$a$ を $a-m$ に変えてみよう。
+ </div>
+ <div class="box">
+    【例題】
+    合同方程式 $12x \equiv 2 \pmod{13}$ を解け。<br>
+    <span style="color: red;">【解法】</span>
+    次のように計算する。
+    \[ \begin{aligned}
+    12x &\equiv 2 \pmod{13} \\
+    -x &\equiv 2 \pmod{13} \\
+    x &\equiv -2 \pmod{13} \\
+    x &\equiv 11 \pmod{13}
+    \end{aligned} \]
+ </div>
+  <div class="box">
+    【例題】
+    合同方程式 $11x \equiv 3 \pmod{13}$ を解け。<br>
+    <span style="color: red;">【解法】</span>
+    次のように計算する。
+    \[ \begin{aligned}
+    11x &\equiv 3 \pmod{13} \\
+    -2x &\equiv 3 \pmod{13} \\
+    2x &\equiv -3 \pmod{13}
+    \end{aligned} \]
+    両辺を7倍して（$x$ の係数が $2$ なので計算しやすい）
+    \[ \begin{aligned}
+    14x &\equiv -21 \pmod{13} \\
+    x &\equiv -21 \pmod{13} \\
+    x &\equiv 5 \pmod{13}
+    \end{aligned} \]
+ </div> <br>
+ <div class="box">
+    <span style="color: blue;">【工夫その２】</span>
+    $ax \equiv b \pmod{m}$ の両辺を適当に何倍かして、$x$ の係数をとりあえず現状の $a$ より小さくしてみる。
+ </div>
+  <div class="box">
+    【例題】
+    合同方程式 $7x \equiv 3 \pmod{19}$ を解け。<br>
+    <span style="color: red;">【解法】</span>
+    まず、両辺を3倍してみると
+    \[ \begin{aligned}
+    21x &\equiv 9 \pmod{19} \\
+    2x &\equiv 9 \pmod{19} \\
+    \end{aligned} \]
+    である。（$x$ の係数が $2$ になったので最初の問題よりは簡単になっている。）さらに両辺を10倍して
+    \[ \begin{aligned}
+    20x &\equiv 90 \pmod{19} \\
+    x &\equiv 90 \pmod{19} \\
+    x &\equiv 14 \pmod{19}
+    \end{aligned} \]
+  </div>
+  <div class="box">
+    【例題】
+    合同方程式 $13x \equiv 17 \pmod{23}$ を解け。<br>
+    <span style="color: red;">【解法】</span>
+    まず、両辺を2倍してみると
+    \[ \begin{aligned}
+    26x &\equiv 34 \pmod{23} \\
+    3x &\equiv 11 \pmod{23} \\
+    \end{aligned} \]
+    である。（$x$ の係数が $3$ になったので最初の問題よりは簡単になっている。）さらに両辺を8倍して
+    \[ \begin{aligned}
+    24x &\equiv 88 \pmod{23} \\
+    x &\equiv 19 \pmod{23}
+    \end{aligned} \]
+  </div>
+ </div>
+    <br> <br>
+</div>
+</body>
+</html>

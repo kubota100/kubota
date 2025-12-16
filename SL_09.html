@@ -188,27 +188,62 @@
 <body>
 <div class="container">
  <center><h1>1次合同方程式(2)</h1></center> 
- 合同方程式 $ax \equiv b \pmod{m}$ は $a$ と $m$ が互いに素でない場合、解を持たないか解を複数個もつ。
- $d$ を $a$ と $m$ の最大公約数とするとき、この合同方程式は $d|b$ のときに限り $d$ 個の解を持つ。
- <br> <br> <br>
- [1] 合同方程式 <script>document.write(q1);</script> の解は <span id="a1_id" style="color:white"><script>document.write(a1);</script></span>
+ 合同方程式 <span style="color: red;">$a$</span>$x \equiv b \, \, (\!\!\!\! \mod{} \!\!$ <span style="color: blue;">$m \!\!$</span> $)$ は
+ <span style="color: red;">$a$</span> と <span style="color: blue;">$m$</span> が互いに素でない場合、解を持たないか解を複数個もつ。<br>
+ <div class="box">
+    【例題】
+    合同方程式 $2x \equiv 5 \pmod{6}$ を解け。<br>
+    <span style="color: red;">【解法】</span>
+    合同式の定義より、ある整数 $k$ が存在して
+    \[ 2x - 5 = 6k \]
+    である。変形して
+    \[ 2(x-3k) = 5 \]
+    となる。左辺は偶数であるが、右辺は奇数であるため、この等式を満たす $x$ は存在しない。
+    よって、この合同方程式は解を持たない。
+ </div> <br>
+  <div class="box">
+    【例題】
+    合同方程式 $8x \equiv 2 \pmod{10}$ を解け。<br>
+    <span style="color: red;">【解法】</span>
+    合同式の定義より、ある整数 $k$ が存在して
+    \[ 8x - 2 = 10k \]
+    である。両辺を $2$ で割ると
+    \[ 4x - 1 = 5k \]
+    となる。そこで、まずは mod $5$ の合同方程式
+    \[ 4x \equiv 1 \pmod{5} \]
+    を解く。「1次合同方程式(1)」と同様の方法でこれを解くと $x \equiv 4 \pmod{5}$ が得られる。
+    したがって、$x = 5 \ell + 4 \, (\ell \in \mathbb{Z})$ と表せる。
+    もとの合同方程式は mod $10$ の方程式であるから、$\ell$ を $2$ でわった余りで分類する。<br>
+    (i) $\ell = 2m \, (m \in \mathbb{Z})$ のとき <br>
+    　　$x = 5 \ell + 4 = 5 \cdot (2m) + 4 = 10m + 4$ より、$x \equiv 4 \pmod{10}$ <br>
+    (ii) $\ell = 2m+1 \, (m \in \mathbb{Z})$ のとき <br>
+    　　$x = 5 \ell + 4 = 5 \cdot (2m+1) + 4 = 10m + 9$ より、$x \equiv 9 \pmod{10}$ <br>
+    以上より、合同方程式の解は $x \equiv 4, 9 \pmod{10}$ である。<br>
+ </div>
+ <br> <br>
+ [1] 合同方程式 <script>document.write(q1);</script> の解は <span id="a1_id" style="color:transparent"><script>document.write(a1);</script></span>
  <br>　　<button onclick="show_answer1()">答え</button>
  　<br> <br>
- [2] 合同方程式 <script>document.write(q2);</script> の解は <span id="a2_id" style="color:white"><script>document.write(a2);</script></span>
+ [2] 合同方程式 <script>document.write(q2);</script> の解は <span id="a2_id" style="color:transparent"><script>document.write(a2);</script></span>
  <br>　　<button onclick="show_answer2()">答え</button>
  　<br> <br>
- [3] 合同方程式 <script>document.write(q3);</script> の解は <span id="a3_id" style="color:white"><script>document.write(a3);</script></span>
+ [3] 合同方程式 <script>document.write(q3);</script> の解は <span id="a3_id" style="color:transparent"><script>document.write(a3);</script></span>
  <br>　　<button onclick="show_answer3()">答え</button>
  　<br> <br>
- [4] 合同方程式 <script>document.write(q4);</script> の解は <span id="a4_id" style="color:white"><script>document.write(a4);</script></span>
+ [4] 合同方程式 <script>document.write(q4);</script> の解は <span id="a4_id" style="color:transparent"><script>document.write(a4);</script></span>
  <br>　　<button onclick="show_answer4()">答え</button>
  　<br> <br>
- [5] 合同方程式 <script>document.write(q5);</script> の解は <span id="a5_id" style="color:white"><script>document.write(a5);</script></span>
+ [5] 合同方程式 <script>document.write(q5);</script> の解は <span id="a5_id" style="color:transparent"><script>document.write(a5);</script></span>
  <br>　　<button onclick="show_answer5()">答え</button>
  　<br> <br>
- [6] 合同方程式 <script>document.write(q6);</script> の解は <span id="a6_id" style="color:white"><script>document.write(a6);</script></span>
+ [6] 合同方程式 <script>document.write(q6);</script> の解は <span id="a6_id" style="color:transparent"><script>document.write(a6);</script></span>
  <br>　　<button onclick="show_answer6()">答え</button>
  　<br> <br>
+     <div class="box">
+        <span style="color: blue;">[補足]</span>
+        合同方程式 $ax \equiv b \pmod{m}$ において、$d$ を $a$ と $m$ の最大公約数とするとき、この合同方程式は $d|b$ のときに限り $d$ 個の解を持つ。
+    </div>
+    <br> <br>
 </div>
 </body>
 </html>
