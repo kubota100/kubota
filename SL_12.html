@@ -134,6 +134,7 @@
  <div class="box">
     [ 例題 ] 次の合同方程式を解け。
     \[ x^2 + 5x + 2 \equiv 0 \pmod{13} \]
+    <!--
     <span style="color: red;">[ 解法① ]</span> <br>
     合同式の法を $13$ とする。
     両辺を $4$ 倍すると
@@ -151,7 +152,8 @@
     これを解くと $y \equiv 2, 11$ である。
     $y$ を戻すと $2x+5 \equiv 2, 11$ であり、これは「1次合同方程式(1)」と同様の問題である。
     解は $x \equiv 3, 5 \pmod{13}$ である。<br>
-    <span style="color: red;">[ 解法② ]</span> <br>
+    -->
+    <span style="color: red;">[ 解法① ]</span> <br>
     合同式の法を $13$ とする。1次の係数を調整して
     \[
     \begin{aligned}
@@ -162,8 +164,8 @@
         &\equiv 1
     \end{aligned}
     \]
-    以下 [解法①] と同様だが、$x$ の係数が $1$ なのでこちらの方が簡単だろう。<br>
-    <span style="color: red;">[ 解法③ ]</span> <br>
+    $13$ は素数なので $x-4 \equiv \pm 1$ である。よって、解は $x \equiv 3, 5 \pmod{13}$ である。 <br>
+    <span style="color: red;">[ 解法② ]</span> <br>
     合同式の法を $13$ とする。
     解の候補は $x \equiv 0,1,2, \dots, 12$ である。
     これらの候補のうち $x^2 + 5x + 2 \equiv 0$ を満たすものをしらみ潰しに探すと $x \equiv 3, 5$ のみが解であることが分かる。
