@@ -45,6 +45,14 @@
                 margin-right: auto;
             }
         }
+        table {
+            margin: auto; 
+            margin-top: -10px;
+            border-collapse: collapse;
+        }
+        td {
+            text-align: center; /* テキストを水平方向に中央揃え */
+        }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
@@ -180,8 +188,66 @@
  [3] 合同方程式 <script>document.write(q3);</script> を解くと $x \equiv$ <span id="a3_id" style="color:transparent"><script>document.write(ans3_text);</script></span> $\pmod{49}$ である。　　<button onclick="show_answer3()">答え</button>
  　<br> <br>
  [4] 合同方程式 <script>document.write(q4);</script> を解くと $x \equiv$ <span id="a4_id" style="color:transparent"><script>document.write(ans4_text);</script></span> $\pmod{49}$ である。　　<button onclick="show_answer4()">答え</button>
- 　<br> <br> <br>
  </p>
+ <p>
+    なお、[3][4]については次の表を参考にしてよい。
+<center>
+<table border="1">
+  <tr>
+    <td>$x$</td>
+    <td>$\cdots$</td>
+    <td>$15$</td>
+    <td>$16$</td>
+    <td>$17$</td>
+    <td>$18$</td>
+    <td>$19$</td>
+    <td>$20$</td>
+    <td>$21$</td>
+    <td>$22$</td>
+    <td>$23$</td>
+    <td>$24$</td>
+  </tr>
+  <tr>
+    <td>$x^2$</td>
+    <td>$\cdots$</td>
+    <td>$225$</td>
+    <td>$256$</td>
+    <td>$289$</td>
+    <td>$324$</td>
+    <td>$361$</td>
+    <td>$400$</td>
+    <td>$441$</td>
+    <td>$484$</td>
+    <td>$529$</td>
+    <td>$576$</td>
+  </tr>
+  <tr>
+    <td>$x^2 \!\! \mod{49}$</td>
+    <td>$\cdots$</td>
+    <td>$29$</td>
+    <td>$11$</td>
+    <td>$44$</td>
+    <td>$30$</td>
+    <td>$18$</td>
+    <td>$8$</td>
+    <td>$0$</td>
+    <td>$43$</td>
+    <td>$39$</td>
+    <td>$37$</td>
+  </tr>
+</table>
+</center>
+ </p>
+ <div class="box">
+    <span style="color: blue">[ 補足 ]</span>
+    言うまでもないかもしれないが、mod $49$ を計算するときは $49$ の倍数だけ数をずらすことになる。
+    そこで、$49 = 50 - 1$ に注目すると、次のような工夫が考えられる。<br>
+    　・ある数から $49$ を引く　→　$50$ を引いて $1$ を加える<br>
+    　・ある数から $98 \, (= 49 \times 2)$ を引く　→　$100$ を引いて $2$ を加える<br>
+    　・ある数から $147 \, (= 49 \times 3)$ を引く　→　$150$ を引いて $3$ を加える<br>
+    このように計算すると、直接（筆算で） $49$ で割った余りを求めたり、直接（筆算で） $49$ の倍数を引き算したりするよりも、計算がずっと簡単になるはずである。
+ </div>
+ <br> <br> <br>
 </div>
 </body>
 </html>
