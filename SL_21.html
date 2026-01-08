@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>SL-21</title>
+    <style>
+        .box {
+            border: blue 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box p {
+            margin:0;
+            padding:0;
+        }
+        .box_red {
+            border: red 1px solid; /*境界線の指定*/
+            padding:10px;
+        }
+        .box_red p {
+            margin:0;
+            padding:0;
+        }
+        ol.list_parentheses{
+              padding:0 0 0 2em;
+              margin:0;
+        }
+        ol.list_parentheses li{
+              list-style-type:none;
+              list-style-position:inside;
+              counter-increment: cnt;
+        }
+        ol.list_parentheses li:before{
+              display: marker;
+              content: "(" counter(cnt) ") ";
+        }
+        .container {
+          margin: 0;
+        }
+        /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
+        @media screen and (min-width: 680px) {
+            .container {
+                width: 700px;
+                margin-left: auto; /* 左右中央に配置 */
+                margin-right: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = function() {
+        renderMathInElement(document.body, {delimiters: [
+            {left: "\\[", right: "\\]", display: true},
+            {left: "$", right: "$", display: false}
+        ]});
+        };
+    </script>
+
+<script>
+    let exp1 = 3 //Math.floor(Math.random()*3+3);
+    // [1] は mod 33 で
+    let num1 = 33 - Math.floor(Math.random()*5+4);
+    let q1 = "$" + num1 + "^{"+ exp1 +"}$";
+    let ans1 = "$" + ((num1**exp1) % 33) + "$";
+
+    let exp2 = Math.floor(Math.random()*2+4);
+    // [2] は mod 35 で
+    let num2 = 35 - Math.floor(Math.random()*5+4);
+    let q2 = "$" + num2 + "^{"+ exp2 +"}$";
+    let ans2 = "$" + ((num2**exp2) % 35) + "$";
+
+    let exp3 = Math.floor(Math.random()*3+3);
+    // [3] は mod 39 で
+    let num3 = Math.floor(Math.random()*26+10);
+    let q3 = "$" + num3 + "^{"+ exp3 +"}$";
+    let ans3 = "$" + ((num3**exp3) % 39) + "$";
+
+    let exp4 = Math.floor(Math.random()*3+3);
+    // [4] は mod 41 で
+    let num4 = Math.floor(Math.random()*27+10);
+    let q4 = "$" + num4 + "^{"+ exp4 +"}$";
+    let ans4 = "$" + ((num4**exp4) % 41) + "$";
+
+    let exp5 = Math.floor(Math.random()*3+3);
+    // [5] は mod 51 で
+    let num5 = Math.floor(Math.random()*37+10);
+    let q5 = "$" + num5 + "^{"+ exp5 +"}$";
+    let ans5 = "$" + ((num5**exp5) % 51) + "$";
+
+    function show_answer1(){document.getElementById("a1_id").style.color = "red";}
+    function show_answer2(){document.getElementById("a2_id").style.color = "red";}
+    function show_answer3(){document.getElementById("a3_id").style.color = "red";}
+    function show_answer4(){document.getElementById("a4_id").style.color = "red";}
+    function show_answer5(){document.getElementById("a5_id").style.color = "red";}
+    function show_answer6(){document.getElementById("a6_id").style.color = "red";}
+</script>
+
+</head>
+
+<body>
+<div class="container">
+ <center>
+    <h1>べき乗の剰余</h1>
+ </center>
+ <div class="box">
+    <span style="color: blue;">【例題】</span>
+    $29^4$ を $33$ で割った余りを求めよ。<br>
+    【方針】要所要所で底の数を小さくする。<br>
+    <span style="color: red;">【解答】</span>
+    mod $33$ で次のように計算する。
+    \[ 29^4 \equiv (-4)^4 = 256 \equiv 25 \]
+    <span style="color: red;">【別解】</span>
+    上の解答で、$256$ を $33$ で割った余りを計算するのが面倒な場合は、次のように、素因数をうまく組み合わせて計算することもできる。
+    \[ 29^4 \equiv (-4)^4 = 2^8 = 2^5 \cdot 2^3 = 32 \cdot 8 \equiv (-1) \cdot 8 = -8 \equiv 25 \]
+ </div>
+ <p>
+    [1] <script>document.write(q1);</script> を $33$ で割った余りは <span id="a1_id" style="color:transparent; display:inline-block; text-align:center; width:20px;"><script>document.write(ans1);</script></span> である。　　<button onclick="show_answer1()">答え</button> <br>
+    [2] <script>document.write(q2);</script> を $35$ で割った余りは <span id="a2_id" style="color:transparent; display:inline-block; text-align:center; width:20px;"><script>document.write(ans2);</script></span> である。　　<button onclick="show_answer2()">答え</button> <br>
+    [3] <script>document.write(q3);</script> を $39$ で割った余りは <span id="a3_id" style="color:transparent; display:inline-block; text-align:center; width:20px;"><script>document.write(ans3);</script></span> である。　　<button onclick="show_answer3()">答え</button> <br>
+    [4] <script>document.write(q4);</script> を $41$ で割った余りは <span id="a4_id" style="color:transparent; display:inline-block; text-align:center; width:20px;"><script>document.write(ans4);</script></span> である。　　<button onclick="show_answer4()">答え</button> <br>
+    [5] <script>document.write(q5);</script> を $51$ で割った余りは <span id="a5_id" style="color:transparent; display:inline-block; text-align:center; width:20px;"><script>document.write(ans5);</script></span> である。　　<button onclick="show_answer5()">答え</button>
+    <br> <br> <br>
+ </p>
+</div>
+</body>
+</html>
