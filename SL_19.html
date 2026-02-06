@@ -152,13 +152,13 @@
     <li> $x^e$ を $n$ で割った余りを $y$ とする、つまり $y \equiv x^e \pmod{n}$ とする。</li>
  </ul>
  <b> Step 4. Aは暗号文 $y$ をBに送る。 </b> <br>
- <b> Step 5. Bは自身の秘密鍵を使って復号化、ものの文章（平文）を得る。 </b>
+ <b> Step 5. Bは自身の秘密鍵を使って復号。もとの文章（平文）を得る。 </b>
  <ul>
     <li> $y^d$ を $n$ で割った余りを求める。これが平文 $x$ である。</li>
  </ul>
  </div> <br>
  <div class="box">
-    [ 例題 ] <br>
+    <b>【例題】</b><br>
     あなたは受信者である。
     あなたはふたつの素数として $p=3, q=5$ を選び $(p-1)(q-1)=8$ と互いに素な数として $e=3$ を選んだ。
     次の問に答えよ。
@@ -166,7 +166,7 @@
        <li> あなたの秘密鍵 $d$ を求めよ。ただし $d$ は秘密鍵として使える数のうち最小の自然数とする。</li>
        <li> 送信者から暗号文 $y=3$ が送られてきた。送信者の暗号文 $y$ を復号し、送信者の平文 $x$ を求めよ。</li>
     </ol>
-    <span style="color:red">[ 解法 ] </span> <br>
+    <span style="color:red"><b>【解法】</b></span> <br>
     <ol class="list_parentheses">
         <li>受信者が $p,q,e$ から秘密鍵 $d$ を作るのは Step 1 である。
             $d$ は
@@ -180,7 +180,7 @@
  </div>
 
  <p>
-    [問題] <br> <!--次の文章の空欄をうめよ。-->
+    <b>【問題】</b><br> <!--次の文章の空欄をうめよ。-->
     あなたは受信者である。
     あなたはふたつの素数として $p=$ <script>document.write("$" + p + "$");</script>, $q=$ <script>document.write("$" + q + "$");</script> を選び
     $(p-1)(q-1)=$ <script>document.write("$" + tmp + "$");</script> と互いに素な数として$e=$ <script>document.write("$" + e + "$");</script> を選んだ。
