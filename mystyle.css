@@ -38,6 +38,9 @@
         td {
               text-align: center; /* テキストを水平方向に中央揃え */
         }
+        h1 {
+            text-align: center;
+        }
         /* PCの画面サイズの場合のみ左右に幅800pxを設定 */
         @media screen and (min-width: 680px) {
             .container {
