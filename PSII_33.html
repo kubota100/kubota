@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_33</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    let mean_x = randomInteger(50, 150);
+    let mean_y = randomInteger(50, 150);
+    let variance_x = randomInteger(100, 200);
+    let variance_y = randomInteger(100, 200);
+    let covariance_xy = randomInteger(-100, 100);
+
+    let mean_z = mean_x + mean_y;
+    let mean_w = mean_x - mean_y;
+    let variance_z = variance_x + variance_y + 2*covariance_xy;
+    let variance_w = variance_x + variance_y - 2*covariance_xy;
+    let covariance_zw = variance_x - variance_y;
+    let correlation_zw = covariance_zw / (Math.sqrt(variance_z)*Math.sqrt(variance_w));
+
+    /////////////////////////////////////////
+    /*
+    a 以上 b 以下の整数をランダムに返す関数 randomInteger
+    入力：数値 a,b  (a < b を想定してよい)
+    出力：数値
+    */            
+    function randomInteger(a,b){
+        return Math.floor((b-a+1)*Math.random() + a);
+    }    
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) { // P(Z \leq x) の値を返す。
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `\\[ \\bar{x} = ${mean_x}, \\quad \\bar{y} = ${mean_y}, \\quad s_x^2 = ${variance_x}, \\quad s_y^2 = ${variance_y}, \\quad s_{xy} = ${covariance_xy} \\]`;
+        //document.getElementById("q2_id").textContent = `$x = ${x}$`;
+
+        document.getElementById("a1_id").textContent = `$${mean_z}$`;
+        document.getElementById("a2_id").textContent = `$${mean_w}$`;
+        document.getElementById("a3_id").textContent = `$${variance_z}$`;
+        document.getElementById("a4_id").textContent = `$${variance_w}$`;
+        document.getElementById("a5_id").textContent = `$${covariance_zw}$`;
+        document.getElementById("a6_id").textContent = `$${Math.round(correlation_zw*100)/100}$`;
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>変量の変換(2)</h1>
+    <!--
+    <div class="box"><span style="color: blue;">【Tips】</span>
+        「変量の変換(1)」で導出した、変換後の分散や共分散の式は必要に応じて自力で導出できるように練習しておくこと。
+    </div>
+    -->
+    <p>
+        <b>【問題】</b> 変量 $x, y$ について次が成り立っているとする。
+        <span id="q1_id"></span>
+        変量 $z, w$ をそれぞれ
+        \[ z = x+y, \quad w = x-y \]
+        によって定めるとき、次の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。
+    </p>
+    <p>
+        [1] 平均値 $\bar{z}$ は　<span id="a1_id" style="color: transparent;"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button><br>
+        [2] 平均値 $\bar{w}$ は　<span id="a2_id" style="color: transparent;"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button><br>
+        [3] 分散 $s_z^2$ は　<span id="a3_id" style="color: transparent;"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button><br>
+        [4] 分散 $s_w^2$ は　<span id="a4_id" style="color: transparent;"></span>　である。　　<button id="4_id" onclick="show_answer(this)">答え</button><br>
+        [5] 共分散 $s_{zw}$ は　<span id="a5_id" style="color: transparent;"></span>　である。　　<button id="5_id" onclick="show_answer(this)">答え</button><br>
+        [6] 相関係数 $r_{zw}$ は　<span id="a6_id" style="color: transparent;"></span>　である。　　<button id="6_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <div class="box"><span style="color: blue;">【余談】</span>
+        標準化や偏差値で見たように、1変量の変換はスケールの異なるデータを統一的に解釈するために用いられる一方で、2変量の変換は、目的に応じて都合の良い座標系に取り直す操作と解釈できる。
+        例えば、部屋番号 $i$ の室温を複数の測定機で測るとき、測定機Xによる測定値を $x_i$, 測定機Yによる測定値を $y_i$ とする。
+        このとき、
+        \[ z_i = \frac{x_i + y_i}{2}, \quad w_i = x_i - y_i \]
+        と変換すると、変量 $z$ は（誤差が平均化される分）真の値に近い測定値とみなすことができ、変量 $w$ は真の値が打ち消され誤差の情報のみが反映された量といえる。
+        したがって、理想的な状況下では変量 $z, w$ は無相関でなければならないが、実際のデータにおいて相関が観測される場合には「誤差になんらかの傾向が生じている」と考えられる。
+        例えば、「測定機Xは大きい値を過大評価しているのではないか」など。
+        このように、2変量の変換では、変換後に期待される関係を検討することにより、誤差の独立性や測定機の偏りといった、仮定や前提の妥当性を検証することができる。
+    </div>
+    <!--
+    <p>
+        <b>【問題】</b> 変量 $x,y$ のデータ $(x_i, y_i) \, (i=1,2, \dots, n)$ が与えられているとする。
+        このとき、新しい変量 $z, w$ をそれぞれ
+        \[ z_i = x_i + y_i, \quad w_i = x_i - y_i \]
+        によって定める。このとき、次の量を $\bar{x}, \bar{y}, s_x^2, s_y^2, s_{xy}$ のうち必要なものを用いて表わせ。
+    </p>
+    <p>
+        [1] 平均値 $\bar{z}$　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a1_id">
+        $\bar{z} = \bar{x} + \bar{y}$ である。<br>
+        実際、
+        \[ \bar{z} = \frac{1}{n} \sum_{i=1}^n z_i = \frac{1}{n} \sum_{i=1}^n (x_i + y_i) = \frac{1}{n} \sum_{i=1}^n x_i + \frac{1}{n} \sum_{i=1}^n y_i = \bar{x} + \bar{y} \]
+        と計算できる。
+
+    </p>
+    <p>
+        [2] 分散 $s_z^2$　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a2_id">
+        $s_z^2 = s_x^2 + s_y^2 + 2s_{xy}$ である。<br>
+        実際、
+        \[ \begin{aligned}
+        s_z^2 = \overline{z^2} - \bar{z}^2 &= \overline{(x+y)^2} - (\bar{x} + \bar{y})^2 \\
+        &= \overline{x^2+2xy+y^2} - (\bar{x}^2 + 2\bar{x}\bar{y} + \bar{y}^2) \\
+        &= \overline{x^2} + 2\overline{xy} + \overline{y^2} - (\bar{x}^2 + 2\bar{x}\bar{y} + \bar{y}^2) \\
+        &= \overline{x^2} - \bar{x}^2 + \overline{y^2} - \bar{y}^2 + 2(\overline{xy} - \bar{x}\bar{y}) \\
+        &= s_x^2 + s_y^2 + 2s_{xy}
+        \end{aligned} \]
+        と計算できる。なお、同様にして
+        \[ s_w^2 = s_x^2 + s_y^2 - 2s_{xy} \]
+        であることも分かる。
+    </p>
+    <p>
+        [3] 共分散 $s_{zw}$  <button id="3_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a3_id">
+        $s_{zw} = s_x^2 - s_y^2$ である。<br>
+        実際、
+        \[ \begin{aligned}
+        s_{zw} = \overline{zw} - \bar{z}\bar{w} &= \overline{(x+y)(x-y)} - \overline{x+y} \cdot \overline{x-y} \\
+        &= \overline{x^2 - y^2} - (\bar{x}+\bar{y})(\bar{x}-\bar{y}) \\
+        &= \overline{x^2} - \overline{y^2} - (\bar{x}^2-\bar{y}^2) \\
+        &= \overline{x^2} - \overline{y^2} - \bar{x}^2 + \bar{y}^2 \\
+        &= \overline{x^2} - \bar{x}^2 - (\overline{y^2} - \bar{y}^2) \\
+        &= s_x^2 - s_y^2
+        \end{aligned} \]
+        と計算できる。
+    </p>
+    <br>　<br>
+    
+    -->
+    <!--
+    <div class="box"><span style="color: blue;">【定義】</span>
+        変量 $x$ のデータについて、
+        \[ t = 10 \cdot \frac{x - \bar{x}}{s_{x}} + 50 \]
+        で定まる変量 $t$ を偏差値という。
+        後述するように、この定義式は暗記するというよりも、変量の標準化を基準にして導出できるようになることが望ましい。
+    </div>
+    <p>
+        <b>【問題】</b> 変量 $x$ の平均値 $\bar{x}$ と標準偏差 $s_x$ が次で与えられているとする。
+        <span id="q1_id"></span>
+        このとき、<span id="q2_id"></span> に対応する偏差値を求め、小数第1位を四捨五入すると <span id="a1_id" style="color: transparent;"></span> となる。<button id="1_id" onclick="show_answer(this)">答え</button>
+
+    </p>
+    <div class="box"><span style="color: blue;">【Tips】</span>
+        偏差値とは、もとのデータを平均値 $50$, 標準偏差 $10$ となるようにスケーリングして得られる変量である。
+        偏差値の定義式は覚えるというよりも次のような方法で導出できることが望ましい。<br>
+        　　変量 $x$ の標準化 $z$ は、平均値 $0$, 標準偏差 $1$ である。<br>
+        　　このとき、$10z$ の平均値は $0$, 標準偏差は $10$ である。<br>
+        　　よって、$10z+50$ の平均値は $50$, 標準偏差は $10$ である。<br>
+        このように、標準化したデータを基準に調整することで、平均値 $50$, 標準偏差 $10$ の変量を作ることができる。
+    </div>
+    -->
+
+</body>
+</html>

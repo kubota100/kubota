@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_32</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    /////////////////////////////////////////
+    /*
+    a 以上 b 以下の整数をランダムに返す関数 randomInteger
+    入力：数値 a,b  (a < b を想定してよい)
+    出力：数値
+    */            
+    function randomInteger(a,b){
+        return Math.floor((b-a+1)*Math.random() + a);
+    }    
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) { // P(Z \leq x) の値を返す。
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `\\[ \\bar{x} = ${mean}, \\quad s_x = ${std} \\]`;
+        document.getElementById("q2_id").textContent = `$x = ${x}$`;
+
+        document.getElementById("a1_id").textContent = `$${t}$`;
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>変量の変換(1)</h1>
+    <p>
+        このページは再読み込みしても新しい問題を生成しない。
+    </p>
+    <div class="box"><span style="color: blue;">【復習】</span>
+        変量 $x, y$ のデータの共分散 $s_{xy}$ について
+        \[ s_{xy} = \overline{xy} - \bar{x} \bar{y} \]
+        が成り立つ。特に、$y=x$ とすると、分散公式
+        \[ s_x^2 = \overline{x^2} - \bar{x}^2 \]
+        が得られる。
+    </div>
+    <p>
+        <b>【問題】</b> 変量 $x,y$ のデータ $(x_i, y_i) \, (i=1,2, \dots, n)$ が与えられているとする。
+        このとき、新しい変量 $z, w$ をそれぞれ
+        \[ z_i = x_i + y_i, \quad w_i = x_i - y_i \]
+        によって定める。このとき、次の量を $\bar{x}, \bar{y}, s_x^2, s_y^2, s_{xy}$ のうち必要なものを用いて表せ。
+    </p>
+    <p>
+        [1] 平均値 $\bar{z}$　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a1_id">
+        $\bar{z} = \bar{x} + \bar{y}$ である。<br>
+        実際、
+        \[ \bar{z} = \frac{1}{n} \sum_{i=1}^n z_i = \frac{1}{n} \sum_{i=1}^n (x_i + y_i) = \frac{1}{n} \sum_{i=1}^n x_i + \frac{1}{n} \sum_{i=1}^n y_i = \bar{x} + \bar{y} \]
+        と計算できる。
+
+    </p>
+    <p>
+        [2] 分散 $s_z^2$　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a2_id">
+        $s_z^2 = s_x^2 + s_y^2 + 2s_{xy}$ である。<br>
+        実際、
+        \[ \begin{aligned}
+        s_z^2 = \overline{z^2} - \bar{z}^2 &= \overline{(x+y)^2} - (\bar{x} + \bar{y})^2 \\
+        &= \overline{x^2+2xy+y^2} - (\bar{x}^2 + 2\bar{x}\bar{y} + \bar{y}^2) \\
+        &= \overline{x^2} + 2\overline{xy} + \overline{y^2} - (\bar{x}^2 + 2\bar{x}\bar{y} + \bar{y}^2) \\
+        &= \overline{x^2} - \bar{x}^2 + \overline{y^2} - \bar{y}^2 + 2(\overline{xy} - \bar{x}\bar{y}) \\
+        &= s_x^2 + s_y^2 + 2s_{xy}
+        \end{aligned} \]
+        と計算できる。なお、同様にして
+        \[ s_w^2 = s_x^2 + s_y^2 - 2s_{xy} \]
+        であることも分かる。
+    </p>
+    <p>
+        [3] 共分散 $s_{zw}$　　<button id="3_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a3_id">
+        $s_{zw} = s_x^2 - s_y^2$ である。<br>
+        実際、
+        \[ \begin{aligned}
+        s_{zw} = \overline{zw} - \bar{z}\bar{w} &= \overline{(x+y)(x-y)} - \overline{x+y} \cdot \overline{x-y} \\
+        &= \overline{x^2 - y^2} - (\bar{x}+\bar{y})(\bar{x}-\bar{y}) \\
+        &= \overline{x^2} - \overline{y^2} - (\bar{x}^2-\bar{y}^2) \\
+        &= \overline{x^2} - \overline{y^2} - \bar{x}^2 + \bar{y}^2 \\
+        &= \overline{x^2} - \bar{x}^2 - (\overline{y^2} - \bar{y}^2) \\
+        &= s_x^2 - s_y^2
+        \end{aligned} \]
+        と計算できる。
+    </p>
+    <br>　<br>
+    <!--
+    <div class="box"><span style="color: blue;">【定義】</span>
+        変量 $x$ のデータについて、
+        \[ t = 10 \cdot \frac{x - \bar{x}}{s_{x}} + 50 \]
+        で定まる変量 $t$ を偏差値という。
+        後述するように、この定義式は暗記するというよりも、変量の標準化を基準にして導出できるようになることが望ましい。
+    </div>
+    <p>
+        <b>【問題】</b> 変量 $x$ の平均値 $\bar{x}$ と標準偏差 $s_x$ が次で与えられているとする。
+        <span id="q1_id"></span>
+        このとき、<span id="q2_id"></span> に対応する偏差値を求め、小数第1位を四捨五入すると <span id="a1_id" style="color: transparent;"></span> となる。<button id="1_id" onclick="show_answer(this)">答え</button>
+
+    </p>
+    <div class="box"><span style="color: blue;">【Tips】</span>
+        偏差値とは、もとのデータを平均値 $50$, 標準偏差 $10$ となるようにスケーリングして得られる変量である。
+        偏差値の定義式は覚えるというよりも次のような方法で導出できることが望ましい。<br>
+        　　変量 $x$ の標準化 $z$ は、平均値 $0$, 標準偏差 $1$ である。<br>
+        　　このとき、$10z$ の平均値は $0$, 標準偏差は $10$ である。<br>
+        　　よって、$10z+50$ の平均値は $50$, 標準偏差は $10$ である。<br>
+        このように、標準化したデータを基準に調整することで、平均値 $50$, 標準偏差 $10$ の変量を作ることができる。
+    </div>
+    -->
+
+</body>
+</html>
