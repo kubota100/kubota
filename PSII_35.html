@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_35</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    /////////////////////////////////////////
+    /*
+    a 以上 b 以下の整数をランダムに返す関数 randomInteger
+    入力：数値 a,b  (a < b を想定してよい)
+    出力：数値
+    */            
+    function randomInteger(a,b){
+        return Math.floor((b-a+1)*Math.random() + a);
+    }    
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) { // P(Z \leq x) の値を返す。
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        //document.getElementById("q1_id").textContent = `\\[ \\bar{x} = ${mean_x}, \\quad \\bar{y} = ${mean_y}, \\quad s_x^2 = ${variance_x}, \\quad s_y^2 = ${variance_y}, \\quad s_{xy} = ${covariance_xy} \\]`;
+        //document.getElementById("q2_id").textContent = `$x = ${x}$`;
+        /*
+        document.getElementById("a1_id").textContent = `$${mean_z}$`;
+        document.getElementById("a2_id").textContent = `$${mean_w}$`;
+        document.getElementById("a3_id").textContent = `$${variance_z}$`;
+        document.getElementById("a4_id").textContent = `$${variance_w}$`;
+        document.getElementById("a5_id").textContent = `$${covariance_zw}$`;
+        document.getElementById("a6_id").textContent = `$${Math.round(correlation_zw*100)/100}$`;
+        */
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>確率収束</h1>
+    <p>このページは再読み込みしても新しい問題を生成しない。</p>
+    <div class="box"><span style="color: blue;">【定義】</span>
+        $X_1, X_2, \dots, X$ を確率変数とする。
+        確率変数列 $\{ X_n \}$ が $X$ に<b>確率収束</b>するとは、任意の $\varepsilon > 0$ に対して
+        \[ \lim_{n \to \infty} P(|X_n - X| > \varepsilon) = 0 \]
+        が成り立つことをいう。なお、定数も確率変数とみなすので $X$ は定数であってもよい。
+    </div>
+    <p>
+        授業で扱った大数の弱法則は、サイズ $n$ の標本平均 $S_n$ が、母平均 $\mu$ に確率収束することを主張している。
+        このページでは、大数の弱法則以外の例を用いて、確率収束に関する問題を考える。
+    </p>
+    <p>
+        <b>【問題1】</b>$n$ 個の公平なサイコロを同時に投げる。
+        $n$ 個の出目の最大値を $X_n$ とするとき、$X_n$ が $6$ に確率収束することを示せ。
+        簡単のため、証明で用いる「任意の $\varepsilon > 0$ 」は $0 < \varepsilon < 1$ を満たすとしてよい。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a1_id">
+        【解答】任意の $\varepsilon$ を $0 < \varepsilon < 1$ を満たすようにとる。
+        $X_n$ の取り得る値は $1,2,3,4,5,6$ であるから、$ |X_n - 6| > \varepsilon$ であることと $X_n \neq 6$ であることは同値である。
+        そこで、$X_n \neq 6$ である確率を計算する。
+        これは $n$ 個すべての出目が $6$ でない確率であるから
+        \[ P(X_n \neq 6) = \left( \frac{5}{6} \right)^n \]
+        である。以上をまとめると、
+        \[ \lim_{n \to \infty} P(|X_n - 6| > \varepsilon) = \lim_{n \to \infty} P(X_n \neq 6) = \lim_{n \to \infty} \left( \frac{5}{6} \right)^n = 0 \]
+        となり、$X_n$ が $6$ に確率収束することが示された。<br>　<br>
+        【補足】$\varepsilon \geq 1$ である場合は、より小さい $\delta \in (0, 1)$ を取り直せばよい。
+        実際、
+        \[ |X_n - 6| > \varepsilon \quad \Longrightarrow \quad |X_n - 6| > \delta \]
+        であるから
+        \[ P(|X_n - 6| > \varepsilon) \leq P(|X_n - 6| > \delta) \]
+        となり、結局 $0 < \varepsilon < 1$ の場合のみ考察すれば十分である。
+    </p>
+    <p>
+        <b>【問題2】</b>公平なサイコロをひとつ投げ、その出目を $X$ とする。
+        各 $n = 1,2, \dots$ に対して、確率変数 $Y_n$ を
+        \[ P(Y_n = n) = \frac{1}{n}, \quad P(Y_n = 0) = 1 - \frac{1}{n} \]
+        で定め、$X_n := X + Y_n$ とする。<br>
+        [1] $X_n$ が $X$ に確率収束することを示せ。<br>
+        [2] $E[X_n] = E[X]$ が成り立つか調べよ。　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a2_id">
+        【解答】[1] 任意の $\varepsilon > 0$ をとる。
+        $n \to \infty$ を考えるので、$n > \varepsilon$ としてよい。
+        $Y_n$ が $0$ または $n$ しか取らないことに注意すると、
+        \[ \lim_{n \to \infty} P(|X_n - X| > \varepsilon) = \lim_{n \to \infty} P(Y_n > \varepsilon) = \lim_{n \to \infty} P(Y_n = n) = \lim_{n \to \infty} \frac{1}{n} = 0 \]
+        と計算できるので $X_n$ は $X$ に確率収束する。<br>
+        [2] $E[Y_n] = 1$ である（確かめよ）から
+        \[ E[X_n] = E[X + Y_n] = E[X] + E[Y_n] = E[X] + 1 \neq E[X] \]
+        となる。<br>　<br>
+        【補足】[2]より、確率収束は期待値を保存しないことが分かる。また、この結果はサイコロに限らず、任意の確率変数 $X$ に対して同様に成り立つ。
+    </p>
+    <!--
+    <p>
+        <b>【問題】</b>次の記述について、内容が正しい場合は「正しい」、誤っている場合は「誤り」と答えよ。
+    </p>
+    <p>
+        [1] 相関係数が $1$ または $-1$ であれば、すべてのデータ $(x_1, y_1), \dots, (x_n, y_n)$ は1本の直線上にある。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a1_id">
+        【解答】 正しい<br>
+        実際、$r_{xy} = \pm 1$ ならば、コーシー・シュワルツの不等式の等号成立条件より、ある実数 $k$ が存在して、任意の $i = 1,2, \dots, n$ に対して
+        \[ y_i - \bar{y} = k(x_i - \bar{x})  \]
+        が成り立つ。これは、すべてのデータ $(x_1, y_1), \dots, (x_n, y_n)$ が直線
+        \[ y - \bar{y} = k(x - \bar{x}) \]
+        上にあることを意味する。
+    </p>
+    <p>
+        [2] 相関係数が $0$ であれば、2変量 $x, y$ の間に関数的な関係はない。　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a2_id">
+        【解答】 誤り<br>
+        2変量データ $(-1, 1), (0,0), (1,1)$ は $y = x^2$ という関数の関係を満たしているが相関係数は $0$ である。
+        相関係数が $0$ であることは、2変量 $x,y$ の間に直線的な関係がないことを意味するに過ぎない。
+    </p>
+    <p>
+        [3] 回帰直線はすべてのデータ $(x_1, y_1), \dots, (x_n, y_n)$ を通る直線である。　　<button id="3_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a3_id">
+        【解答】 誤り<br>
+        回帰直線は、各データから直線までのズレ（残差）を考え、それらの二乗和が最小となるように定めた直線である。
+        当然、一般にはすべてのデータ点を通るような直線は引けない。
+    </p>
+    <p>
+        [4] 回帰直線 $y = ax+b$ の傾き $a$ は、説明変数 $x$ が $1$ 増加したときの目的変数 $y$ の平均的な変化量を表す。　　<button id="4_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a4_id">
+        【解答】 正しい<br>
+        ただし、厳密に証明するのは少し難しいので、現段階では「そういうもの」と認識しておこう。
+    </p>
+    <p>
+        [5] 回帰直線はデータの範囲外に対する予測にも適用可能であり、その結果は信頼できる。　　<button id="5_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a5_id">
+        【解答】 誤り<br>
+        回帰直線は、与えられたデータの範囲内での関係をもとに定められている。
+        したがって、その範囲を超えた値に対して同じ関係が成り立つとは限らず、予測の信頼性は一般に低い。
+    </p>
+    <p>
+        [6] 外れ値は回帰直線に影響を与えない。　　<button id="6_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a6_id">
+        【解答】 誤り<br>
+        外れ値は他のデータから大きく離れているため、残差の二乗が大きくなる。
+        したがって、回帰直線はその影響を強く受け、傾きや切片が大きく変化することがある。
+    </p>
+    <p>
+        [7] 散布図を見て $x$ と $y$ の関係に曲線的な関係（例えば放物線や円のような形）が見られても、単回帰を行えば必ず適切に近似できる。　　<button id="7_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a7_id">
+        【解答】 誤り<br>
+        単回帰は $y = ax+b$ という直線でデータを近似する方法である。
+        したがって、散布図に放物線や円のような曲線的な関係が見られる場合には、その形状を適切に表すことはできない。
+    </p>
+    <p>
+        [8] 相関係数が正であれば回帰直線の傾きも正である。　　<button id="8_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a8_id">
+        【解答】 正しい<br>
+        実際、回帰直線の傾きは $\frac{s_{xy}}{s_x^2}$ であるから
+        \[ r_{xy} = \frac{s_{xy}}{s_x s_y} > 0 \iff s_{xy} > 0 \iff \frac{s_{xy}}{s_x^2} > 0 \]
+        である。なお、問題文で相関係数が定義されているので $s_x, s_y \neq 0$ である。
+    </p>
+    <p>
+        [9] 2変量データ $(x_1, y_1), \dots, (x_n, y_n)$ において、すべての $x$ の値が同じである場合にも、$x$ を説明変数とする回帰直線が定義される。　　<button id="9_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a9_id">
+        【解答】 誤り<br>
+        $x$ を説明変数とする回帰直線 $y = ax+b$ の傾き $a$ は
+        \[ a = \frac{s_{xy}}{s_x^2} \]
+        で与えられるため、すべての $x$ の値が同じである場合は $s_x^2 = 0$ となり、回帰直線は定義されない。
+    </p>
+    <p>
+        [10] 2変量データ $(x_1, y_1), \dots, (x_n, y_n)$ において、ある $i , j$ で $x_i \neq x_j$ であり、かつすべての $y$ の値が同じであるとき、$x$ を説明変数とする回帰直線が定義される。　　<button id="10_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a10_id">
+        【解答】 正しい<br>
+        条件より、$s_x^2 \neq 0$ であるから回帰直線
+        \[ y = \frac{s_{xy}}{s_x^2} x + \bar{y} - \frac{s_{xy}}{s_x^2} \bar{x} \]
+        が定義される。なお、すべての $y$ の値が同じであるから、回帰直線は $x$ 軸に平行な直線である。
+        このことは計算によって確かめることもできる。$y_1 = \cdots = y_n = c$ とすると、
+        \[ s_{xy} = \overline{xy} - \bar{x} \bar{y} = \overline{cx} - \bar{x} \cdot c = c \cdot \bar{x} - c \cdot \bar{x} = 0 \]
+        なので、回帰直線は
+        \[ y = \frac{s_{xy}}{s_x^2} x + \bar{y} - \frac{s_{xy}}{s_x^2} \bar{x} = 0x + c - 0\bar{x} = c \]
+        に決まる。
+    </p>
+    -->
+    <br>　<br>
+</body>
+</html>
