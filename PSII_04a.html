@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_04a</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    let num_of_data = Math.floor(Math.random()*3 + 4);
+    let data = [];
+    for(let i=0; i<num_of_data; i++){
+        let tmp = 0;
+        tmp = (Math.random()*21+10) + (Math.random()*21+10) + (Math.random()*21+10);
+        tmp = Math.floor(tmp/3);
+        data.push(tmp);
+    }
+    console.log(data);
+
+    let data_in_text = "";
+    for(let i=0; i<num_of_data; i++){
+        data_in_text += data[i] + ",　";
+    }
+    data_in_text = data_in_text.slice(0, -2);
+
+    let ave = average(data);
+    // ave = Math.round(ave*100)/100;
+    console.log(ave);
+
+    let variance = 0;
+    let data_square = [];
+    for(let i=0; i<num_of_data; i++){
+        data_square.push(data[i]**2);
+    }
+    variance = average(data_square) - average(data)**2;
+    console.log(variance);
+
+    let st = Math.sqrt(variance);
+    console.log(st);
+
+    standardized_data = [];
+    for(let i=0; i<num_of_data; i++){
+        let tmp = (data[i] - ave)/st;
+        tmp = Math.round(tmp*100)/100;
+        standardized_data.push(tmp);        
+    }
+    console.log(standardized_data);
+
+    let standardized_data_in_text = "";
+    for(let i=0; i<num_of_data; i++){
+        standardized_data_in_text += standardized_data[i] + ",　";
+    }
+    standardized_data_in_text = standardized_data_in_text.slice(0, -2);
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    /////////////////////////////////////////
+    /*
+    a 以上 b 以下の整数をランダムに返す関数 randomInteger
+    入力：数値 a,b  (a < b を想定してよい)
+    出力：数値
+    */            
+    function randomInteger(a,b){
+        return Math.floor((b-a+1)*Math.random() + a);
+    }    
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) { // P(Z \leq x) の値を返す。
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `\\[ ${data_in_text} \\]`;
+        //document.getElementById("q2_id").textContent = `$x = ${x}$`;
+
+        document.getElementById("a1_id").textContent = `\\[ ${standardized_data_in_text} \\]`;
+        //document.getElementById("a2_id").textContent = `$${median}$`;
+        //document.getElementById("a3_id").textContent = `$${variance_app}$`;
+        //document.getElementById("a4_id").textContent = `$${st}$`;
+        //document.getElementById("a5_id").textContent = `$${un_var}$`;
+        //document.getElementById("a6_id").textContent = `$${Math.round(correlation_zw*100)/100}$`;
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>標準化</h1>
+    <!--
+    <div class="box"><span style="color: blue;">【Tips】</span>
+        「変量の変換(1)」で導出した、変換後の分散や共分散の式は必要に応じて自力で導出できるように練習しておくこと。
+    </div>
+    -->
+    <p>
+        <b>【問題】</b>次はある試験（30点満点）の得点データである。
+        <span id="q1_id"></span>
+        このデータを標準化すると
+        <span id="a1_id" style="color: transparent;"></span>
+        となる。数値は必要に応じて小数第2位まで答えよ（小数第3位を四捨五入せよ）。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <br>　<br>
+</body>
+</html>
