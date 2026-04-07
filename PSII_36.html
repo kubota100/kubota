@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_36</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    let mean_x = randomInteger(50, 150);
+    let mean_y = randomInteger(50, 150);
+    let variance_x = randomInteger(100, 200);
+    let variance_y = randomInteger(100, 200);
+    let covariance_xy = randomInteger(-100, 100);
+
+    let mean_z = mean_x + mean_y;
+    let mean_w = mean_x - mean_y;
+    let variance_z = variance_x + variance_y + 2*covariance_xy;
+    let variance_w = variance_x + variance_y - 2*covariance_xy;
+    let covariance_zw = variance_x - variance_y;
+    let correlation_zw = covariance_zw / (Math.sqrt(variance_z)*Math.sqrt(variance_w));
+
+    /////////////////////////////////////////
+    /*
+    a 以上 b 以下の整数をランダムに返す関数 randomInteger
+    入力：数値 a,b  (a < b を想定してよい)
+    出力：数値
+    */            
+    function randomInteger(a,b){
+        return Math.floor((b-a+1)*Math.random() + a);
+    }    
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) { // P(Z \leq x) の値を返す。
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `\\[ \\bar{x} = ${mean_x}, \\quad \\bar{y} = ${mean_y}, \\quad s_x^2 = ${variance_x}, \\quad s_y^2 = ${variance_y}, \\quad s_{xy} = ${covariance_xy} \\]`;
+        //document.getElementById("q2_id").textContent = `$x = ${x}$`;
+
+        document.getElementById("a1_id").textContent = `$${mean_z}$`;
+        document.getElementById("a2_id").textContent = `$${mean_w}$`;
+        document.getElementById("a3_id").textContent = `$${variance_z}$`;
+        document.getElementById("a4_id").textContent = `$${variance_w}$`;
+        document.getElementById("a5_id").textContent = `$${covariance_zw}$`;
+        document.getElementById("a6_id").textContent = `$${Math.round(correlation_zw*100)/100}$`;
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>区間推定2択クイズ</h1>
+    <p>このページは再読み込みしても新しい問題を生成しない。</p>
+    <p>
+        <b>【問題】</b>以下では正規母集団を考える。
+        次の記述について、内容が正しい場合は「正しい」、誤っている場合は「誤り」と答えよ。
+    </p>
+    <p>
+        [1] 実際にデータを観測して得られた母平均の $95\%$ 信頼区間とは「母平均がその区間に $95\%$ の確率で含まれる」ことを意味する。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a1_id">
+        【解答】誤り<br>
+        実際にデータを観測して得られた信頼区間については、その区間が母平均を含むかどうかはすでに確定しているため<b>確率の対象にならない</b>。
+        $95\%$ 信頼区間とは、同じ手続きを繰り返したときにその区間が母平均を含む割合が $95\%$ であることを意味する。
+    </p>
+    <p>
+        [2] 信頼係数を一定にすると、標本サイズが大きくなるほど母平均の信頼区間の幅は小さくなる。　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a2_id">
+        【解答】正しい<br>
+        例えば、分散 $\sigma^2$ が既知の場合、サイズ $n$ の標本から得られる母平均の信頼区間の幅は
+        \[ \frac{2 \sigma}{\sqrt{n}} z_{\alpha / 2} \]
+        であり、$n$ が大きくなるほど信頼区間の幅が小さくなることが分かる。
+        分散 $\sigma^2$ が未知の場合（第9回の授業で扱う）も同様である。
+        なお、正規母集団でない場合についても、後に学ぶ中心極限定理により同様の性質が成り立つことが正当化される。
+    </p>
+    <p>
+        [3] 信頼係数を $95\%$ から $99\%$ に上げると、信頼区間は狭くなる。　　<button id="3_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a3_id">
+        【解答】誤り<br>
+        信頼係数を上げると、区間が母数を含み損ねる場合を減らす必要があるため、一般に信頼区間は広くなる。
+    </p>
+    <p>
+        [4] 同じ信頼係数のもとでは、データのばらつきが大きいほど母平均の信頼区間は広くなる。　　<button id="4_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a4_id">
+        【解答】正しい<br>
+        分散 $\sigma^2$ が既知の場合、サイズ $n$ の標本から得られる母平均の信頼区間の幅は
+        \[ \frac{2 \sigma}{\sqrt{n}} z_{\alpha / 2} \]
+        であり、$\sigma$ が大きくなるほど信頼区間が広くなることが分かる。
+        分散 $\sigma^2$ が未知の場合（第9回の授業で扱う）も同様である。
+        なお、正規母集団でない場合についても、$n$ が十分大きければ後に学ぶ中心極限定理により同様の性質が成り立つことが正当化される。
+    </p>
+    <p>
+        [5] 母平均の信頼区間は、母平均を中心とする区間である。　　<button id="5_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a5_id">
+        【解答】誤り<br>
+        分散 $\sigma^2$ が既知の場合、サイズ $n$ の標本から得られる母平均の信頼区間は
+        \[ \left[ \overline{X} - z_{\alpha/2} \frac{\sigma}{\sqrt{n}}, \quad \overline{X} + z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \right] \]
+        であり、これは標本平均 $\overline{X}$ を中心とする区間である。
+        当然、標本平均と母平均は一般に一致しないため、母平均の信頼区間は母平均を中心とするとは限らない。
+    </p>
+    <p>
+        [6] データを観測する前の段階では、母平均の $95\%$ 信頼区間とは「母平均がその区間に $95\%$ の確率で含まれる」ことを意味する。　　<button id="6_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a6_id">
+        【解答】正しい<br>
+        データを観測する前は、信頼区間は標本に応じて変わる区間であるため確率の対象となる。
+        授業でも見たように
+        \[ P \left( \overline{X} - 1.96 \frac{\sigma}{\sqrt{n}} \leq \mu \leq \overline{X} + 1.96 \frac{\sigma}{\sqrt{n}} \right) = 0.95 \]
+        が成立しているので「母平均がその区間に $95\%$ の確率で含まれる」と解釈できる。
+    </p>
+
+    <!--
+    <p>
+        [1] 相関係数が $1$ または $-1$ であれば、すべてのデータ $(x_1, y_1), \dots, (x_n, y_n)$ は1本の直線上にある。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a1_id">
+        【解答】 正しい<br>
+        実際、$r_{xy} = \pm 1$ ならば、コーシー・シュワルツの不等式の等号成立条件より、ある実数 $k$ が存在して、任意の $i = 1,2, \dots, n$ に対して
+        \[ y_i - \bar{y} = k(x_i - \bar{x})  \]
+        が成り立つ。これは、すべてのデータ $(x_1, y_1), \dots, (x_n, y_n)$ が直線
+        \[ y - \bar{y} = k(x - \bar{x}) \]
+        上にあることを意味する。
+    </p>
+    <p>
+        [2] 相関係数が $0$ であれば、2変量 $x, y$ の間に関数的な関係はない。　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a2_id">
+        【解答】 誤り<br>
+        2変量データ $(-1, 1), (0,0), (1,1)$ は $y = x^2$ という関数の関係を満たしているが相関係数は $0$ である。
+        相関係数が $0$ であることは、2変量 $x,y$ の間に直線的な関係がないことを意味するに過ぎない。
+    </p>
+    <p>
+        [3] 回帰直線はすべてのデータ $(x_1, y_1), \dots, (x_n, y_n)$ を通る直線である。　　<button id="3_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a3_id">
+        【解答】 誤り<br>
+        回帰直線は、各データから直線までのズレ（残差）を考え、それらの二乗和が最小となるように定めた直線である。
+        当然、一般にはすべてのデータ点を通るような直線は引けない。
+    </p>
+    <p>
+        [4] 回帰直線 $y = ax+b$ の傾き $a$ は、説明変数 $x$ が $1$ 増加したときの目的変数 $y$ の平均的な変化量を表す。　　<button id="4_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a4_id">
+        【解答】 正しい<br>
+        ただし、厳密に証明するのは少し難しいので、現段階では「そういうもの」と認識しておこう。
+    </p>
+    <p>
+        [5] 回帰直線はデータの範囲外に対する予測にも適用可能であり、その結果は信頼できる。　　<button id="5_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a5_id">
+        【解答】 誤り<br>
+        回帰直線は、与えられたデータの範囲内での関係をもとに定められている。
+        したがって、その範囲を超えた値に対して同じ関係が成り立つとは限らず、予測の信頼性は一般に低い。
+    </p>
+    <p>
+        [6] 外れ値は回帰直線に影響を与えない。　　<button id="6_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a6_id">
+        【解答】 誤り<br>
+        外れ値は他のデータから大きく離れているため、残差の二乗が大きくなる。
+        したがって、回帰直線はその影響を強く受け、傾きや切片が大きく変化することがある。
+    </p>
+    <p>
+        [7] 散布図を見て $x$ と $y$ の関係に曲線的な関係（例えば放物線や円のような形）が見られても、単回帰を行えば必ず適切に近似できる。　　<button id="7_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a7_id">
+        【解答】 誤り<br>
+        単回帰は $y = ax+b$ という直線でデータを近似する方法である。
+        したがって、散布図に放物線や円のような曲線的な関係が見られる場合には、その形状を適切に表すことはできない。
+    </p>
+    <p>
+        [8] 相関係数が正であれば回帰直線の傾きも正である。　　<button id="8_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a8_id">
+        【解答】 正しい<br>
+        実際、回帰直線の傾きは $\frac{s_{xy}}{s_x^2}$ であるから
+        \[ r_{xy} = \frac{s_{xy}}{s_x s_y} > 0 \iff s_{xy} > 0 \iff \frac{s_{xy}}{s_x^2} > 0 \]
+        である。なお、問題文で相関係数が定義されているので $s_x, s_y \neq 0$ である。
+    </p>
+    <p>
+        [9] 2変量データ $(x_1, y_1), \dots, (x_n, y_n)$ において、すべての $x$ の値が同じである場合にも、$x$ を説明変数とする回帰直線が定義される。　　<button id="9_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a9_id">
+        【解答】 誤り<br>
+        $x$ を説明変数とする回帰直線 $y = ax+b$ の傾き $a$ は
+        \[ a = \frac{s_{xy}}{s_x^2} \]
+        で与えられるため、すべての $x$ の値が同じである場合は $s_x^2 = 0$ となり、回帰直線は定義されない。
+    </p>
+    <p>
+        [10] 2変量データ $(x_1, y_1), \dots, (x_n, y_n)$ において、ある $i , j$ で $x_i \neq x_j$ であり、かつすべての $y$ の値が同じであるとき、$x$ を説明変数とする回帰直線が定義される。　　<button id="10_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a10_id">
+        【解答】 正しい<br>
+        条件より、$s_x^2 \neq 0$ であるから回帰直線
+        \[ y = \frac{s_{xy}}{s_x^2} x + \bar{y} - \frac{s_{xy}}{s_x^2} \bar{x} \]
+        が定義される。なお、すべての $y$ の値が同じであるから、回帰直線は $x$ 軸に平行な直線である。
+        このことは計算によって確かめることもできる。$y_1 = \cdots = y_n = c$ とすると、
+        \[ s_{xy} = \overline{xy} - \bar{x} \bar{y} = \overline{cx} - \bar{x} \cdot c = c \cdot \bar{x} - c \cdot \bar{x} = 0 \]
+        なので、回帰直線は
+        \[ y = \frac{s_{xy}}{s_x^2} x + \bar{y} - \frac{s_{xy}}{s_x^2} \bar{x} = 0x + c - 0\bar{x} = c \]
+        に決まる。
+    </p>
+
+    -->
+    <br>　<br>
+</body>
+</html>

@@ -28,7 +28,7 @@
     let alphaPoint = [1.6449, 1.2816, 1.0364, 0.8416, 0.6745, 0.5244][upperLayerSeed];
 
     let highScoreRatio = Math.round((1 - pnorm( (highScore - mu)/sigma ))*10000)/10000;
-    let highScoreNum = Math.round(studentNum*highScoreRatio);
+    let highScoreNum = Math.round(studentNum*highScoreRatio*10)/10;
     let upperPoint = mu + sigma*alphaPoint;
     upperPoint = Math.ceil(upperPoint);
     console.log(highScoreRatio);
@@ -114,12 +114,12 @@
  </div>
 -->
  <p>
-    <span id="q1_id"></span> 人の生徒に数学のテストを行ったところ、その成績は平均 <span id="q2_id"></span> 点、標準偏差 <span id="q3_id"></span> 点だった。
+    <span id="q1_id"></span> 人の生徒に数学のテストを行ったところ、得点の平均は <span id="q2_id"></span> 点、標準偏差は <span id="q3_id"></span> 点であった。
     得点の分布が正規分布に従うものとするとき、次の問に答えよ。
  </p>
  <p>
-    [1] <span id="q4_id"></span> 点以上の生徒は、およそ　<span id="a1_id" style="color:transparent"></span>　人いる（$\pm 1$人程度の誤差は許容）。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
-    [2] 成績の高い方から <span id="q5_id"></span> の中に入るのは　<span id="a2_id" style="color:transparent"></span>　点以上の生徒である。　　　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    [1] <span id="q4_id"></span> 点以上の生徒は、およそ　<span id="a1_id" style="color:transparent"></span>　人である。数値は必要に応じて小数第1位まで求め、小数第2位を四捨五入せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+    [2] 成績の高い方から <span id="q5_id"></span> の中に入るのは　<span id="a2_id" style="color:transparent"></span>　点以上の生徒である（整数で答えよ）。　　　　<button id="2_id" onclick="show_answer(this)">答え</button>
  </p>
  <!--
  <p>
