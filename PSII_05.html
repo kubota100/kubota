@@ -40,12 +40,12 @@
     console.log(data_y);
 
 
-    let data_in_text = "$";
+    let data_in_text = "\\[";
     for(let i=0; i<num_of_data; i++){
         data_in_text += "(" + data_x[i] + ", " + data_y[i] + "),　";
     }
     data_in_text = data_in_text.slice(0, -2);
-    data_in_text += "$"
+    data_in_text += "\\]"
 
     let data_x_square = [];
     for(let i=0; i<num_of_data; i++){
@@ -124,10 +124,12 @@
 
 <body class="container">
     <h1>相関係数</h1>
-    <div class="box"> <span style="color: blue;">[Tips]</span> 共分散 $s_{xy}$ の計算は公式 $s_{xy} = \overline{xy} - \bar{x} \bar{y}$ を用いると良い。 </div>
- <p>次はある教科の中間試験の点数 $x$ と期末試験の点数 $y$（それぞれ30点満点）をペアにしてまとめたものである。</p>
- <p>　　<span id="q1_id"></span> </p>
- <p>以下の問に答えよ。数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。</p>
+    <div class="box"> <span style="color: blue;">【Tips】</span> 共分散 $s_{xy}$ の計算は公式 $s_{xy} = \overline{xy} - \bar{x} \bar{y}$ を用いると良い。 </div>
+ <p><b>【問題】</b>ある教科の中間試験の点数を $x$ とし、期末試験の点数を $y$ とする（いずれも30点満点）。
+    次のデータは、各生徒の点数をペア $(x,y)$ にしてまとめたものである。
+    <span id="q1_id"></span>
+    以下の問に答えよ。数値は必要に応じて小数第2位まで答えよ（小数第3位を四捨五入せよ）。
+ </p>
  [1] $x$ の分散 $s_x^2$ は　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button><br>
  [2] $y$ の分散 $s_y^2$ は　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button><br>
  [3] $x$ と $y$ の共分散 $s_{xy}$ は　<span id="a3_id" style="color:white"></span>　である。　　<button id="3_id" onclick="show_answer(this)">答え</button> <br>
