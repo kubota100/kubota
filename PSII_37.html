@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_37</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    let sign_level_list = [10, 5, 1];
+    let sign_level_seed = Math.floor(Math.random()*3);
+    let sign_level = sign_level_list[sign_level_seed];
+    let alpha_point_list = [1.645, 1.960, 2.576];
+    let alpha_point = alpha_point_list[sign_level_seed];
+    let width = randomInteger(1,6)/200;
+    let n_lower = (alpha_point/width)**2;
+    let n_answer = Math.ceil(n_lower);
+
+
+    /////////////////////////////////////////
+    /*
+    a 以上 b 以下の整数をランダムに返す関数 randomInteger
+    入力：数値 a,b  (a < b を想定してよい)
+    出力：数値
+    */            
+    function randomInteger(a,b){
+        return Math.floor((b-a+1)*Math.random() + a);
+    }    
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) { // P(Z \leq x) の値を返す。
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `$ ${100 - sign_level} \\%$`;
+        document.getElementById("q2_id").textContent = `$${width*100} \\%$`;
+
+        document.getElementById("q3_id").textContent = `\\[ 2 \\times ${alpha_point} \\sqrt{\\frac{p(1-p)}{n}} \\]`;
+        document.getElementById("q4_id").textContent = `$${width*100} \\%$`;
+        document.getElementById("q5_id").textContent = `$${width}$`;
+        document.getElementById("q6_id").textContent = `\\[ \\max_{0 \\leq p \\leq 1} \\left( 2 \\times ${alpha_point} \\sqrt{\\frac{p(1-p)}{n}} \\right) \\leq ${width} \\]`;
+        document.getElementById("q7_id").textContent = `\\[ 2 \\times ${alpha_point} \\sqrt{\\frac{1}{4n}} \\]`;
+        document.getElementById("q8_id").textContent = `$${width}$`;
+        document.getElementById("q9_id").textContent = `$n \\geq ${Math.round(n_lower*1000)/1000}$`;
+        document.getElementById("q10_id").textContent = `$${n_answer}$`;
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>信頼区間の幅（母比率）</h1>
+    <p>
+        このページの問題は教科書 p120 の例 8.2 および問題 8.5 の類題である。
+    </p>
+    <p>
+        <b>【問題】</b>
+        母比率の区間推定において、<span id="q1_id"></span> 信頼区間の幅を確実に <span id="q2_id"></span> 以下にするためには、標本サイズは少なくともいくつ必要か。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent;" id="a1_id">
+        【解答】
+        信頼区間の幅は
+        <span id="q3_id"></span>
+        であるから、信頼区間の幅を確実に <span id="q4_id"></span> 以下にするためには、この幅の値が任意の $p \in [0,1]$ に対して <span id="q5_id"></span> 以下となるような $n$ を求めればよい。
+        言い換えると、
+        <span id="q6_id"></span>
+        を満たす $n$ を求めればよい。
+        左辺の $\max$ の中身は $p(1-p) = -(p-\frac{1}{2})^2 + \frac{1}{4}$ より、$p = \frac{1}{2}$ のときに最大値
+        <span id="q7_id"></span>
+        をとる。これが <span id="q8_id"></span> 以下となる $n$ を求めると、<span id="q9_id"></span> が得られる。
+        よって、標本サイズは少なくとも <span id="q10_id"></span> 必要である。
+    </p>
+    <!--
+    <p>
+        [1] 実際にデータを観測して得られた母平均の $95\%$ 信頼区間とは「母平均がその区間に $95\%$ の確率で含まれる」ことを意味する。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a1_id">
+        【解答】誤り<br>
+        実際にデータを観測して得られた信頼区間については、その区間が母平均を含むかどうかはすでに確定しているため<b>確率の対象にならない</b>。
+        $95\%$ 信頼区間とは、同じ手続きを繰り返したときにその区間が母平均を含む割合が $95\%$ であることを意味する。
+    </p>
+    <p>
+        [2] 信頼係数を一定にすると、標本サイズが大きくなるほど母平均の信頼区間の幅は小さくなる。　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a2_id">
+        【解答】正しい<br>
+        例えば、分散 $\sigma^2$ が既知の場合、サイズ $n$ の標本から得られる母平均の信頼区間の幅は
+        \[ \frac{2 \sigma}{\sqrt{n}} z_{\alpha / 2} \]
+        であり、$n$ が大きくなるほど信頼区間の幅が小さくなることが分かる。
+        分散 $\sigma^2$ が未知の場合（第9回の授業で扱う）も同様である。
+        なお、正規母集団でない場合についても、後に学ぶ中心極限定理により同様の性質が成り立つことが正当化される。
+    </p>
+    <p>
+        [3] 信頼係数を $95\%$ から $99\%$ に上げると、信頼区間は狭くなる。　　<button id="3_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a3_id">
+        【解答】誤り<br>
+        信頼係数を上げると、区間が母数を含み損ねる場合を減らす必要があるため、一般に信頼区間は広くなる。
+    </p>
+    <p>
+        [4] 同じ信頼係数のもとでは、データのばらつきが大きいほど母平均の信頼区間は広くなる。　　<button id="4_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a4_id">
+        【解答】正しい<br>
+        分散 $\sigma^2$ が既知の場合、サイズ $n$ の標本から得られる母平均の信頼区間の幅は
+        \[ \frac{2 \sigma}{\sqrt{n}} z_{\alpha / 2} \]
+        であり、$\sigma$ が大きくなるほど信頼区間が広くなることが分かる。
+        分散 $\sigma^2$ が未知の場合（第9回の授業で扱う）も同様である。
+        なお、正規母集団でない場合についても、$n$ が十分大きければ後に学ぶ中心極限定理により同様の性質が成り立つことが正当化される。
+    </p>
+    <p>
+        [5] 母平均の信頼区間は、母平均を中心とする区間である。　　<button id="5_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a5_id">
+        【解答】誤り<br>
+        分散 $\sigma^2$ が既知の場合、サイズ $n$ の標本から得られる母平均の信頼区間は
+        \[ \left[ \overline{X} - z_{\alpha/2} \frac{\sigma}{\sqrt{n}}, \quad \overline{X} + z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \right] \]
+        であり、これは標本平均 $\overline{X}$ を中心とする区間である。
+        当然、標本平均と母平均は一般に一致しないため、母平均の信頼区間は母平均を中心とするとは限らない。
+    </p>
+    <p>
+        [6] データを観測する前の段階では、母平均の $95\%$ 信頼区間とは「母平均がその区間に $95\%$ の確率で含まれる」ことを意味する。　　<button id="6_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a6_id">
+        【解答】正しい<br>
+        データを観測する前は、信頼区間は標本に応じて変わる区間であるため確率の対象となる。
+        授業でも見たように
+        \[ P \left( \overline{X} - 1.96 \frac{\sigma}{\sqrt{n}} \leq \mu \leq \overline{X} + 1.96 \frac{\sigma}{\sqrt{n}} \right) = 0.95 \]
+        が成立しているので「母平均がその区間に $95\%$ の確率で含まれる」と解釈できる。
+    </p>
+
+    -->
+    <br>　<br>
+</body>
+</html>
