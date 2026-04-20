@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_38</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+
+    /////////////////////////////////////////
+    /*
+    a 以上 b 以下の整数をランダムに返す関数 randomInteger
+    入力：数値 a,b  (a < b を想定してよい)
+    出力：数値
+    */            
+    function randomInteger(a,b){
+        return Math.floor((b-a+1)*Math.random() + a);
+    }    
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) { // P(Z \leq x) の値を返す。
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `\\[ \\bar{x} = ${mean_x}, \\quad \\bar{y} = ${mean_y}, \\quad s_x^2 = ${variance_x}, \\quad s_y^2 = ${variance_y}, \\quad s_{xy} = ${covariance_xy} \\]`;
+        //document.getElementById("q2_id").textContent = `$x = ${x}$`;
+
+        document.getElementById("a1_id").textContent = `$${mean_z}$`;
+        document.getElementById("a2_id").textContent = `$${mean_w}$`;
+        document.getElementById("a3_id").textContent = `$${variance_z}$`;
+        document.getElementById("a4_id").textContent = `$${variance_w}$`;
+        document.getElementById("a5_id").textContent = `$${covariance_zw}$`;
+        document.getElementById("a6_id").textContent = `$${Math.round(correlation_zw*100)/100}$`;
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>確率変数の独立性</h1>
+    <p>このページは再読み込みしても新しい問題を生成しない。</p>
+    <div class="box"><span style="color: blue;">【復習】</span>
+        離散型確率変数 $X, Y$ が独立であるとは、任意の実数 $a,b$ に対して
+        \[ P(X=a, Y=b) = P(X=a)P(Y=b) \]
+        が成り立つことである。
+        授業でも確認した通り、連続型確率変数の場合はこの形では扱えず、少し様子が違うので注意が必要である。
+        興味のある人は教科書の p.63 を読んでみよう。
+    </div>
+    <p>
+        <b>【問題】</b> 離散型確率変数 $X, Y$ が独立であるとする。
+        このとき、$X^2$ と $Y^2$ も独立であることを示せ。
+        簡単のため、証明で用いる「任意の実数 $a,b$」は $a,b > 0$ を満たすとしてよい。
+        一般の $a,b$ で考えにくい場合は、まず $a=b=1$ として様子を見るとよい。　　<button id="1_id" onclick="show_answer(this)">ヒント</button> <button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent;" id="a1_id">
+        【考え方とヒント】授業でも説明したように、確率の条件部（$P( \cdots )$ の中身）は同値な形に書き換えてよい。
+        このことを利用して「$X, Y$ が独立である」という仮定が使える形に変形する。
+    </p>
+    <p style="color: transparent;" id="a2_id">
+        【解答】任意の実数 $a,b$ をとり、$a,b > 0$ を満たすとする。このとき
+        \[ \begin{aligned}
+        P(X^2=a, Y^2=b) &= P(X = \pm \sqrt{a}, Y= \pm \sqrt{b}) \\
+        &= P \left( (X, Y) = (\sqrt{a}, \sqrt{b}), (\sqrt{a}, -\sqrt{b}), (-\sqrt{a}, \sqrt{b}), (-\sqrt{a}, -\sqrt{b}) \right) \\
+        &= P\left( (X, Y) = (\sqrt{a}, \sqrt{b}) \right) + P\left((X, Y) = (\sqrt{a}, -\sqrt{b})\right) \\
+        & \qquad + P\left((X, Y) = (-\sqrt{a}, \sqrt{b})\right) + P\left((X, Y) = (-\sqrt{a}, -\sqrt{b})\right) \\
+        &= P(X=\sqrt{a})P(Y=\sqrt{b}) + P(X=\sqrt{a})P(Y=-\sqrt{b}) \\
+        & \qquad + P(X=-\sqrt{a})P(Y=\sqrt{b}) + P(X=-\sqrt{a})P(Y=-\sqrt{b}) \\
+        &= \Bigl\{ P(X=\sqrt{a}) + P(X=-\sqrt{a}) \Bigr\} \left\{ P(Y=\sqrt{b}) + P(Y=-\sqrt{b}) \right\} \\
+        &= P(X = \pm \sqrt{a}) P(Y = \pm \sqrt{b}) \\
+        &= P(X^2=a)P(Y^2=b)
+        \end{aligned}
+        \]
+        と計算できるので、$X^2$ と $Y^2$ は独立である。
+    </p>
+    <div class="box"><span style="color: blue;">【補足】</span>
+        実際には、上記の主張はずっと広いレベルで成り立っており、「独立な確率変数 $X, Y$ とボレル可測関数 $f, g$ に対して $f(X), g(Y)$ も独立である。…（＊）」がいえる[<a href="https://link.springer.com/content/pdf/10.1007/978-3-030-33143-6_12.pdf">参考</a>, 12.16]。
+        「ボレル可測関数」は、連続関数を含む非常に広い関数のクラスである。
+        したがって、例えば任意の多項式 $f, g$ に対して $f(X), g(Y)$ は独立であるし、$e^{X}, \sin Y$ のようなものも独立である。
+        しかも、$X, Y$ が離散型である必要もない。
+        （＊）の証明を理解するためには、測度論的な確率論を学ぶ必要がある。
+        証明自体はそれほど複雑ではないのだが、そこに至るまでの準備に時間がかかる。
+        <!--
+        ここではより簡単な主張として「独立な確率変数 $X, Y$ と、多項式 $f, g$ に対して $f(X), g(Y)$ は独立である。」を証明してみよう。
+        -->
+        
+    </div>
+    <!--
+    <p>
+        [2] 信頼係数を一定にすると、標本サイズが大きくなるほど母平均の信頼区間の幅は小さくなる。　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a2_id">
+        【解答】正しい<br>
+        例えば、分散 $\sigma^2$ が既知の場合、サイズ $n$ の標本から得られる母平均の信頼区間の幅は
+        \[ \frac{2 \sigma}{\sqrt{n}} z_{\alpha / 2} \]
+        であり、$n$ が大きくなるほど信頼区間の幅が小さくなることが分かる。
+        分散 $\sigma^2$ が未知の場合（第9回の授業で扱う）も同様である。
+        なお、正規母集団でない場合についても、後に学ぶ中心極限定理により同様の性質が成り立つことが正当化される。
+    </p>
+    <p>
+        [3] 信頼係数を $95\%$ から $99\%$ に上げると、信頼区間は狭くなる。　　<button id="3_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a3_id">
+        【解答】誤り<br>
+        信頼係数を上げると、区間が母数を含み損ねる場合を減らす必要があるため、一般に信頼区間は広くなる。
+    </p>
+    <p>
+        [4] 同じ信頼係数のもとでは、データのばらつきが大きいほど母平均の信頼区間は広くなる。　　<button id="4_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a4_id">
+        【解答】正しい<br>
+        分散 $\sigma^2$ が既知の場合、サイズ $n$ の標本から得られる母平均の信頼区間の幅は
+        \[ \frac{2 \sigma}{\sqrt{n}} z_{\alpha / 2} \]
+        であり、$\sigma$ が大きくなるほど信頼区間が広くなることが分かる。
+        分散 $\sigma^2$ が未知の場合（第9回の授業で扱う）も同様である。
+        なお、正規母集団でない場合についても、$n$ が十分大きければ後に学ぶ中心極限定理により同様の性質が成り立つことが正当化される。
+    </p>
+    <p>
+        [5] 母平均の信頼区間は、母平均を中心とする区間である。　　<button id="5_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a5_id">
+        【解答】誤り<br>
+        分散 $\sigma^2$ が既知の場合、サイズ $n$ の標本から得られる母平均の信頼区間は
+        \[ \left[ \overline{X} - z_{\alpha/2} \frac{\sigma}{\sqrt{n}}, \quad \overline{X} + z_{\alpha/2} \frac{\sigma}{\sqrt{n}} \right] \]
+        であり、これは標本平均 $\overline{X}$ を中心とする区間である。
+        当然、標本平均と母平均は一般に一致しないため、母平均の信頼区間は母平均を中心とするとは限らない。
+    </p>
+    <p>
+        [6] データを観測する前の段階では、母平均の $95\%$ 信頼区間とは「母平均がその区間に $95\%$ の確率で含まれる」ことを意味する。　　<button id="6_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a6_id">
+        【解答】正しい<br>
+        データを観測する前は、信頼区間は標本に応じて変わる区間であるため確率の対象となる。
+        授業でも見たように
+        \[ P \left( \overline{X} - 1.96 \frac{\sigma}{\sqrt{n}} \leq \mu \leq \overline{X} + 1.96 \frac{\sigma}{\sqrt{n}} \right) = 0.95 \]
+        が成立しているので「母平均がその区間に $95\%$ の確率で含まれる」と解釈できる。
+    </p>
+    -->
+    <br>　<br>
+</body>
+</html>
