@@ -92,32 +92,29 @@
 
 <body class="container">
     <h1>母比率の区間推定</h1>
-    <p> ある地区で無作為に選ばれた <span id="q2_id"></span> 人に対して、ある番組の視聴を調査したところ視聴率は <span id="q3_id"></span> であった。
+    <p> <b>【問題】</b>ある地区で無作為に選ばれた <span id="q2_id"></span> 人に対して、ある番組の視聴を調査したところ視聴率は <span id="q3_id"></span> であった。
         この地区全体での視聴率 $p$ の <span id="q4_id"></span> 信頼区間を求めよ。
-        区間の両端の数値が割り切れない場合は小数第4位まで答えよ（小数第5位を四捨五入せよ）。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+        区間の両端の数値は必要に応じて小数第4位まで答えよ（小数第5位を四捨五入せよ）。　　<button id="1_id" onclick="show_answer(this)">答え</button>
     </p>
 
-    <sapn id="a1_id" style="color:transparent">
-        <p>[解答] <br>
- $\hat{p}$ を標本比率とする。
- 標本サイズ <span id="q22_id"></span> は十分大きいとみなしてよく、
- したがって中心極限定理および大数の法則から $\frac{\hat{p} - p}{\sqrt{ \frac{\hat{p}(1-\hat{p})}{n}}}$ が標準正規分布 $N(0,1)$ に従うとしてよい。
- 教科書の定理 8.18 や授業で導いた、母比率 $p$ に対する信頼係数 $1 - \alpha$ の信頼区間
- \[ \left[ \hat{p} - z_{\alpha / 2} \sqrt{ \frac{\hat{p}(1-\hat{p})}{n} }, \, \hat{p} + z_{\alpha / 2} \sqrt{ \frac{\hat{p}(1-\hat{p})}{n} } \right] \]
- に問題文の条件 <span id="q13_id"></span> や標準正規分布の上側 <span id="q6_id"></span> 点 <span id="q7_id"></span>、標本比率の実現値 <span id="q14_id"></span> を代入して
- <span id="q15_id"></span>
- を得る。</p> <br>
- <p>
- [補足] <br>
- 信頼区間は導出できることが望ましい。導出は次のように行う。
- $\frac{\hat{p} - p}{\sqrt{ \frac{\hat{p}(1-\hat{p})}{n}}}$ が標準正規分布 $N(0,1)$ に従う（とみなしている）ので
- \[ P \left( -z_{\alpha/2} \leq \frac{\hat{p} - p}{\sqrt{ \frac{\hat{p}(1-\hat{p})}{n}}} \leq z_{\alpha/2} \right) = 1 - \alpha \]
- である。ただし、$z_{\beta}$ は標準正規分布の上側 $\beta$ 点である。
- 左辺のカッコの中を $p$ について解くと
- \[ \hat{p} - z_{\alpha / 2} \sqrt{ \frac{\hat{p}(1-\hat{p})}{n} } \leq p \leq \hat{p} + z_{\alpha / 2} \sqrt{ \frac{\hat{p}(1-\hat{p})}{n} } \]
- となり。この不等式から母比率 $p$ に対する信頼係数 $1-\alpha$ の信頼区間を得る。
- </p>
- </span>
+    <p id="a1_id" style="color:transparent">
+        【解答】$\hat{p}$ を標本比率とする。
+        標本サイズ <span id="q22_id"></span> は十分大きいとみなしてよく、したがって中心極限定理および大数の法則から $\frac{\hat{p} - p}{\sqrt{ \frac{\hat{p}(1-\hat{p})}{n}}}$ が標準正規分布 $N(0,1)$ に従うとしてよい。
+        教科書の定理 8.18 や授業で導いた、母比率 $p$ に対する信頼係数 $1 - \alpha$ の信頼区間
+        \[ \left[ \hat{p} - z_{\alpha / 2} \sqrt{ \frac{\hat{p}(1-\hat{p})}{n} }, \, \hat{p} + z_{\alpha / 2} \sqrt{ \frac{\hat{p}(1-\hat{p})}{n} } \right] \]
+        に問題文の条件 <span id="q13_id"></span> や標準正規分布の上側 <span id="q6_id"></span> 点 <span id="q7_id"></span>、標本比率の実現値 <span id="q14_id"></span> を代入して
+        <span id="q15_id"></span>
+        を得る。<br>　<br>
+        <span style="display: block; text-align: center;">＊　＊　＊　＊　＊</span>
+        <br>　<br>
+        【補足】信頼区間は導出できることが望ましい。導出は次のように行う。
+        $\frac{\hat{p} - p}{\sqrt{ \frac{\hat{p}(1-\hat{p})}{n}}}$ が標準正規分布 $N(0,1)$ に従う（とみなしている）ので
+        \[ P \left( -z_{\alpha/2} \leq \frac{\hat{p} - p}{\sqrt{ \frac{\hat{p}(1-\hat{p})}{n}}} \leq z_{\alpha/2} \right) = 1 - \alpha \]
+        である。ただし、$z_{\beta}$ は標準正規分布の上側 $\beta$ 点である。
+        左辺のカッコの中を $p$ について解くと
+        \[ \hat{p} - z_{\alpha / 2} \sqrt{ \frac{\hat{p}(1-\hat{p})}{n} } \leq p \leq \hat{p} + z_{\alpha / 2} \sqrt{ \frac{\hat{p}(1-\hat{p})}{n} } \]
+        となり。この不等式から母比率 $p$ に対する信頼係数 $1-\alpha$ の信頼区間を得る。
+    </p>
 <br>　<br>
  </body>
 </html>
