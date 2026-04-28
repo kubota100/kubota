@@ -29,12 +29,12 @@
     }
     console.log(data);
 
-    let data_in_text = "$";
+    let data_in_text = "\\[";
     for(let i=0; i<num_of_data; i++){
         data_in_text += data[i] + ", \\quad";
     }
     data_in_text = data_in_text.slice(0, -7);
-    data_in_text += "$"
+    data_in_text += "\\]"
     let conf_coef_list = [90, 95, 99];
     let conf_coef_seed = Math.floor(Math.random()*3)
     let conf_coef = conf_coef_list[conf_coef_seed];
@@ -121,40 +121,37 @@
 
 <body class="container">
     <h1>母平均の区間推定（母分散未知）</h1>
-    <div class="box"> <span style="color: blue;">[Tips]</span>
+    <div class="box"> <span style="color: blue;">【Tips】</span>
         不偏分散 $u^2$ を求めるときは標本分散 $s^2$ を分散公式
         \[ s^2 = \overline{x^2} - \bar{x}^2 \]
         によって求め、その後で等式
         \[ u^2 = \frac{n}{n-1} s^2 \]
         を用いるのが簡単だと思われる。
     </div>
-    <p>正規母集団からサイズ <span id="q1_id"></span> の標本を抽出して次のデータを得た。</p>
-    <p>　　 <span id="q2_id"></span> </p>
-    <p>母平均 $\mu$ の <span id="q3_id"></span> 信頼区間を求めよ。
-        区間の両端の数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    <p>正規母集団からサイズ <span id="q1_id"></span> の標本を抽出して次のデータを得た。
+        <span id="q2_id"></span>
+        母平均 $\mu$ の <span id="q3_id"></span> 信頼区間を求めよ。
+        区間の両端の数値は必要に応じて小数第2位まで答えよ（小数第3位を四捨五入せよ）。　　<button id="1_id" onclick="show_answer(this)">答え</button>
     </p>
 
-    <sapn id="a1_id" style="color:transparent">
-        <p>[解答] <br>
- 授業で導いたように、（母分散未知の場合の）母平均 $\mu$ に対する信頼係数 $1-\alpha$ の信頼区間は
- \[ \left[ \overline{X} - t_{n-1}(\alpha / 2) \frac{U}{\sqrt{n}}, \, \overline{X} + t_{n-1}(\alpha / 2) \frac{U}{\sqrt{n}} \right] \]
- である（教科書の定理 8.7 にも同じ式がある）。ここで、$t_{n-1}(\beta)$ は $t_{n-1}$ の上側 $\beta$ 点である。<br>
- 標本サイズ <span id="q17_id"></span> や <span id="q18_id"></span>、
- 実現値 <span id="q19_id"></span> を代入して母平均の <span id="q20_id"></span> 信頼区間
- <span id="q21_id"></span>
- を得る。
- </p> <br>
- <p>
- [補足] <br>
- 信頼区間は導出できることが望ましい。母分散既知の場合と本質的に同じであるが導出は次のように行う。
- $\frac{\overline{X} - \mu}{U / \sqrt{n}}$ が自由度 $n-1$ の $t$ 分布 $t_{n-1}$ に従うので
- \[ P \left( -t_{n-1}(\alpha / 2) \leq \frac{\overline{X} - \mu}{U / \sqrt{n}} \leq t_{n-1}(\alpha / 2) \right) = 1 - \alpha \]
- である。上の式の意味がつかめなかったら $\alpha = 0.05$ のつもりで絵も書いてみよう。
- 左辺のカッコの中を $\mu$ について解くと
- \[ \overline{X} - t_{n-1}(\alpha / 2) \frac{U}{\sqrt{n}} \leq \mu \leq \overline{X} + t_{n-1}(\alpha / 2) \frac{U}{\sqrt{n}} \]
- となる。この不等式から母平均 $\mu$ に対する信頼係数 $1-\alpha$ の信頼区間を得る。
- </span>
- </p>
+    <p id="a1_id" style="color:transparent">
+        【解答】授業で導いたように、（母分散未知の場合の）母平均 $\mu$ に対する信頼係数 $1-\alpha$ の信頼区間は
+        \[ \left[ \overline{X} - t_{n-1}(\alpha / 2) \frac{U}{\sqrt{n}}, \, \overline{X} + t_{n-1}(\alpha / 2) \frac{U}{\sqrt{n}} \right] \]
+        である（教科書の定理 8.7 にも同じ式がある）。ここで、$t_{n-1}(\beta)$ は $t_{n-1}$ の上側 $\beta$ 点である。<br>
+        標本サイズ <span id="q17_id"></span> や <span id="q18_id"></span>、
+        実現値 <span id="q19_id"></span> を代入して母平均の <span id="q20_id"></span> 信頼区間
+        <span id="q21_id"></span>
+        を得る。<br>　<br>
+        <span style="display: block; text-align: center;">＊　＊　＊　＊　＊</span>
+        <br>　<br>
+        【補足】信頼区間は導出できることが望ましい。母分散既知の場合と本質的に同じであるが導出は次のように行う。
+        $\frac{\overline{X} - \mu}{U / \sqrt{n}}$ が自由度 $n-1$ の $t$ 分布 $t_{n-1}$ に従うので
+        \[ P \left( -t_{n-1}(\alpha / 2) \leq \frac{\overline{X} - \mu}{U / \sqrt{n}} \leq t_{n-1}(\alpha / 2) \right) = 1 - \alpha \]
+        である。上の式の意味がつかめなかったら $\alpha = 0.05$ のつもりで絵も書いてみよう。
+        左辺のカッコの中を $\mu$ について解くと
+        \[ \overline{X} - t_{n-1}(\alpha / 2) \frac{U}{\sqrt{n}} \leq \mu \leq \overline{X} + t_{n-1}(\alpha / 2) \frac{U}{\sqrt{n}} \]
+        となる。この不等式から母平均 $\mu$ に対する信頼係数 $1-\alpha$ の信頼区間を得る。
+    </p>
  <br>　<br>
  <br>　<br>
 </body>

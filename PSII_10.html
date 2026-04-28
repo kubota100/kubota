@@ -95,29 +95,26 @@
 
 <body class="container">
     <h1>母平均の区間推定（母分散既知）</h1>
-    <p> 母分散が <span id="q1_id"></span> である正規母集団からサイズ <span id="q2_id"></span> の標本を抽出して標本平均 <span id="q3_id"></span> を得た。
+    <p> <b>【問題】</b>母分散が <span id="q1_id"></span> である正規母集団からサイズ <span id="q2_id"></span> の標本を抽出して標本平均 <span id="q3_id"></span> を得た。
         母平均 $\mu$ の <span id="q4_id"></span> 信頼区間を求めよ。
-        区間の両端の数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+        区間の両端の数値は必要に応じて小数第2位まで答えよ（小数第3位を四捨五入せよ）。　　<button id="1_id" onclick="show_answer(this)">答え</button>
     </p>
- <sapn id="a1_id" style="color:transparent">
-    <p>[解答] <br>
- 教科書の定理 8.2 や授業で導いた、母平均 $\mu$ に対する信頼係数 $1-\alpha$ の信頼区間
- <span id="q13_id"></span>
- に問題文の条件 <span id="q14_id"></span> <span id="q15_id"></span> や標準正規分布の上側 <span id="q15-2_id"></span> 点 <span id="q16_id"></span>、実現値 <span id="q17_id"></span> を代入して
- <span id="q18_id"></span>
- を得る。
-</p> <br>
-<p>
- [補足] <br>
- 信頼区間は導出できることが望ましい。導出は次のように行う。
- $\frac{\overline{X} - \mu}{\sigma / \sqrt{n}}$ が標準正規分布 $N(0,1)$ に従うので
- \[ P \left( -z_{\alpha/2} \leq \frac{\overline{X} - \mu}{\sigma / \sqrt{n}} \leq z_{\alpha/2} \right) = 1 - \alpha \]
- である。上の式の意味がつかめなかったら $\alpha = 0.05$ のつもりで絵も書いてみよう。
- 左辺のカッコの中を $\mu$ について解くと
- \[ \overline{X} - z_{\alpha / 2} \frac{\sigma}{\sqrt{n}} \leq \mu \leq \overline{X} + z_{\alpha / 2} \frac{\sigma}{\sqrt{n}} \]
- となる。この不等式から母平均 $\mu$ に対する信頼係数 $1-\alpha$ の信頼区間を得る。
- <br>　<br>
- </sapn>
-</p>
+    <p id="a1_id" style="color:transparent">
+        【解答】教科書の定理 8.2 や授業で導いた、母平均 $\mu$ に対する信頼係数 $1-\alpha$ の信頼区間
+        <span id="q13_id"></span>
+        に問題文の条件 <span id="q14_id"></span> <span id="q15_id"></span> や標準正規分布の上側 <span id="q15-2_id"></span> 点 <span id="q16_id"></span>、実現値 <span id="q17_id"></span> を代入して
+        <span id="q18_id"></span>
+        を得る。<br>　<br>
+        <span style="display: block; text-align: center;">＊　＊　＊　＊　＊</span>
+        <br>　<br>
+        【補足】信頼区間は導出できることが望ましい。導出は次のように行う。
+        $\frac{\overline{X} - \mu}{\sigma / \sqrt{n}}$ が標準正規分布 $N(0,1)$ に従うので
+        \[ P \left( -z_{\alpha/2} \leq \frac{\overline{X} - \mu}{\sigma / \sqrt{n}} \leq z_{\alpha/2} \right) = 1 - \alpha \]
+        である。上の式の意味がつかめなかったら $\alpha = 0.05$ のつもりで絵も書いてみよう。
+        左辺のカッコの中を $\mu$ について解くと
+        \[ \overline{X} - z_{\alpha / 2} \frac{\sigma}{\sqrt{n}} \leq \mu \leq \overline{X} + z_{\alpha / 2} \frac{\sigma}{\sqrt{n}} \]
+        となる。この不等式から母平均 $\mu$ に対する信頼係数 $1-\alpha$ の信頼区間を得る。
+        <br>　<br>
+    </p>
 </body>
 </html>

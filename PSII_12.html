@@ -19,12 +19,17 @@
 </script>    
 
 <script>
+    let n = randomInteger(11,15);
+    let sa_var = randomInteger(51,146)/100;
+    let un_var = n * sa_var / (n-1);
+
+    // ***************
+    /*
     let num_of_data = Math.floor(Math.random()*3 + 5);
     let data = [];
     for(let i=0; i<num_of_data; i++){
         let tmp = 0;
         tmp = Math.floor((Math.random()*40+230))/10;
-//        tmp = Math.floor(tmp/2)/10;
         data.push(tmp);
     }
     console.log(data);
@@ -35,16 +40,29 @@
     }
     data_in_text = data_in_text.slice(0, -7);
     data_in_text += "$"
+    */
     let conf_coef_list = [90, 95, 99];
     let conf_coef_seed = Math.floor(Math.random()*3)
     let conf_coef = conf_coef_list[conf_coef_seed];
     //
-    let alpha_point_lower_list = [[0.7107, 0.4844, 0.2070], [1.1455, 0.8312, 0.4117], [1.6354, 1.2373, 0.6757]]; //0→自由度4, 1→自由度5, 2→自由度6
-    let alpha_point_lower = alpha_point_lower_list[num_of_data-5][conf_coef_seed];
-    let alpha_point_upper_list = [[9.4877, 11.1433, 14.8603], [11.0705, 12.8325, 16.7496], [12.5916, 14.4494, 18.5476]]; //0→自由度4, 1→自由度5, 2→自由度6
-    let alpha_point_upper = alpha_point_upper_list[num_of_data-5][conf_coef_seed];
-
+    //let alpha_point_lower_list = [[0.7107, 0.4844, 0.2070], [1.1455, 0.8312, 0.4117], [1.6354, 1.2373, 0.6757]]; //0→自由度4, 1→自由度5, 2→自由度6
+    let alpha_point_lower_list = [
+        [3.9403, 3.2470, 2.1559],  // 自由度10
+        [4.5748, 3.8157, 2.6032],  // 自由度11
+        [5.2260, 4.4038, 3.0738],  // 自由度12
+        [5.8919, 5.0088, 3.5650],  // 自由度13
+        [6.5706, 5.6287, 4.0747]];   // 自由度14
+    let alpha_point_lower = alpha_point_lower_list[n-11][conf_coef_seed];
+    //let alpha_point_upper_list = [[9.4877, 11.1433, 14.8603], [11.0705, 12.8325, 16.7496], [12.5916, 14.4494, 18.5476]]; //0→自由度4, 1→自由度5, 2→自由度6
+    let alpha_point_upper_list = [
+        [18.3070, 20.4832, 25.1882],  // 自由度10
+        [19.6751, 21.9200, 26.7568],  // 自由度11
+        [21.0261, 23.3367, 28.2995],  // 自由度12
+        [22.3620, 24.7356, 29.8195],  // 自由度13
+        [23.6848, 26.1189, 31.3193]];   // 自由度14
+    let alpha_point_upper = alpha_point_upper_list[n-11][conf_coef_seed];
     let both_sides = Math.round((100 - conf_coef)*5)/10;
+    /*
 
     let ave = average(data);
     ave = Math.round(ave*100000000)/100000000;
@@ -55,13 +73,17 @@
     }
     let variance = average(data_square) - average(data)**2;
     variance = Math.round(variance*100000000)/100000000;
-
-    let pop_var_lower = num_of_data*variance / alpha_point_upper;
+    */
+    let pop_var_lower = n*sa_var / alpha_point_upper;
     let pop_var_lower_app = Math.round(pop_var_lower*100)/100;
-    let pop_var_upper = num_of_data*variance / alpha_point_lower;
+    let pop_var_upper = n*sa_var / alpha_point_lower;
     let pop_var_upper_app = Math.round(pop_var_upper*100)/100;
 
     /////////////////////////////////////////
+
+    function randomInteger(a,b){
+        return Math.floor((b-a+1)*Math.random() + a);
+    }
 
     function average(array){
         let n = array.length;
@@ -100,13 +122,19 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q31_id").textContent = "$" + n + "$";
+        document.getElementById("q32_id").textContent = "$" + sa_var + "$";
+        document.getElementById("q33_id").textContent = "$" + conf_coef + "\\% $";
+        ////////
+        /*
         document.getElementById("q1_id").textContent = "$" + num_of_data + "$";
         document.getElementById("q2_id").textContent = data_in_text;
         document.getElementById("q3_id").textContent = "$" + conf_coef + "\\% $";
-        document.getElementById("q17_id").textContent = "$ n =" + num_of_data + "$";
-        document.getElementById("q18_id").textContent = "$ \\chi^2_{ "+ (num_of_data - 1) +" }( "+ (1 - (both_sides / 100)) +" ) =" + alpha_point_lower + "$, ";
-        document.getElementById("q19_id").textContent = "$ \\chi^2_{ "+ (num_of_data - 1) +" }( "+ (both_sides / 100) +" ) =" + alpha_point_upper + "$";
-        document.getElementById("q20_id").textContent = "$ s^2 =" + variance + "$";
+        */
+        document.getElementById("q17_id").textContent = "$ n =" + n + "$";
+        document.getElementById("q18_id").textContent = "$ \\chi^2_{ "+ (n - 1) +" }( "+ (1 - (both_sides / 100)) +" ) =" + alpha_point_lower + "$, ";
+        document.getElementById("q19_id").textContent = "$ \\chi^2_{ "+ (n - 1) +" }( "+ (both_sides / 100) +" ) =" + alpha_point_upper + "$";
+        document.getElementById("q20_id").textContent = "$ s^2 =" + sa_var + "$";
         document.getElementById("q21_id").textContent = "$" + conf_coef + "\\% $";
         document.getElementById("q22_id").textContent = "\\[ \\left[" + pop_var_lower_app + ", \\," + pop_var_upper_app + "\\right] \\]";
     })
@@ -120,7 +148,8 @@
 
 <body class="container">
     <h1>母分散の区間推定</h1>
-    <div class="box"> <span style="color: blue">[Tips]</span>
+    <div class="box">
+        <span style="color: blue">【Tips】</span>
         正規分布 $N(\mu, \sigma^2)$ から無作為標本 $X_1, \dots, X_n$ をとる。このとき<br>
         \[ \sum_{i=1}^n \left( \frac{X_i - \overline{X}}{\sigma} \right)^2 \]
         は自由度 $n-1$ のカイ2乗分布 $\chi^2_{n-1}$ に従う。
@@ -131,15 +160,45 @@
         となる。ただし、$S^2$ は標本分散、$U^2$ は不偏分散を表す。母分散の推定は
         \[ \frac{n}{\sigma^2} S^2 \sim \chi^2_{n-1} \text{　{\footnotesize もしくは}　} \frac{n-1}{\sigma^2} U^2 \sim \chi^2_{n-1} \]
         のうち好きな方を用いて行う。
-        </div>
+    </div>
+    <p>
+        【問題】ある工場では、製品の重量にどの程度のばらつきがあるかを確認するため、製品を無作為に <span id="q31_id"></span> 個抽出して重量を測定した。
+        その結果、標本分散は <span id="q32_id"></span> であった。
+        製品の重量は正規分布に従うと仮定する。
+        このとき、母分散 $\sigma^2$ の <span id="q33_id"></span> 信頼区間を求めよ。
+        区間の両端の数値は必要に応じて小数第2位まで答えよ（小数第3位を四捨五入せよ）。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <!--
+
     <p>正規母集団からサイズ <span id="q1_id"></span> の標本を抽出して次のデータを得た。</p>
     <p>　　 <span id="q2_id"></span></p>
     <p>母分散 $\sigma^2$ の <span id="q3_id"></span> 信頼区間を求めよ。
  区間の両端の数値が割り切れない場合は小数第2位まで答えよ（小数第3位を四捨五入せよ）。　　<button id="1_id" onclick="show_answer(this)">答え</button>
     </p>
+    -->
 
- <sapn id="a1_id" style="color:transparent">
-    <p>[解答]<br>
+    <p id="a1_id" style="color:transparent">
+        【解答】授業で導いたように、（母平均が未知の場合の）母分散 $\sigma^2$ に対する信頼係数 $1-\alpha$ の信頼区間は
+        \[ \left[ \frac{nS^2}{\chi^2_{n-1}(\alpha / 2)} , \, \frac{nS^2}{\chi^2_{n-1}(1- \alpha / 2)} \right] \]
+        である。ここで、$\chi^2_{n-1}(\beta)$ は $\chi^2_{n-1}$ の上側 $\beta$ 点である。<br>
+        標本サイズ <span id="q17_id"></span> や、<span id="q18_id"> </span><span id="q19_id"></span>、
+        標本分散の実現値 <span id="q20_id"></span> を代入して母分散の<span id="q21_id"></span>信頼区間
+        <span id="q22_id"></span>
+        を得る。<br>　<br>
+        <span style="display: block; text-align: center;">＊　＊　＊　＊　＊</span>
+        <br>　<br>
+        【補足】母分散の信頼区間も導出できることが望ましい。次のように行う。
+        $\frac{n}{\sigma^2}S^2$ が 自由度 $n-1$ のカイ2乗分布 $\chi_{n-1}^2$ に従うので
+        \[ P \left( \chi^2_{n-1}(1-\alpha / 2) \leq \frac{n}{\sigma^2}S^2 \leq \chi^2_{n-1}(\alpha / 2) \right) = 1 - \alpha \]
+        である。上の式の意味がつかめなかったら $\alpha = 0.05$ のつもりで絵も書いてみよう。
+        左辺のカッコの中を $\sigma^2$ について解くと
+        \[ \frac{nS^2}{\chi^2_{n-1}(\alpha / 2)} \leq \sigma^2 \leq \frac{nS^2}{\chi^2_{n-1}(1 - \alpha / 2)} \]
+        となる。この不等式から母分散 $\sigma^2$ に対する信頼係数 $1-\alpha$ の信頼区間を得る。
+    </p>
+
+    <!--
+ <sapn id="a2_id" style="color:red">
+    <p>【解答】<br>
  授業で導いたように、（母平均が未知の場合の）母分散 $\sigma^2$ に対する信頼係数 $1-\alpha$ の信頼区間は
  \[ \left[ \frac{nS^2}{\chi^2_{n-1}(\alpha / 2)} , \, \frac{nS^2}{\chi^2_{n-1}(1- \alpha / 2)} \right] \]
  である。ここで、$\chi^2_{n-1}(\beta)$ は $\chi^2_{n-1}$ の上側 $\beta$ 点である。<br>
@@ -147,8 +206,7 @@
  標本分散の実現値 <span id="q20_id"></span> を代入して母分散の<span id="q21_id"></span>信頼区間
  <span id="q22_id"></span>
  を得る。</p><br>
- <p>
- [補足] <br>
+ <p>【補足】 <br>
  母分散の信頼区間も導出できることが望ましい。次のように行う。
  $\frac{n}{\sigma^2}S^2$ が 自由度 $n-1$ のカイ2乗分布 $\chi_{n-1}^2$ に従うので
  \[ P \left( \chi^2_{n-1}(1-\alpha / 2) \leq \frac{n}{\sigma^2}S^2 \leq \chi^2_{n-1}(\alpha / 2) \right) = 1 - \alpha \]
@@ -158,6 +216,7 @@
  となる。この不等式から母分散 $\sigma^2$ に対する信頼係数 $1-\alpha$ の信頼区間を得る。
 </p>
  </sapn> 
+ -->
  <br> <br> <br>
 </body>
 </html>
