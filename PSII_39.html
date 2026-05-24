@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_39</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    /////////////////////////////////////////
+    /*
+    a 以上 b 以下の整数をランダムに返す関数 randomInteger
+    入力：数値 a,b  (a < b を想定してよい)
+    出力：数値
+    */            
+    function randomInteger(a,b){
+        return Math.floor((b-a+1)*Math.random() + a);
+    }    
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function dnorm(x){
+        return Math.exp((-1)*(x**2)/2) / Math.sqrt(2*Math.PI);
+    }
+
+    function pnorm(x) { // P(Z \leq x) の値を返す。
+        // constants
+        var p  =  0.2316419;
+        var b1 =  0.31938153;
+        var b2 = -0.356563782;
+        var b3 =  1.781477937;
+        var b4 = -1.821255978;
+        var b5 =  1.330274429;
+        var t = 1 / (1 + p * Math.abs(x));
+        var Z = Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI);
+        var y = 1 - Z * ((((b5 * t + b4) * t + b3) * t + b2) * t + b1) * t;
+        return (x > 0) ? y : 1 - y;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        //document.getElementById("q1_id").textContent = `\\[ \\bar{x} = ${mean_x}, \\quad \\bar{y} = ${mean_y}, \\quad s_x^2 = ${variance_x}, \\quad s_y^2 = ${variance_y}, \\quad s_{xy} = ${covariance_xy} \\]`;
+        //document.getElementById("q2_id").textContent = `$x = ${x}$`;
+
+        /*
+        document.getElementById("a1_id").textContent = `$${mean_z}$`;
+        document.getElementById("a2_id").textContent = `$${mean_w}$`;
+        document.getElementById("a3_id").textContent = `$${variance_z}$`;
+        document.getElementById("a4_id").textContent = `$${variance_w}$`;
+        document.getElementById("a5_id").textContent = `$${covariance_zw}$`;
+        document.getElementById("a6_id").textContent = `$${Math.round(correlation_zw*100)/100}$`;
+        */
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>仮説検定2択クイズ</h1>
+    <p>このページは再読み込みしても新しい問題を生成しない。</p>
+    <p>
+        <b>【問題】</b>以下では正規母集団を考える。
+        次の記述について、内容が正しい場合は「正しい」、誤っている場合は「誤り」と答えよ。
+    </p>
+    <p>
+        [1] P-値が $0.03$ であるとき、帰無仮説が正しい確率は $3\%$ である。　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a2_id">
+        【解答】誤り<br>
+        P-値は帰無仮説が正しい確率ではなく、帰無仮説のもとで観測された結果以上に極端な結果が得られる確率である。
+        そもそも、帰無仮説が正しいかどうかは、母数（未知だが既に確定している定数）が特定の値をとっているかどうかという問題であり、確率の対象ですらない。
+    </p>
+    <p>
+        [2] 帰無仮説が棄却されたとき、その仮説は誤りであると断定できる。　　<button id="3_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a3_id">
+        【解答】誤り<br>
+        帰無仮説を棄却するとは、検定を踏まえた意思決定として、その仮説を誤りであると「判断する」ことである。
+        しかし、それは帰無仮説が誤りであると「論理的に断定する」ことではない。
+        実際、帰無仮説が正しいにもかかわらず棄却してしまうこともあり、これを第1種の過誤といった。
+        したがって、「意思決定として誤りと判断すること」と「論理的に誤りと断定すること」は区別する必要がある。
+    </p>
+
+    <p>
+        [3] 帰無仮説が棄却されなかったとき、その仮説は正しいと断定できる。 　　<button id="4_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a4_id">
+        【解答】誤り<br>
+        帰無仮説が棄却されなかったとは、検定の結果として、帰無仮説を棄却するだけの十分な根拠が得られなかったということである。
+        実際、帰無仮説が誤りであるにもかかわらず棄却されないこともあり、これを第2種の過誤といった。
+        よって、前の問題と同様に、帰無仮説が正しいと論理的に断定することはできない。
+        一方、帰無仮説が棄却されなかった場合の意思決定として「帰無仮説が正しいと判断する」ことが妥当かどうかは非常に微妙なところであり、「何も言えない」と考える立場もあれば、実務的な事情で「暫定的に帰無仮説を支持する」という立場もあり得る。
+        この授業では帰無仮説が棄却されなかった場合の判断は原則「何も言えない（対立仮説がとれない）」という立場をとるが、別の書籍を読むときはそうではないこともある。
+        帰無仮説が棄却されない場合の判断は慎重に行う必要があることを覚えておこう。
+    </p>
+    <p>
+        [4] 有意水準を小さくすると、第1種の誤りは起こりにくくなる。 　　<button id="5_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a5_id">
+        【解答】正しい<br>
+        第1種の誤りとは、「帰無仮説が正しいにもかかわらず棄却してしまうこと」である。
+        有意水準を小さくすると、それに応じて帰無仮説のもとで設定される棄却域が狭くなるため、検定統計量の実現値が棄却域に落ちる確率は低くなり、帰無仮説を棄却しにくくなる。
+        したがって、第1種の誤りは起こりにくくなる。
+    </p>
+    <p>
+        [5] 母平均の両側検定におけるP-値が有意水準より小さければ帰無仮説は棄却される。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a1_id">
+        【解答】正しい<br>
+        以下に証明を与えるが、この事実はやや非自明である。
+        難しければ「知識として知っておく（覚えておく）事項にする」と判断してもよい。<br>
+        　有意水準を $\alpha$ とし、P-値を与える実現値を $z_0$ とする。
+        このとき、棄却域は $|z| > z_{\alpha/2}$ であるから、$|z_0| > z_{\alpha/2}$ が成り立つことを示せばよい。
+        $z_{\alpha/2}$ は $\alpha = 2P(Z > z_{\alpha/2})$ を満たす数であることに注意すると、「P-値が有意水準より小さい」という仮定は
+        \[ P(Z > |z_0|) < P(Z > z_{\alpha/2}) \]
+        と同値である。
+        この条件を標準正規分布の確率密度関数 $f(x)$ を使って表すと
+        \[ \int_{|z_0|}^{\infty}f(x)dx < \int_{z_{\alpha/2}}^{\infty}f(x)dx \]
+        である。
+        $f(x) > 0$ より $|z_0| > z_{\alpha/2}$ である。
+        よって、P-値を与える実現値 $z_0$ は棄却域に落ち、帰無仮説は棄却される。
+    </p>
+    <p>
+        [6] 母分散が未知であっても、標本サイズが十分大きければ、不偏分散を用いて正規分布に基づく母平均の仮説検定を近似的に行うことができる。　　<button id="6_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a6_id">
+        【解答】正しい<br>
+        通常は、母分散が未知の場合は正規分布に基づく母平均の検定を行うことはできない。
+        これは検定統計量
+        \[ Z = \frac{\overline{X} - \mu}{\sigma / \sqrt{n}} \]
+        において $\sigma$ が未知であるために計算のしようがないからである。
+        よって、母分散未知の場合は、区間推定であれ仮説検定であれ、通常は $t$ 分布に基づいて行われる。
+        一方、標本サイズが十分大きければ、<b>大数の法則により不偏分散 $U^2$ は母分散 $\sigma^2$ に近づく</b>。
+        この事実は非自明であるが、分散も平均値を用いて定義される量であるから直感的には受け入れられるだろう。
+        ここでは知識として知っておけばよい。
+        また、標本サイズが十分大きければ $t$ 分布は標準正規分布で近似できる。
+        したがって、検定統計量
+        \[ T = \frac{\overline{X} - \mu}{U / \sqrt{n}} \]
+        が近似的に正規分布に従う、とみなして母平均の仮説検定を行うことができる。
+    </p>
+    <p>
+        [7] 正規母集団でなくても、標本サイズが十分大きければ不偏分散を用いて正規分布に基づく母平均の仮説検定を近似的に行うことができる。　　<button id="7_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a7_id">
+        【解答】正しい<br>
+        正規母集団でない場合、標本平均 $\overline{X}$ が正規分布に従うとは限らない。
+        しかし、標本サイズが十分大きければ、中心極限定理により、母集団分布が正規分布であると分かっていなくても標本平均 $\overline{X}$ は近似的に正規分布に従う。
+        また、前の問題で見たように、母分散が未知でも標本サイズが十分大きければ不偏分散は母分散に近づく。
+        したがって、前の問題と同様に検定統計量
+        \[ T = \frac{\overline{X} - \mu}{U / \sqrt{n}} \]
+        が近似的に正規分布に従う、とみなして母平均の仮説検定を行うことができる。
+        この考え方は母比率の推定や検定とも同様である。
+    </p>
+
+    <br>　<br>
+</body>
+</html>
