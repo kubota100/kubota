@@ -29,12 +29,12 @@
     }
     console.log(data);
 
-    let data_in_text = "$";
+    let data_in_text = "\\[";
     for(let i=0; i<num_of_data; i++){
         data_in_text += data[i] + ", \\quad";
     }
     data_in_text = data_in_text.slice(0, -7);
-    data_in_text += "$"
+    data_in_text += "\\]"
 
     let pop_mean = Math.floor((Math.random()*3+9));
     let pop_std = Math.floor((Math.random()*16+5))/10;
@@ -51,9 +51,9 @@
 
     let judge = "";
     if(Math.abs(z_value) > alpha_point){
-        judge = "$z$ は棄却域に落ちるので帰無仮説 $H_0$ は棄却される。つまり、$\\mu = "+ pop_mean +"$ とはいえない。" 
+        judge = "$z$ は棄却域に落ちるので帰無仮説 $H_0$ は棄却される。つまり、$\\mu \\neq "+ pop_mean +"$ といえる。" 
     } else {
-        judge = "$z$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。つまり、$\\mu = "+ pop_mean +"$ でないとはいえない。"
+        judge = "$z$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。つまり、$\\mu \\neq "+ pop_mean +"$ とはいえない。"
     }
 
     //let both_sides = Math.round((100 - conf_coef)*5)/10;
@@ -128,13 +128,14 @@
 
 <body class="container">
     <h1>母平均の検定（母分散既知）</h1>
-<p>次の <span id="q1_id"></span> 個の値は正規母集団 $N(\mu, \sigma^2)$ から得られた観測値である。</p>
-<p>　　 <span id="q2_id"></span></p>
-<p>母分散 <span id="q5_id"></span> が既知であるとき、これらの観測値が平均値 <span id="q3_id"></span> の正規母集団から得られたものといえるか。
+<p>
+    <b>【問題】</b>次の <span id="q1_id"></span> 個の値は正規母集団 $N(\mu, \sigma^2)$ から得られた観測値である。
+    <span id="q2_id"></span>
+    母分散 <span id="q5_id"></span> が既知であるとき、これらの観測値が平均値 <span id="q3_id"></span> の正規母集団から得られたものといえるか。
     有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
 </p>
 <p id="a1_id" style="color:transparent">
- [解答] <br>
+ 【解答】 <br>
  帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
  　　<span id="q6_id"></span> <br>
  　　<span id="q7_id"></span> <br>
@@ -146,9 +147,13 @@
  <span id="q10_id"></span>
  となり、<span id="q11_id"></span>
 </p>
-<div class="box"><span style="color: blue;">[Tips]</span>
-    帰無仮説が棄却されなかった場合、「つまり、$\mu = 10$ でないとはいえない。」のような言い回しを使っていますが、
-    この表現に抵抗がある場合は「つまり、この検定では $\mu = 10$ を否定する統計的根拠は得られない。」のような記述でも構いません。
+<div class="box"><span style="color: blue;">【Tips】</span>
+    例年、帰無仮説の採否（棄却する／棄却しない）を決定したあとの解釈「$\mu \neq 10$ といえる」or「$\mu \neq 10$ とはいえない」をややこしいと感じる学生が多いようです。
+    これについては、<b>対立仮説が取れるかどうかで解釈する</b>と混乱が避けられると思います。
+    つまり、<br>
+    　　帰無仮説を棄却する → 対立仮説をとる → (対立仮説の主張)がいえる。<br>
+    　　帰無仮説を棄却しない → 対立仮説がとれない → (対立仮説の主張)とはいえない。<br>
+    という流れです。例えば、対立仮説が $H_1:\mu \neq 10$ であれば、帰無仮説を棄却した場合は「$\mu \neq 10$ といえる」と解釈し、帰無仮説を棄却しなかった場合は「$\mu \neq 10$ とはいえない」と解釈します。
 </div>
 
 <br>　<br>

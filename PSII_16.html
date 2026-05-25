@@ -28,12 +28,12 @@
     }
     console.log(data);
 
-    let data_in_text = "$";
+    let data_in_text = "\\[";
     for(let i=0; i<num_of_data; i++){
         data_in_text += data[i] + ", \\quad";
     }
     data_in_text = data_in_text.slice(0, -7);
-    data_in_text += "$"
+    data_in_text += "\\]"
 
     let pop_mean = Math.floor((Math.random()*3+9));
     let pop_std = Math.floor((Math.random()*16+5))/10;
@@ -63,9 +63,9 @@
 
     let judge = "";
     if(Math.abs(t_value) > alpha_point){
-        judge = "$t$ は棄却域に落ちるので帰無仮説 $H_0$ は棄却される。つまり、$\\mu = "+ pop_mean +"$ とはいえない。"
+        judge = "$t$ は棄却域に落ちるので帰無仮説 $H_0$ は棄却される。つまり、$\\mu \\neq "+ pop_mean +"$ といえる。"
     } else {
-        judge = "$t$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。つまり、$\\mu = "+ pop_mean +"$ でないとはいえない。"
+        judge = "$t$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。つまり、$\\mu \\neq "+ pop_mean +"$ とはいえない。"
     }
 
     //let both_sides = Math.round((100 - conf_coef)*5)/10;
@@ -133,13 +133,15 @@
 
 <body class="container">
     <h1>母平均の検定（母分散未知）</h1>
-<p>次の <span id="q1_id"></span> 個の値は正規母集団 $N(\mu, \sigma^2)$ から得られた観測値である。</p>
-<p>　　 <span id="q2_id"></span> </p>
-<p>これらの観測値は平均値 <span id="q3_id"></span> の正規母集団から取り出されたものといえるか。
-    有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button> </p>
+<p>
+    <b>【問題】</b>次の <span id="q1_id"></span> 個の値は正規母集団 $N(\mu, \sigma^2)$ から得られた観測値である。
+    <span id="q2_id"></span>
+    これらの観測値は平均値 <span id="q3_id"></span> の正規母集団から取り出されたものといえるか。
+    有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+</p>
 
-    <p id="a1_id" style="color:transparent">
- [解答] <br>
+<p id="a1_id" style="color:transparent">
+ 【解答】 <br>
  帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
  　　<span id="q6_id"></span> <br>
  　　<span id="q7_id"></span> <br>

@@ -36,10 +36,10 @@
     let judge2 = "";    
     if(Math.abs(z_value) > alpha_point){
         judge = "$z$ は棄却域に落ちるので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却される。"
-        judge2 = "統計的根拠になる。"
+        judge2 = "いえる。"
     } else {
         judge = "$z$ は棄却域に落ちていないので有意水準 $" + sign_level + " \\%$ の検定で帰無仮説 $H_0$ は棄却されない。"
-        judge2 = "統計的根拠にはならない。"
+        judge2 = "はいえない。"
     }
 
     //let both_sides = Math.round((100 - conf_coef)*5)/10;
@@ -110,39 +110,37 @@
 
 <body class="container">
     <h1>母比率の検定</h1>
-    <div class="box"><span style="color: blue;">[Tips]</span> 教科書 p.136 問題 9.2 にも目を通しておくこと。</div>
+    <div class="box"><span style="color: blue;">【Tips】</span> 教科書 p.136 問題 9.2 にも目を通しておくこと。</div>
     <p>
- あなたは明治のチョコスナック「きのこの山」と「たけのこの里」、どちらがお好きだろうか？
- 複数の調査で「きのこの山」派と「たけのこの里」派の割合はおおよそ $1:2$ であることが分かっている
- （<a href="https://macaro-ni.jp/104842">[1]</a>, <a href="https://www.itmedia.co.jp/news/articles/1402/04/news016.html">[2]</a>, <a href="https://netatopi.jp/article/1171674.html">[3]</a>）。
- ただし[3]は「どちらも好き」「食べたことない」「無回答」を除いた割合で計上した（$1:1.8$ くらい）。
- なお、調査によっては「きのこの山」派が優勢であるものもある<a href="https://www.itmedia.co.jp/makoto/articles/1304/12/news112.html">[4]</a>。</p>
-<p>
- [問題] <br>
- 「きのこの山」派であるA君は[1][2][3]の調査結果の真偽を確かめるべく <span id="q0_id"></span> 人を無作為抽出し「きのこの山」と「たけのこの里」どちらが好きか？を尋ねた。
- その結果「きのこの山」派が <span id="q1_id"></span> 人、「たけのこの里」派が <span id="q3_id"></span> 人であることが分かった。
- A君の調査は仮説「『きのこの山』派と『たけのこの里』派の割合は $1:2$ である」を否定するに足る統計的根拠を与えるか。
- 有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
-</p>
-
- <sapn id="a1_id" style="color:white">
-<p>
- [解答] <br>
- 「きのこの山」派の割合（母比率）を $p$ とする。
- 帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
- 　　<span id="q6_id"></span> <br>
- 　　<span id="q7_id"></span> <br>
- 標本比率を $\hat{p}$ とする。
- 標本サイズ <span id="q7a_id"></span> は十分大きいため中心極限定理より統計量
- \[ Z = \frac{\hat{p} - p}{\sqrt{\frac{p(1-p)}{n}}} \]
- は標準正規分布 $N(0,1)$ に従うとみなしてよく、これを用いて検定を行う。
- 有意水準 <span id="q8_id"></span> より、棄却域は <span id="q9_id"></span> である。
- 帰無仮説 $H_0$ のもとで実現値は
- <span id="q10_id"></span>
- となり、<span id="q11_id"></span>
- つまり、A君の調査は仮説「『きのこの山』派と『たけのこの里』派の割合は $1:2$ である」を否定する<span id="q12_id"></span>
+        <b>【背景】</b>
+        あなたは明治のチョコスナック「きのこの山」と「たけのこの里」、どちらがお好きだろうか？
+        複数の調査で「きのこの山」派と「たけのこの里」派の割合はおおよそ $1:2$ であることが分かっている（<a href="https://macaro-ni.jp/104842">[1]</a>, <a href="https://www.itmedia.co.jp/news/articles/1402/04/news016.html">[2]</a>, <a href="https://netatopi.jp/article/1171674.html">[3]</a>）。
+        ただし[3]は「どちらも好き」「食べたことない」「無回答」を除いた割合で計上した（$1:1.8$ くらい）。
+        なお、調査によっては「きのこの山」派が優勢であるものもある<a href="https://www.itmedia.co.jp/makoto/articles/1304/12/news112.html">[4]</a>。
+    </p>
+    <p>
+        <b>【問題】</b>
+        スイーツが好きなA君は「きのこの山」派と「たけのこの里」派の割合が本当に $1:2$ とみなせるかを確かめるため、<span id="q0_id"></span> 人を無作為抽出し、「きのこの山」と「たけのこの里」どちらが好きか？を尋ねた。
+        その結果「きのこの山」派が <span id="q1_id"></span> 人、「たけのこの里」派が <span id="q3_id"></span> 人であることが分かった。
+        A君の調査から「『きのこの山』派と『たけのこの里』派の割合は $1:2$ からずれている」といえるか。
+        有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p id="a1_id" style="color:transparent">
+        【解答】<br>
+        「きのこの山」派の割合（母比率）を $p$ とする。
+        帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
+        　　<span id="q6_id"></span> <br>
+        　　<span id="q7_id"></span> <br>
+        標本比率を $\hat{p}$ とする。
+        標本サイズ <span id="q7a_id"></span> は十分大きいため中心極限定理より統計量
+        \[ Z = \frac{\hat{p} - p}{\sqrt{\frac{p(1-p)}{n}}} \]
+        は標準正規分布 $N(0,1)$ に従うとみなしてよく、これを用いて検定を行う。
+        有意水準 <span id="q8_id"></span> より、棄却域は <span id="q9_id"></span> である。
+        帰無仮説 $H_0$ のもとで実現値は
+        <span id="q10_id"></span>
+        となり、<span id="q11_id"></span>
+        つまり、A君の調査から「『きのこの山』派と『たけのこの里』派の割合は $1:2$ からずれている」と<span id="q12_id"></span>
  </p>
- </sapn>
 
 <br>　<br>
  </div>
