@@ -20,6 +20,25 @@
     
 
 <script>
+    let n = randomInteger(15, 30);
+    let sigma = randomInteger(70,99)/10;
+    let sample_mean2 = randomInteger(4920, 5080)/10;
+    let sign_level_list = [10, 5, 1];
+    let sign_level_seed = Math.floor(Math.random()*3);
+    let sign_level = sign_level_list[sign_level_seed];
+    let alpha_point_list = [1.645, 1.960, 2.576];
+    let alpha_point = alpha_point_list[sign_level_seed];
+    let z_value2 = (sample_mean2 - 500) / (sigma / Math.sqrt(n));
+    z_value2 = Math.round(z_value2*100000000)/100000000;
+    let judge2 = "";
+    if(Math.abs(z_value2) > alpha_point){
+        judge2 = "$z$ は棄却域に落ちるので帰無仮説 $H_0$ は棄却される。つまり、この日の製品の母平均は $500 \\,\\mathrm{mL}$ からずれているといえる。" 
+    } else {
+        judge2 = "$z$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。つまり、この日の製品の母平均は $500 \\,\\mathrm{mL}$ からずれているとはいえない。"
+    }
+
+
+    /*
     let num_of_data = Math.floor(Math.random()*3 + 5);
     let data = [];
     for(let i=0; i<num_of_data; i++){
@@ -38,11 +57,6 @@
 
     let pop_mean = Math.floor((Math.random()*3+9));
     let pop_std = Math.floor((Math.random()*16+5))/10;
-    let sign_level_list = [10, 5, 1];
-    let sign_level_seed = Math.floor(Math.random()*3);
-    let sign_level = sign_level_list[sign_level_seed];
-    let alpha_point_list = [1.645, 1.960, 2.576];
-    let alpha_point = alpha_point_list[sign_level_seed];
 
     let sample_mean = average(data);
     sample_mean = Math.round(sample_mean*100000000)/100000000;
@@ -55,6 +69,7 @@
     } else {
         judge = "$z$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。つまり、$\\mu \\neq "+ pop_mean +"$ とはいえない。"
     }
+    */
 
     //let both_sides = Math.round((100 - conf_coef)*5)/10;
 
@@ -67,6 +82,14 @@
     */
 
     /////////////////////////////////////////
+    /*
+    a 以上 b 以下の整数をランダムに返す関数 randomInteger
+    入力：数値 a,b  (a < b を想定してよい)
+    出力：数値
+    */            
+    function randomInteger(a,b){
+        return Math.floor((b-a+1)*Math.random() + a);
+    }
 
     function average(array){
         let n = array.length;
@@ -105,6 +128,16 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("r1_id").textContent = "$" + sigma  + "\\, \\mathrm{mL}$";
+        document.getElementById("r2_id").textContent = "$" + n + "$";
+        document.getElementById("r3_id").textContent = "$" + sample_mean2 + " \\, \\mathrm{mL}$";
+        document.getElementById("r4_id").textContent = "$" + sign_level + "\\% $";
+        //
+        document.getElementById("r5_id").textContent = "$" + sign_level + "\\% $";
+        document.getElementById("r6_id").textContent = "$ |z| >" + alpha_point + "$";
+        document.getElementById("r7_id").textContent = "\\[ z = \\frac{"+ sample_mean2 + " - 500 }{ "+ sigma +" / \\sqrt{ "+ n +"}} = "+ z_value2 +" \\]";
+        document.getElementById("r8_id").textContent = judge2;
+        /*
         document.getElementById("q1_id").textContent = "$" + num_of_data + "$";
         document.getElementById("q2_id").textContent = data_in_text;
         document.getElementById("q3_id").textContent = "$ \\mu = " + pop_mean + "$";
@@ -117,6 +150,7 @@
         document.getElementById("q9_id").textContent = "$ |z| >" + alpha_point + "$";
         document.getElementById("q10_id").textContent = "\\[ z = \\frac{"+ sample_mean + " - " + pop_mean +"}{ "+ pop_std +" / \\sqrt{ "+ num_of_data +"}} = "+ z_value +" \\]";
         document.getElementById("q11_id").textContent = judge;
+        */
     })
 
     function show_answer(e){
@@ -129,12 +163,33 @@
 <body class="container">
     <h1>母平均の検定（母分散既知）</h1>
 <p>
+    <b>【問題】</b>ある工場では、内容量 $500 \,\mathrm{mL}$ のペットボトル飲料を製造しており、内容量は正規分布に従うとみなしてよい。
+    過去の大量の製造データから、内容量の標準偏差は <span id="r1_id"></span> とみなしてよいことが分かっている。
+    ある日の製品から <span id="r2_id"></span> 本を無作為に抽出したところ、標本平均は <span id="r3_id"></span> であった。
+    この日の製品の母平均 $\mu$ は $500 \,\mathrm{mL}$ からずれているといえるか。
+    有意水準 <span id="r4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+</p>
+<p id="a1_id" style="color: transparent;">
+    【解答】 <br>
+ 帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
+ 　　$H_0: \mu = 500$ <br>
+ 　　$H_1: \mu \neq 500$ <br>
+ 標本平均 $\overline{X}$ の標準化
+ \[ Z = \frac{\overline{X} - \mu}{\sigma / \sqrt{n}} \]
+ が標準正規分布 $N(0,1)$ に従うことを利用して検定を行う。<br>
+ 有意水準 <span id="r5_id"></span> より、棄却域は <span id="r6_id"></span> である。（←余白に絵もかくこと）<br>
+ 帰無仮説 $H_0$ のもとで実現値は
+ <span id="r7_id"></span>
+ となり、<span id="r8_id"></span>
+</p>
+<!--
+<p>
     <b>【問題】</b>次の <span id="q1_id"></span> 個の値は正規母集団 $N(\mu, \sigma^2)$ から得られた観測値である。
     <span id="q2_id"></span>
     母分散 <span id="q5_id"></span> が既知であるとき、これらの観測値が平均値 <span id="q3_id"></span> の正規母集団から得られたものといえるか。
     有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
 </p>
-<p id="a1_id" style="color:transparent">
+<p id="a1_id" style="color:red">
  【解答】 <br>
  帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
  　　<span id="q6_id"></span> <br>
@@ -147,13 +202,14 @@
  <span id="q10_id"></span>
  となり、<span id="q11_id"></span>
 </p>
+-->
 <div class="box"><span style="color: blue;">【Tips】</span>
-    例年、帰無仮説の採否（棄却する／棄却しない）を決定したあとの解釈「$\mu \neq 10$ といえる」or「$\mu \neq 10$ とはいえない」をややこしいと感じる学生が多いようです。
-    これについては、<b>対立仮説が取れるかどうかで解釈する</b>と混乱が避けられると思います。
+    例年、帰無仮説の採否（棄却する／棄却しない）を決定したあとの解釈、本問の場合は「この日の製品の母平均は $500 \,\mathrm{mL}$ からずれているといえる」or「この日の製品の母平均は $500 \,\mathrm{mL}$ からずれているとはいえない」をややこしいと感じる学生が多いようです。
+    これについては、<b>対立仮説が取れるかどうかで判断する</b>と混乱が避けられると思います。
     つまり、<br>
     　　帰無仮説を棄却する → 対立仮説をとる → (対立仮説の主張)がいえる。<br>
     　　帰無仮説を棄却しない → 対立仮説がとれない → (対立仮説の主張)とはいえない。<br>
-    という流れです。例えば、対立仮説が $H_1:\mu \neq 10$ であれば、帰無仮説を棄却した場合は「$\mu \neq 10$ といえる」と解釈し、帰無仮説を棄却しなかった場合は「$\mu \neq 10$ とはいえない」と解釈します。
+    という流れです。例えば、対立仮説が $H_1:\mu \neq 10$ であれば、帰無仮説を棄却した場合は対立仮説をとることになるので「母平均が $10$ からずれているといえる」と判断し、帰無仮説を棄却しなかった場合は対立仮説がとれず「母平均が $10$ からずれているとはいえない」のように判断します。
 </div>
 
 <br>　<br>
