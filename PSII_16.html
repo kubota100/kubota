@@ -19,6 +19,45 @@
  </script>
 
 <script>
+    let n = randomInteger(12, 15);
+    let sigma = randomInteger(61,79)/10;
+    let sample_mean2 = randomInteger(1311, 1379)/10;
+    let sign_level_list = [10, 5, 1];
+    let sign_level_seed = Math.floor(Math.random()*3);
+    let sign_level = sign_level_list[sign_level_seed];
+
+    let alpha_point_list = [[1.79588, 2.20099, 3.10581],[1.78229, 2.17881, 3.05454],[1.77093, 2.16037, 3.01228], [1.76131, 2.14479, 2.97684]]; //0→自由度11, 1→自由度12, 2→自由度13, 3→自由度14
+    let alpha_point = alpha_point_list[n-12][sign_level_seed];
+
+    let un_var = n*(sigma**2) / (n - 1);
+    let un_std = Math.sqrt(un_var);
+    un_std = Math.round(un_std*100000000)/100000000;
+    console.log(un_std);
+    let t_value = (sample_mean2 - 130) / (un_std / Math.sqrt(n));
+    t_value = Math.round(t_value*100000000)/100000000;
+
+    let judge = "";
+    if(Math.abs(t_value) > alpha_point){
+        judge = "$t$ は棄却域に落ちるので帰無仮説 $H_0$ は棄却される。つまり、この患者群の最高血圧の母平均は同年代の平均値と異なるといえる。"
+    } else {
+        judge = "$t$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。つまり、この患者群の最高血圧の母平均は同年代の平均値と異なるとはいえない。"
+    }
+
+    /*
+    let alpha_point_list = [1.645, 1.960, 2.576];
+    let alpha_point = alpha_point_list[sign_level_seed];
+    
+    let z_value2 = (sample_mean2 - 500) / (sigma / Math.sqrt(n));
+    z_value2 = Math.round(z_value2*100000000)/100000000;
+    let judge2 = "";
+    if(Math.abs(z_value2) > alpha_point){
+        judge2 = "$z$ は棄却域に落ちるので帰無仮説 $H_0$ は棄却される。つまり、この日の製品の母平均は $500 \\,\\mathrm{mL}$ からずれているといえる。" 
+    } else {
+        judge2 = "$z$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。つまり、この日の製品の母平均は $500 \\,\\mathrm{mL}$ からずれているとはいえない。"
+    }
+        */
+
+
     let num_of_data = Math.floor(Math.random()*3 + 5);
     let data = [];
     for(let i=0; i<num_of_data; i++){
@@ -37,12 +76,6 @@
 
     let pop_mean = Math.floor((Math.random()*3+9));
     let pop_std = Math.floor((Math.random()*16+5))/10;
-    let sign_level_list = [10, 5, 1];
-    let sign_level_seed = Math.floor(Math.random()*3);
-    let sign_level = sign_level_list[sign_level_seed];
-
-    let alpha_point_list = [[2.13185, 2.77645, 4.60409],[2.01505, 2.57058, 4.03214],[1.94318, 2.44691, 3.70743]]; //0→自由度4, 1→自由度5, 2→自由度6
-    let alpha_point = alpha_point_list[num_of_data-5][sign_level_seed];
 
     let sample_mean = average(data);
     sample_mean = Math.round(sample_mean*100000000)/100000000;
@@ -53,24 +86,11 @@
     }
     let variance = average(data_square) - average(data)**2;
 
-    let un_var = num_of_data*variance / (num_of_data - 1);
-    let un_std = Math.sqrt(un_var);
-    un_std = Math.round(un_std*100000000)/100000000;
-    console.log(un_std);
-
-    let t_value = (sample_mean - pop_mean) / (un_std / Math.sqrt(num_of_data));
-    t_value = Math.round(t_value*100000000)/100000000;
-
-    let judge = "";
-    if(Math.abs(t_value) > alpha_point){
-        judge = "$t$ は棄却域に落ちるので帰無仮説 $H_0$ は棄却される。つまり、$\\mu \\neq "+ pop_mean +"$ といえる。"
-    } else {
-        judge = "$t$ は棄却域に落ちていないので帰無仮説 $H_0$ は棄却されない。つまり、$\\mu \\neq "+ pop_mean +"$ とはいえない。"
+    /////////////////////////////////////////
+    function randomInteger(a,b){
+        return Math.floor((b-a+1)*Math.random() + a);
     }
 
-    //let both_sides = Math.round((100 - conf_coef)*5)/10;
-
-    /////////////////////////////////////////
 
     function average(array){
         let n = array.length;
@@ -109,6 +129,20 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("r1_id").textContent = "$" + n + "$";
+        document.getElementById("r2_id").textContent = "$ \\bar{x} = " + sample_mean2 + " \\, \\mathrm{mmHg}$";
+        document.getElementById("r3_id").textContent = "$ s =" + sigma  + "\\, \\mathrm{mmHg}$";
+        document.getElementById("r4_id").textContent = "$" + sign_level + "\\% $";
+        //
+        document.getElementById("r5_id").textContent = "$" + (n-1) + "$";
+        document.getElementById("r6_id").textContent = `$t_{${n-1}}$`;
+        document.getElementById("r7_id").textContent = `$${sign_level} \\%$`;
+        document.getElementById("r8_id").textContent = `$|t| > ${alpha_point}$`;
+        document.getElementById("r8a_id").textContent = `$u = \\sqrt{\\frac{${n}}{${n-1}}} \\cdot s = ${un_std}$`;
+        document.getElementById("r9_id").textContent = "\\[ t = \\frac{"+ sample_mean2 + " - 130 }{ "+ un_std +" / \\sqrt{ "+ n +"}} = "+ t_value +" \\]";
+        document.getElementById("r10_id").textContent = judge;
+
+        //
         document.getElementById("q1_id").textContent = "$" + num_of_data + "$";
         document.getElementById("q2_id").textContent = data_in_text;
         document.getElementById("q3_id").textContent = "$ \\mu = " + pop_mean + "$";
@@ -134,6 +168,30 @@
 <body class="container">
     <h1>母平均の検定（母分散未知）</h1>
 <p>
+    <b>【問題】</b>ある病院では、睡眠時無呼吸症候群が疑われる成人患者について、最高血圧（正式には収縮期血圧という）の傾向を調べている。
+    同年代の成人における最高血圧の平均は $130 \,\mathrm{mmHg}$ であるとする。
+    ここで、$\mathrm{mmHg}$ は血圧の単位である。
+    この病院を受診し、睡眠時無呼吸症候群が疑われる成人患者全体の最高血圧の母平均を $\mu$ とする。
+    この患者群から <span id="r1_id"></span> 人を無作為に選んで最高血圧を測定したところ、標本平均は <span id="r2_id"></span> であり、標本標準偏差は <span id="r3_id"></span> であった。
+    最高血圧は正規分布に従うとみなしてよいものとして、この患者群の最高血圧の母平均が、同年代の成人における平均 $130 \,\mathrm{mmHg}$ と異なるといえるか。
+    有意水準 <span id="r4_id"></span> で検定せよ。　　　　<button id="1_id" onclick="show_answer(this)">答え</button>
+</p>
+<p id="a1_id" style="color:transparent">
+    【解答】 <br>
+    帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
+    　　$H_0: \mu = 130$ <br>
+    　　$H_1: \mu \neq 130$ <br>
+    標本平均を $\overline{X}$, 不偏分散を $U^2$ として、統計量
+    \[ T = \frac{\overline{X} - \mu}{U / \sqrt{n}} \]
+    が自由度 <span id="r5_id"></span> の $t$ 分布 <span id="r6_id"></span> に従うことを利用して検定を行う。<br>
+    有意水準 <span id="r7_id"></span> より、棄却域は <span id="r8_id"></span> である。（←余白に絵もかくこと）<br>
+    不偏分散の正の平方根が <span id="r8a_id"></span> であることに注意する。<br>
+    帰無仮説 $H_0$ のもとでの実現値は
+    <span id="r9_id"></span>
+    となり、<span id="r10_id"></span>
+</p>
+<!--
+<p>
     <b>【問題】</b>次の <span id="q1_id"></span> 個の値は正規母集団 $N(\mu, \sigma^2)$ から得られた観測値である。
     <span id="q2_id"></span>
     これらの観測値は平均値 <span id="q3_id"></span> の正規母集団から取り出されたものといえるか。
@@ -153,6 +211,7 @@
  <span id="q10_id"></span>
  となり、<span id="q11_id"></span>
 </p>
+-->
 
 <br>　<br>
  </body>
