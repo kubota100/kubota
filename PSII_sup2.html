@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>PSII_sup2</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+ <script>
+     window.onload = function() {
+     renderMathInElement(document.body, {delimiters: [
+         {left: "\\[", right: "\\]", display: true},
+         {left: "$", right: "$", display: false}
+     ]});
+     };
+ </script>
+
+<script>
+    /*
+    let counter10 = 0;
+    for(let i=0; i<10; i++){
+        if( Math.floor(Math.random()*2) == 0){
+            counter10++;
+        }
+    }
+    let ratio10 = counter10 / 10;
+    console.log(ratio10.toFixed(4));
+
+    let counter100 = 0;
+    for(let i=0; i<100; i++){
+        if( Math.floor(Math.random()*2) == 0){
+            counter100++;
+        }
+    }
+    let ratio100 = counter100 / 100;
+    console.log(ratio100.toFixed(4));
+
+    let counter10000 = 0;
+    for(let i=0; i<10000; i++){
+        if( Math.floor(Math.random()*2) == 0){
+            counter10000++;
+        }
+    }
+    let ratio10000 = counter10000 / 10000;
+    console.log(ratio10000.toFixed(4));
+    */
+
+
+
+    ///////////////////////////////////////////////
+
+    function average(array){
+        let n = array.length;
+        let result = 0;
+        for(let i=0; i<n; i++){
+            result += array[i];
+        }
+        result /= n;
+        return result;
+    }
+
+    function expectation(array_var, array_prob){
+        let result = 0;
+        for(let i=0; i<array_var.length; i++){
+            result += array_var[i]*array_prob[i];
+        }
+        return result;
+    }
+
+    function square(array){
+        let result = [];
+        let num = array.length;
+        for(let i=0; i<num; i++){
+            result.push(array[i]**2);
+        }
+        return result;        
+    }
+
+//    function generate_quizzes(){
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("q1_id").textContent = `${ratio10.toFixed(4)}`;
+        document.getElementById("q2_id").textContent = `${ratio100.toFixed(4)}`;
+        document.getElementById("q3_id").textContent = `${ratio10000.toFixed(4)}`;
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "black";
+    }
+</script>
+</head>
+
+<body class="container">
+ <center>
+    <h1>中心極限定理のシミュレーション</h1>
+ </center>
+ <div class="box">
+    <span style="color: blue;">【定理】</span>（授業の定理 10.2, 教科書 p.113 の定理 8.10）<br>
+    $X_1, X_2, \dots$ を独立同分布な確率変数列とし、それらの平均値と分散をそれぞれ $\mu, \sigma^2$ とする。
+    このとき、
+    \[ \sum_{k=1}^n X_k \approx N(n \mu, n \sigma^2) \quad (n \to \infty) \]
+    が成り立つ。
+</div>
+ <p>
+    上で示した定理の内容をシミュレーションによっても確認してみよう。
+    以下に示すサイトでは、サイコロを $n$ 回投げたときの出目の合計の分布がどのような形状になるのかを紹介している。
+    <b>動画版を見る場合は、音を消すか十分小さくするなどして、周囲に迷惑がかからないように注意すること。</b>
+ </p>
+ <p style="text-align: center;">
+    <a href="https://www.youtube.com/shorts/hNMGOMbTHk4" target="_blank" rel="noopener noreferrer" onclick="return confirm('OK ボタンを押すと YouTube に移動し、動画が再生されます。音量が適切に調整されていることを確認してから OK ボタンを押してください。');">動画（40秒程度）</a>
+    　　　　　
+    <a href="https://retu27.com/saikoro_sum3.html" target="_blank" rel="noopener noreferrer">サイト</a>
+ </p>
+
+</body>
+</html>
