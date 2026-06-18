@@ -19,23 +19,36 @@
  </script>
     
 <script>
-    let num_of_data = Math.floor(Math.random()*3 + 5);
+    let num_of_data = Math.floor(Math.random()*2 + 5);
     let data = [];
     for(let i=0; i<num_of_data; i++){
         let tmp = 0;
-        tmp = Math.floor((Math.random()*101+200))/100;
+        tmp = Math.floor((Math.random()*20))/10 + 49;
         data.push(tmp);
     }
     console.log(data);
 
-    let data_in_text = "$";
+    let data2 = [];
     for(let i=0; i<num_of_data; i++){
-        data_in_text += data[i] + ", \\quad";
+        data2.push(Math.round((data[i] - 50)*1000)/1000);
+    }
+    console.log(data2);
+
+    let data_in_text = "\\[";
+    for(let i=0; i<num_of_data; i++){
+        data_in_text += data[i] + "\\, \\mathrm{mm}, \\quad";
     }
     data_in_text = data_in_text.slice(0, -7);
-    data_in_text += "$"
+    data_in_text += "\\]"
 
-    let pop_std = Math.floor((Math.random()*100+1))/100;
+    let data_in_text2 = "\\[";
+    for(let i=0; i<num_of_data; i++){
+        data_in_text2 += data2[i] + ", \\quad";
+    }
+    data_in_text2 = data_in_text2.slice(0, -7);
+    data_in_text2 += "\\]"
+
+    let pop_std = Math.floor((Math.random()*50+5))/100;
     let sign_level_list = [10, 5, 1];
     let sign_level_seed = Math.floor(Math.random()*3);
     let sign_level = sign_level_list[sign_level_seed];
@@ -106,7 +119,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("q1_id").textContent = "$" + num_of_data + "$";
         document.getElementById("q2_id").textContent = data_in_text;
-        document.getElementById("q3_id").textContent = "$ \\sigma^2 = " + pop_std + "^2 $";
+        document.getElementById("q3_id").textContent = "$" + pop_std + "\\, \\mathrm{mm} $";
         document.getElementById("q4_id").textContent = "$" + sign_level + "\\% $";
 //        document.getElementById("q5_id").textContent = "$ \\sigma^2 = " + pop_std + "^2 $";
         //
@@ -118,6 +131,7 @@
         document.getElementById("q9_id").textContent = "$ y <" + alpha_point_lower + "$ または $ "+ alpha_point_upper +" < y$";
         document.getElementById("q10_id").textContent = "\\[ y = \\frac{"+ num_of_data + " \\times " + variance +"}{ "+ pop_std +"^2 } = "+ y_value +" \\]";
         document.getElementById("q11_id").textContent = judge;
+        document.getElementById("q12_id").textContent = data_in_text2;
     })
 
     function show_answer(e){
@@ -129,24 +143,33 @@
 
 <body class="container">
     <h1>母分散の検定</h1>
-    <p>ある機器の部品の製造会社で、過去の製品のばらつきは分散 <span id="q3_id"></span> であるといわれている。
- いま、製造方法を変え、無作為標本抽出を行い、次の <span id="q1_id"></span> 個のデータが得られた。</p>
-<p>　　 <span id="q2_id"></span></p>
-<p>製造方法を変えたことにより、ばらつきに変化が生じたと言えるか。
-    母集団は正規分布に従うものとして、有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button> </p>
+    <p>
+        <b>【問題】</b>ある工場ではネジを生産している。
+        従来の製造方法で作られたネジの全長の標準偏差は <span id="q3_id"></span> であることが分かっている。
+        新しい製造方法で試作したネジから無作為に <span id="q1_id"></span> 個を抽出し、その全長を測定したところ、次のデータが得られた。
+        <span id="q2_id"></span>
+        製造方法を変えたことにより、ばらつきに変化が生じたと言えるか。
+        ネジの全長は正規分布に従うものとして、有意水準 <span id="q4_id"></span> で検定せよ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
 
 <p id="a1_id" style="color:transparent">
- [解答] <br>
- 帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
- 　　<span id="q6_id"></span> <br>
- 　　<span id="q7_id"></span> <br>
- 標本分散を $S^2$ として、統計量
- \[ Y = \frac{n S^2}{\sigma^2} \]
- が自由度 <span id="q7a_id"></span> の $\chi^2$ 分布 <span id="q7b_id"></span> に従うことを利用して検定を行う。<br>
- 有意水準 <span id="q8_id"></span> より、棄却域は「 <span id="q9_id"></span> 」である。（←余白に絵もかくこと）<br>
- 帰無仮説 $H_0$ のもとで実現値は
- <span id="q10_id"></span>
- となり、<span id="q11_id"></span>
+    【解答】<br>
+    製造方法変更後の母分散を $\sigma^2$ とする。<br>
+    帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定する：<br>
+    　　<span id="q6_id"></span> <br>
+    　　<span id="q7_id"></span> <br>
+    標本分散を $S^2$ として、統計量
+    \[ Y = \frac{n S^2}{\sigma^2} \]
+    が自由度 <span id="q7a_id"></span> の $\chi^2$ 分布 <span id="q7b_id"></span> に従うことを利用して検定を行う。<br>
+    有意水準 <span id="q8_id"></span> より、棄却域は「 <span id="q9_id"></span> 」である。（←余白に絵もかくこと）<br>
+    帰無仮説 $H_0$ のもとで実現値は
+    <span id="q10_id"></span>
+    となり、<span id="q11_id"></span>
+    <br>　<br>
+    【Tips】<br>
+    分散は平行移動で不変なので、得られたデータの値が $50$ の周辺に寄っていることに注目すれば、データの値から $50$ を引いて
+    <span id="q12_id"></span>
+    のつもりで計算しても同じである。
 </p>
 
 <br>　<br>
