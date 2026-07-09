@@ -27,12 +27,12 @@
         data.push(tmp);
     }
 
-    let data_in_text = "$";
+    let data_in_text = "\\[";
     for(let i=0; i<num_of_data; i++){
         data_in_text += data[i] + ", \\quad";
     }
     data_in_text = data_in_text.slice(0, -7);
-    data_in_text += "$"
+    data_in_text += "\\]"
 
     let pop_mean = Math.round(average(data)) + Math.floor(((Math.random()*11)-5))/10;
     let pop_std = Math.floor((Math.random()*16+5))/10;
@@ -132,17 +132,17 @@
 
 <body class="container">
     <h1>P-値</h1>
-    <p>次の <span id="q1_id"></span> 個の数は正規母集団 $N(\mu, \sigma^2)$ から取り出された無作為標本である。</p>
- <p>　　 <span id="q2_id"></span></p>
- <p>母分散 <span id="q5_id"></span> が既知であるとき、この標本が平均値 <span id="q3_id"></span> の正規母集団から取り出された無作為標本といえるかどうかを調べたい。
- そこで帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定した：<br>
- 　　<span id="q6_id"></span> <br>
- 　　<span id="q7_id"></span> <br>
- 以下、$H_0$ のもとで次の問に答えよ。</p>
- <p>
- [1] 標本平均を用いて計算される検定統計量 $Z$ の実現値を小数第2位まで求めると　<span id="a1_id" style="color:white"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
- [2] [1]のときのP-値を小数第4位まで求めると　<span id="a2_id" style="color:white"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
- </p>
+    <p><b>【問題】</b>次の <span id="q1_id"></span> 個の数は正規母集団 $N(\mu, \sigma^2)$ から取り出された無作為標本である。
+        <span id="q2_id"></span>
+        母分散 <span id="q5_id"></span> が既知であるとき、この標本が平均値 <span id="q3_id"></span> の正規母集団から取り出された無作為標本といえるかどうかを調べたい。
+        そこで帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定した：<br>
+        　　<span id="q6_id"></span> <br>
+        　　<span id="q7_id"></span> <br>
+        以下、$H_0$ のもとで次の問に答えよ。</p>
+        <p>
+            [1] 標本平均を用いて計算される検定統計量 $Z$ の実現値を小数第2位まで求めると　<span id="a1_id" style="color:transparent"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
+            [2] [1]のときのP-値を小数第4位まで求めると　<span id="a2_id" style="color:transparent"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+        </p>
  <br>　<br>
  </sapn>
 
