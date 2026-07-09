@@ -108,7 +108,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         document.getElementById("q1_id").textContent = "$" + num_of_data + "$";
         document.getElementById("q2_id").textContent = data_in_text;
-        document.getElementById("q3_id").textContent = "$ \\mu = " + pop_mean + "$";
+        document.getElementById("q3_id").textContent = "$" + pop_mean + "$";
 //        document.getElementById("q4_id").textContent = "$" + sign_level + "\\% $";
         document.getElementById("q5_id").textContent = "$ \\sigma^2 = " + pop_std + "^2 $";
         //
@@ -134,14 +134,14 @@
     <h1>P-値</h1>
     <p><b>【問題】</b>次の <span id="q1_id"></span> 個の数は正規母集団 $N(\mu, \sigma^2)$ から取り出された無作為標本である。
         <span id="q2_id"></span>
-        母分散 <span id="q5_id"></span> が既知であるとき、この標本が平均値 <span id="q3_id"></span> の正規母集団から取り出された無作為標本といえるかどうかを調べたい。
+        母分散 <span id="q5_id"></span> が既知であるとき、母平均 $\mu$ が <span id="q3_id"></span> であるかどうかを調べたい。
         そこで帰無仮説 $H_0$ と対立仮説 $H_1$ をそれぞれ次のように設定した：<br>
         　　<span id="q6_id"></span> <br>
         　　<span id="q7_id"></span> <br>
         以下、$H_0$ のもとで次の問に答えよ。</p>
         <p>
             [1] 標本平均を用いて計算される検定統計量 $Z$ の実現値を小数第2位まで求めると　<span id="a1_id" style="color:transparent"></span>　である。　　<button id="1_id" onclick="show_answer(this)">答え</button> <br>
-            [2] [1]のときのP-値を小数第4位まで求めると　<span id="a2_id" style="color:transparent"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
+            [2] この検定におけるP-値を小数第4位まで求めると　<span id="a2_id" style="color:transparent"></span>　である。　　<button id="2_id" onclick="show_answer(this)">答え</button> <br>
         </p>
  <br>　<br>
  </sapn>
