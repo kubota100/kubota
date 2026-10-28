@@ -60,14 +60,19 @@
     </script>
 
 <script>
-    function show_answer41(){
+    function show_answer411(){
         document.getElementById("411_answer_id").style.color = "red";
+    }
+    function show_answer412(){
         document.getElementById("412_answer_id").style.color = "red";
     }
-
-    function show_answer42(){
+    function show_answer421(){
         document.getElementById("421_answer_id").style.color = "red";
+    }
+    function show_answer422(){
         document.getElementById("422_answer_id").style.color = "red";
+    }
+    function show_answer423(){
         document.getElementById("423_answer_id").style.color = "red";
     }
 </script>
@@ -82,21 +87,19 @@
  <p>
  [1] $A, B$ を集合とする。以下の問に答えよ。
  <ol class="list_parentheses">
-    <li>$A$ と $B$ の直積集合 $A \times B$ の定義をかけ。 <br>
-        　　　　$A \times B =$　<span id = "411_answer_id" style="color:white">$\{ (a,b) \mid a \in A \text{ かつ } b \in B \}$</span>　</li>
-    <li>$A$ のべき集合 $2^A$ の定義をかけ。<br>
-        　　　　$2^A =$　<span id = "412_answer_id" style="color:white">$\{ S \mid S \subset A \}$</span>　</li>
+    <li>$A$ と $B$ の直積集合 $A \times B$ の定義をかけ。　　<button onclick="show_answer411()">答え</button><br>
+        　　　　$A \times B =$　<span id = "411_answer_id" style="color:transparent">$\{ (a,b) \mid a \in A \text{ かつ } b \in B \}$</span>　</li>
+    <li>$A$ のべき集合 $2^A$ の定義をかけ。　　<button onclick="show_answer412()">答え</button><br>
+        　　　　$2^A =$　<span id = "412_answer_id" style="color:transparent">$\{ S \mid S \subset A \}$</span>　</li>
      </ol>
- 　　 <button onclick="show_answer41()">答え</button>
- </p> <br>
+ </p>
  <p>
  [2] $A = \{ 1,2,3 \}$, $B = \{ \text{a,b} \}$ とする。以下の空欄をうめよ。
  <ol class="list_parentheses">
-    <li>$A \times B =$　<span id = "421_answer_id" style="color:white">$\{ (1, \text{a}), (1, \text{b}), (2, \text{a}), (2, \text{b}), (3, \text{a}), (3, \text{b}) \}$</span>　である。</li>
-    <li>$B \times A =$　<span id = "422_answer_id" style="color:white">$\{ (\text{a}, 1), (\text{a}, 2), (\text{a}, 3), (\text{b}, 1), (\text {b}, 2), (\text{b}, 3) \}$</span>　である。</li>
-    <li>$2^A =$　<span id = "423_answer_id" style="color:white">$\{ \emptyset, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1,3\}, \{2,3\}, A\}$</span>　である。</li>
+    <li>$A \times B =$　<span id = "421_answer_id" style="color:transparent">$\{ (1, \text{a}), (1, \text{b}), (2, \text{a}), (2, \text{b}), (3, \text{a}), (3, \text{b}) \}$</span>　である。　<button onclick="show_answer421()">答え</button></li>
+    <li>$B \times A =$　<span id = "422_answer_id" style="color:transparent">$\{ (\text{a}, 1), (\text{a}, 2), (\text{a}, 3), (\text{b}, 1), (\text {b}, 2), (\text{b}, 3) \}$</span>　である。　<button onclick="show_answer422()">答え</button></li>
+    <li>$2^A =$　<span id = "423_answer_id" style="color:transparent">$\{ \emptyset, \{1\}, \{2\}, \{3\}, \{1, 2\}, \{1,3\}, \{2,3\}, A\}$</span>　である。　<button onclick="show_answer423()">答え</button></li>
  </ol>
- 　　 <button onclick="show_answer42()">答え</button>
  </p>
 </div>
 </body>
