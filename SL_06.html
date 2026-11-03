@@ -61,9 +61,9 @@
     </script>
 
 <script>
-    function show_answer1011(){document.getElementById("1011_id").style.color = "red";}
-    function show_answer1012(){document.getElementById("1012_id").style.color = "red";}
-    function show_answer1013(){document.getElementById("1013_id").style.color = "red";}
+    function show_answer(id) {
+        document.getElementById(id + "_id").style.color = "red";
+    }
 
     function show_answer61(){document.getElementById("61_id").style.color = "red";}
     function show_answer62(){document.getElementById("62_id").style.color = "red";}
@@ -98,9 +98,9 @@
     </ol>
     二項関係 $\sim$ が反射的かつ対称的かつ推移的であるとき 同値関係 という。
  </div>
- <br> <br>
-
- 【問題】以下の二項関係についての記述のうち適切なものを選べ。
+ <br>
+ <!--
+ <p>【問題】以下の二項関係についての記述のうち適切なものを選べ。</p>
  <ol>
     <li>　反射的である。対称的である。推移的である。</li>
     <li>　反射的である。対称的である。推移的でない。</li>
@@ -111,9 +111,90 @@
     <li>　反射的でない。対称的でない。推移的である。</li>
     <li>　反射的でない。対称的でない。推移的でない。</li>
  </ol>
-
+ -->
+ <p>【問題】以下の二項関係についての命題の真偽を述べよ。</p>
  <ol class="list_parentheses">
-    <li> $\mathbb{R}$ 上の二項関係 $=$　　<br><button onclick="show_answer61()">答え</button>　<span id="61_id" style = "color:white">1.　反射的である。対称的である。推移的である。</span><br>　</li>
+    <li> $\mathbb{R}$ 上の二項関係 $=$ は<br>
+        [a] 反射的である。　　<span id="11_id" style = "color:transparent">真</span>　　<button id="11" onclick="show_answer(this.id)">答え</button><br>
+        [b] 対称的である。　　<span id="12_id" style = "color:transparent">真</span>　　<button id="12" onclick="show_answer(this.id)">答え</button><br>
+        [c] 推移的である。　　<span id="13_id" style = "color:transparent">真</span>　　<button id="13" onclick="show_answer(this.id)">答え</button>
+    </li>
+    <li>$\mathbb{R}$ 上の二項関係 $>$ は<br>
+        [a] 反射的である。　　<span id="21_id" style = "color:transparent">偽</span>　　<button id="21" onclick="show_answer(this.id)">答え</button><br>
+        [b] 対称的である。　　<span id="22_id" style = "color:transparent">偽</span>　　<button id="22" onclick="show_answer(this.id)">答え</button><br>
+        [c] 推移的である。　　<span id="23_id" style = "color:transparent">真</span>　　<button id="23" onclick="show_answer(this.id)">答え</button>
+    </li>
+    <li>
+        $\mathbb{R}$ 上の二項関係 $ \leq $ は<br>
+        [a] 反射的である。　　<span id="31_id" style = "color:transparent">真</span>　　<button id="31" onclick="show_answer(this.id)">答え</button><br>
+        [b] 対称的である。　　<span id="32_id" style = "color:transparent">偽</span>　　<button id="32" onclick="show_answer(this.id)">答え</button><br>
+        [c] 推移的である。　　<span id="33_id" style = "color:transparent">真</span>　　<button id="33" onclick="show_answer(this.id)">答え</button>
+    </li>
+    <li>
+        $\mathbb{R}$ 上の二項関係 $\sim$ を $a \sim b \iff a^2 = b^2$ と定めるとき、この二項関係 $\sim$ は<br>
+        [a] 反射的である。　　<span id="41_id" style = "color:transparent">真</span>　　<button id="41" onclick="show_answer(this.id)">答え</button><br>
+        [b] 対称的である。　　<span id="42_id" style = "color:transparent">真</span>　　<button id="42" onclick="show_answer(this.id)">答え</button><br>
+        [c] 推移的である。　　<span id="43_id" style = "color:transparent">真</span>　　<button id="43" onclick="show_answer(this.id)">答え</button>
+    </li>
+    <li>
+        $\mathbb{R}$ 上の二項関係 $\sim$ を $a \sim b \iff |a-b| < 1$ と定めるとき、この二項関係 $\sim$ は<br>
+        [a] 反射的である。　　<span id="51_id" style = "color:transparent">真</span>　　<button id="51" onclick="show_answer(this.id)">答え</button><br>
+        [b] 対称的である。　　<span id="52_id" style = "color:transparent">真</span>　　<button id="52" onclick="show_answer(this.id)">答え</button><br>
+        [c] 推移的である。　　<span id="53_id" style = "color:transparent">偽</span>　　<button id="53" onclick="show_answer(this.id)">答え</button>
+    </li>
+    <li>
+        $\mathbb{R}$ 上の二項関係 $\sim$ を $a \sim b \iff a-b = 1$ と定めるとき、この二項関係 $\sim$ は<br>
+        [a] 反射的である。　　<span id="61_id" style = "color:transparent">偽</span>　　<button id="61" onclick="show_answer(this.id)">答え</button><br>
+        [b] 対称的である。　　<span id="62_id" style = "color:transparent">偽</span>　　<button id="62" onclick="show_answer(this.id)">答え</button><br>
+        [c] 推移的である。　　<span id="63_id" style = "color:transparent">偽</span>　　<button id="63" onclick="show_answer(this.id)">答え</button>
+    </li>
+    <li>
+        $A$ を空でない集合とするときの $2^A$ 上の二項関係 $\subset$ は<br>
+        [a] 反射的である。　　<span id="71_id" style = "color:transparent">真</span>　　<button id="71" onclick="show_answer(this.id)">答え</button><br>
+        [b] 対称的である。　　<span id="72_id" style = "color:transparent">偽</span>　　<button id="72" onclick="show_answer(this.id)">答え</button><br>
+        [c] 推移的である。　　<span id="73_id" style = "color:transparent">真</span>　　<button id="73" onclick="show_answer(this.id)">答え</button>        
+    </li>
+    <li>
+        $A$ を空でない集合とするときの $2^A$ 上の二項関係 $\sim$ を $S \sim T \iff S \cap T = \emptyset$ と定める。この二項関係 $\sim$ は<br>
+        [a] 反射的である。　　<span id="81_id" style = "color:transparent">偽</span>　　<button id="81" onclick="show_answer(this.id)">答え</button><br>
+        [b] 対称的である。　　<span id="82_id" style = "color:transparent">真</span>　　<button id="82" onclick="show_answer(this.id)">答え</button><br>
+        [c] 推移的である。　　<span id="83_id" style = "color:transparent">偽</span>　　<button id="83" onclick="show_answer(this.id)">答え</button>
+    </li>
+    <li>
+        $\mathbb{R}$ 上の二項関係 $\neq$ は<br>
+        [a] 反射的である。　　<span id="91_id" style = "color:transparent">偽</span>　　<button id="91" onclick="show_answer(this.id)">答え</button><br>
+        [b] 対称的である。　　<span id="92_id" style = "color:transparent">真</span>　　<button id="92" onclick="show_answer(this.id)">答え</button><br>
+        [c] 推移的である。　　<span id="93_id" style = "color:transparent">偽</span>　　<button id="93" onclick="show_answer(this.id)">答え</button>
+    </li>
+    <li>
+        $\mathbb{Z}$ 上の二項関係 $\sim$ を $a \sim b \iff \exists k \in \mathbb{Z}, a-b = 3k$ と定めるとき、この二項関係 $\sim$ は<br>
+        [a] 反射的である。　　<span id="101_id" style = "color:transparent">真</span>　　<button id="101" onclick="show_answer(this.id)">答え</button><br>
+        [b] 対称的である。　　<span id="102_id" style = "color:transparent">真</span>　　<button id="102" onclick="show_answer(this.id)">答え</button><br>
+        [c] 推移的である。　　<span id="103_id" style = "color:transparent">真</span>　　<button id="103" onclick="show_answer(this.id)">答え</button>
+    </li>
+    <li>
+        $\mathbb{Z}$ 上の二項関係 $\sim$ を $a \sim b \iff \exists n \in \mathbb{N}, a-b = 3n$ と定めるとき、この二項関係 $\sim$ は<br>
+        [a] 反射的である。　　<span id="111_id" style = "color:transparent">偽</span>　　<button id="111" onclick="show_answer(this.id)">答え</button><br>
+        [b] 対称的である。　　<span id="112_id" style = "color:transparent">偽</span>　　<button id="112" onclick="show_answer(this.id)">答え</button><br>
+        [c] 推移的である。　　<span id="113_id" style = "color:transparent">真</span>　　<button id="113" onclick="show_answer(this.id)">答え</button>
+    </li>
+    <li>
+        $\mathbb{Z}$ 上の二項関係 $\sim$ を $a \sim b \iff \exists k \in \mathbb{Z}, a+b = 5k$ と定めるとき、この二項関係 $\sim$ は<br>
+        [a] 反射的である。　　<span id="121_id" style = "color:transparent">偽</span>　　<button id="121" onclick="show_answer(this.id)">答え</button><br>
+        [b] 対称的である。　　<span id="122_id" style = "color:transparent">真</span>　　<button id="122" onclick="show_answer(this.id)">答え</button><br>
+        [c] 推移的である。　　<span id="123_id" style = "color:transparent">偽</span>　　<button id="123" onclick="show_answer(this.id)">答え</button>
+    </li>
+    <li>
+        $\mathbb{Z}$ 上の二項関係 $\sim$ を $a \sim b \iff \exists k \in \mathbb{Z}, a+b = 2k$ と定めるとき、この二項関係 $\sim$ は<br>
+        [a] 反射的である。　　<span id="131_id" style = "color:transparent">真</span>　　<button id="131" onclick="show_answer(this.id)">答え</button><br>
+        [b] 対称的である。　　<span id="132_id" style = "color:transparent">真</span>　　<button id="132" onclick="show_answer(this.id)">答え</button><br>
+        [c] 推移的である。　　<span id="133_id" style = "color:transparent">真</span>　　<button id="133" onclick="show_answer(this.id)">答え</button>
+    </li>
+ </ol>
+ <br>　<br>
+<!--
+ <ol class="list_parentheses">
+    <li> $\mathbb{R}$ 上の二項関係 $=$ は　　<br><button onclick="show_answer61()">答え</button>　<span id="61_id" style = "color:white">1.　反射的である。対称的である。推移的である。</span><br>　</li>
     <li> $\mathbb{R}$ 上の二項関係 $>$　　<br><button onclick="show_answer62()">答え</button>　<span id="62_id" style = "color:white">7.　反射的でない。対称的でない。推移的である。</span><br>　</li>
     <li> $\mathbb{R}$ 上の二項関係 $ \leq $　　<br><button onclick="show_answer63()">答え</button>　<span id="63_id" style = "color:white">3.　反射的である。対称的でない。推移的である。</span><br>　</li>
     <li> $\mathbb{R}$ 上の二項関係 $\sim$ を $a \sim b \iff a^2 = b^2$ と定める。　　<br><button onclick="show_answer64()">答え</button>　<span id="64_id" style = "color:white">1.　反射的である。対称的である。推移的である。</span><br>　</li>
@@ -127,6 +208,7 @@
     <li> $\mathbb{Z}$ 上の二項関係 $\sim$ を $a \sim b \iff \exists k \in \mathbb{Z}, a+b = 5k$ と定める。　　<br><button onclick="show_answer610()">答え</button>　<span id="610_id" style = "color:white">6.　反射的でない。対称的である。推移的でない。</span><br>　</li>
     <li> $\mathbb{Z}$ 上の二項関係 $\sim$ を $a \sim b \iff \exists k \in \mathbb{Z}, a+b = 2k$ と定める。　　<br><button onclick="show_answer611()">答え</button>　<span id="611_id" style = "color:white">1.　反射的である。対称的である。推移的である。</span><br>　</li>
  </ol>
+ -->
 </div>
 </body>
 </html>

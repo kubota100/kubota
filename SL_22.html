@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>SL_22</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        //document.getElementById("q1_id").textContent = `\\[ \\bar{x} = ${mean_x}, \\quad \\bar{y} = ${mean_y}, \\quad s_x^2 = ${variance_x}, \\quad s_y^2 = ${variance_y}, \\quad s_{xy} = ${covariance_xy} \\]`;
+        //document.getElementById("q2_id").textContent = `$x = ${x}$`;
+        /*
+        document.getElementById("a1_id").textContent = `$${mean_z}$`;
+        document.getElementById("a2_id").textContent = `$${mean_w}$`;
+        document.getElementById("a3_id").textContent = `$${variance_z}$`;
+        document.getElementById("a4_id").textContent = `$${variance_w}$`;
+        document.getElementById("a5_id").textContent = `$${covariance_zw}$`;
+        document.getElementById("a6_id").textContent = `$${Math.round(correlation_zw*100)/100}$`;
+        */
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>同値関係</h1>
+    <p><center>このページは再読み込みしても新しい問題を生成しない。</center></p>
+    <p>
+        $\mathbb{R}$ 上の二項関係 $\sim$ を
+        \[ a \sim b \, \iff \, a-b \in \mathbb{Z} \]
+        によって定める。
+    </p>
+    <p>
+        <b>【問題1】</b>二項関係 $\sim$ が反射的であることを示せ。　　<button id="1_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a1_id">
+        【解答】任意の $a \in \mathbb{R}$ に対して、$a-a = 0 \in \mathbb{Z}$ である。
+        よって、$a \sim a$ であるから、この二項関係 $\sim$ は反射的である。
+    </p>
+    <p>
+        <b>【問題2】</b>二項関係 $\sim$ が対称的であることを示せ。　　<button id="2_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a2_id">
+        【解答】$a \sim b$ とすると、この二項関係の定義より $a-b$ は整数である。
+        このとき、$b-a$ も整数であるから $b \sim a$ である。
+        よって、二項関係 $\sim$ は対称的である。
+    </p>
+    <p>
+        <b>【問題3】</b>二項関係 $\sim$ が推移的であることを示せ。　　<button id="3_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 27px;" id="a3_id">
+        【解答】$a \sim b$, $b \sim c$ とすると、この二項関係の定義より、ある整数 $k, \ell$ が存在して
+        \[ a-b = k, \qquad b-c = \ell \]
+        となる。2式を足すことで $a-c = k + \ell$ が得られる。
+        $k + \ell$ は整数であるから $a-c \in \mathbb{Z}$, すなわち $a \sim c$ である。
+        よって、二項関係 $\sim$ は推移的である。
+    </p>
+    <br>　<br>
+</body>
+</html>
