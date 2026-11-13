@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>SL_23</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        //document.getElementById("q1_id").textContent = `\\[ \\bar{x} = ${mean_x}, \\quad \\bar{y} = ${mean_y}, \\quad s_x^2 = ${variance_x}, \\quad s_y^2 = ${variance_y}, \\quad s_{xy} = ${covariance_xy} \\]`;
+        //document.getElementById("q2_id").textContent = `$x = ${x}$`;
+        /*
+        document.getElementById("a1_id").textContent = `$${mean_z}$`;
+        document.getElementById("a2_id").textContent = `$${mean_w}$`;
+        document.getElementById("a3_id").textContent = `$${variance_z}$`;
+        document.getElementById("a4_id").textContent = `$${variance_w}$`;
+        document.getElementById("a5_id").textContent = `$${covariance_zw}$`;
+        document.getElementById("a6_id").textContent = `$${Math.round(correlation_zw*100)/100}$`;
+        */
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>有理数を作ろう</h1>
+    <p><center>このページは再読み込みしても新しい問題を生成しない。</center></p>
+    <p><b>【背景】</b>
+        皆さんもご存知のとおり、
+        \[ \frac{\text{(整数)}}{\text{(0でない整数)}} \]
+        の形で表される数を有理数という。有理数の表し方は一意的ではなく、
+        \[ \frac{2}{3}, \quad \frac{4}{6}, \quad \frac{8}{12} \]
+        などは、見た目は異なるが、いずれも同じ有理数を表している。
+        ここで、有理数 $\frac{a}{b}$ を、整数の組 $(a,b)$ で表すことを考えよう。
+        すると、$(2,3), (4,6), (8,12)$ はいずれも同じ有理数を表す組ということになる。
+        そこで、直積集合
+        \[ \mathbb{Z} \times (\mathbb{Z} \setminus \{0\}) \]
+        において、「同じ有理数を表す組どうしを同じものとみなす」ような同値関係を考える。
+        このとき、例えば $(2,3)$ の同値類 $[(2,3)]$ には
+        \[ (2,3), (4,6), (6,9), (8,12) ,\dots \]
+        などが含まれる。
+        実は、有理数全体の集合 $\mathbb{Q}$ は、このような同値関係による商集合として構成することができる。
+        つまり、整数全体の集合 $\mathbb{Z}$ から、同値関係と商集合を用いて有理数全体の集合 $\mathbb{Q}$ を作ることができるのである。
+    </p>
+    <p>
+        <b>【問題】</b>集合 $\mathbb{Z} \times (\mathbb{Z} \setminus \{0\})$ 上の二項関係 $\sim$ を
+        \[ (a,b) \sim (c,d) \, \stackrel{\text{def}}{\iff} ad = bc \]
+        によって定める。このとき、$\sim$ は同値関係となる（興味のある人は証明してみよう）。
+        以下の問いに答えよ。
+         <ol class="list_parentheses">
+            <li> 命題「$(1,4) \sim (2, 8)$」は　<span id="a1_id" style="color:transparent">真</span>　である。　<button id="1_id" onclick="show_answer(this)">答え</button>　</li>
+            <li> 命題「$(-3,7) \sim (5, -11)$」は <span id="a2_id" style="color:transparent">偽</span>　である。　<button id="2_id" onclick="show_answer(this)">答え</button>　</li>
+            <li> $(5, 2)$ の同値類 $[(5,2)]$ を内包的記法（要素と要素が満たす条件を書く方法）で表すと <span id="a3_id" style="color:transparent">\[ \{ (5k, 2k) \mid k \in \mathbb{Z} \setminus \{0\} \} \]</span> である。　<button id="3_id" onclick="show_answer(this)">答え</button>　</li>
+            <li> $(0, 1)$ の同値類 $[(0,1)]$ を内包的記法で表すと <span id="a4_id" style="color:transparent">\[ \{ (0, k) \mid k \in \mathbb{Z} \setminus \{0\} \} \]</span> である。　<button id="4_id" onclick="show_answer(this)">答え</button>　</li>
+            <li> $(0, 7)$ の同値類 $[(0,7)]$ を内包的記法で表すと <span id="a5_id" style="color:transparent">\[ \{ (0, k) \mid k \in \mathbb{Z} \setminus \{0\} \} \]</span> である。　<button id="5_id" onclick="show_answer(this)">答え</button>　</li>    
+        </ol>
+    </p>
+    <div class="box">
+        <span style="color: blue;">【補足】</span>
+        上記の同値関係 $\sim$ のもとで、整数の組 $(a,b)$ の同値類 $[(a,b)]$ に、有理数 $\frac{a}{b}$ を対応させることができる。
+        例えば、
+        \[ \begin{aligned}
+        [(1,2)] \leftrightarrow \frac{1}{2}, \quad [(-3, 5)] \leftrightarrow -\frac{3}{5}, \quad [(0,1)] \leftrightarrow 0, \quad [(4, 1)] \leftrightarrow \frac{4}{1} (=4)
+        \end{aligned} \]
+        である。
+        つまり、有理数全体の集合 $\mathbb{Q}$ は、商集合
+        \[ \mathbb{Z} \times (\mathbb{Z} \setminus \{0\}) \, / \! \! \sim \]
+        として構成できる。
+    </div>
+
+    <br>　<br>
+</body>
+</html>
