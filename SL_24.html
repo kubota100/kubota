@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+ <title>SL_24</title>
+ <link rel="stylesheet" href="mystyle.css">
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css" crossorigin="anonymous">
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js" crossorigin="anonymous"></script>
+ <script defer src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+ <script>
+    window.onload = function() {
+    renderMathInElement(document.body, {delimiters: [
+        {left: "\\[", right: "\\]", display: true},
+        {left: "$", right: "$", display: false}
+    ]});
+    };
+</script>    
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        //document.getElementById("q1_id").textContent = `\\[ \\bar{x} = ${mean_x}, \\quad \\bar{y} = ${mean_y}, \\quad s_x^2 = ${variance_x}, \\quad s_y^2 = ${variance_y}, \\quad s_{xy} = ${covariance_xy} \\]`;
+        //document.getElementById("q2_id").textContent = `$x = ${x}$`;
+        /*
+        document.getElementById("a1_id").textContent = `$${mean_z}$`;
+        document.getElementById("a2_id").textContent = `$${mean_w}$`;
+        document.getElementById("a3_id").textContent = `$${variance_z}$`;
+        document.getElementById("a4_id").textContent = `$${variance_w}$`;
+        document.getElementById("a5_id").textContent = `$${covariance_zw}$`;
+        document.getElementById("a6_id").textContent = `$${Math.round(correlation_zw*100)/100}$`;
+        */
+    })
+
+    function show_answer(e){
+        let identifier = e.id;
+        document.getElementById("a"+identifier).style.color = "red";
+    }
+</script>
+</head>
+
+<body class="container">
+    <h1>1次合同方程式(3)</h1>
+    <p style="text-align: center;">このページは再読み込みしても新しい問題を生成しない。</p>
+    <p>
+        <b>【問題】</b> $p$ を$5$ 以上の素数とする。
+        $x$ に関する次の合同方程式を解け。ただし、解は問題で与えられた法のもとで表すこと。
+    </p>
+    <p>
+        (1) 合同方程式 $(p+2)x \equiv 6 \pmod{p}$ を解け。　　<button id="1_id" onclick="show_answer(this)">答え</button><br>
+        　　<span id="a1_id" style="color:transparent"> $x \equiv 3 \pmod{p}$</span>
+    </p>
+    <p>
+        (2) 合同方程式 $(p-1)x \equiv 4 \pmod{p}$ を解け。　　<button id="2_id" onclick="show_answer(this)">答え</button><br>
+        　　<span id="a2_id" style="color:transparent"> $x \equiv p-4 \pmod{p}$</span>
+    </p>
+    <p>
+        (3) 合同方程式 $(p-1)x \equiv 3 \pmod{2p}$ を解け。　　<button id="3_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 30px;" id="a3_id">
+        解なし。<br>
+        実際、与えられた合同方程式より、ある整数 $\ell$ が存在して
+        \[ (p-1)x - 3 = 2p \ell \]
+        となる。変形すると
+        \[ (p-1)x - 2p \ell = 3 \]
+        である。$p$ は奇数なので左辺は偶数であるが、右辺は奇数であるから矛盾である。
+        よって、この合同方程式は解を持たない。
+    </p>
+    <p>
+        (4) 合同方程式 $(p+1)x \equiv 4 \pmod{2p}$ を解け。　　<button id="4_id" onclick="show_answer(this)">答え</button>
+    </p>
+    <p style="color: transparent; margin-left: 30px;" id="a4_id">
+        $x \equiv 4, p+4 \pmod{2p}$ である。<br>
+        実際、与えられた合同方程式より、ある整数 $\ell$ が存在して
+        \[ (p+1)x - 4 = 2p \ell \]
+        となる。両辺を $2$ で割ると
+        \[ \frac{p+1}{2} x - 2 = p \ell \]
+        である（$p$ は奇数なので $\frac{p+1}{2}$ は見かけは分数であるが整数である）。
+        そこで、まず法 $p$ の合同方程式
+        \[ \frac{p+1}{2} x \equiv 2 \pmod{p} \]
+        を解く。
+        \[ \begin{aligned}
+        \frac{p+1}{2} x &\equiv 2 \pmod{p} \\
+        (p+1)x &\equiv 4 \pmod{p} \\
+        x &\equiv 4 \pmod{p}
+        \end{aligned} \]
+        である。よって、ある整数 $\ell$ が存在して $x - 4 = p \ell$ となる。
+        これ以降は「1次合同方程式(2)」の問題と同様である。
+        $\ell = 2k$ の場合と $\ell = 2k+1$ の場合に分けて考えると
+        \[ x \equiv 4, p+4 \pmod{2p} \]
+        が得られる。
+    </p>
+    <br>　<br>
+</body>
+</html>
